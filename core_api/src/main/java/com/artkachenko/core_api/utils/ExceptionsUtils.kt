@@ -1,6 +1,4 @@
-package com.artkachenko.core_impl.utils
-
-import io.ktor.client.features.*
+package com.artkachenko.core_api.utils
 
 //fun Exception.toCustomExceptions() = when (this) {
 //    is ServerResponseException -> Failure.HttpErrorInternalServerError(this)

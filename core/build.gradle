@@ -41,5 +41,4 @@ dependencies {
     implementation kotlin
     api project(':core_api')
     implementation project(':core_impl')
-    api project(':ui_core')
 }

@@ -44,6 +44,7 @@ apply from: "$project.rootDir/scripts/deps_versions.gradle"
 
 dependencies {
     implementation project(':navigation')
+    implementation project(':core_api')
 
     coreLibraryDesugaring desugaring
     implementation androidCore

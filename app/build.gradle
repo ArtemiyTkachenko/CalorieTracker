@@ -91,4 +91,5 @@ dependencies {
     androidTestImplementation androidTest.values()
 
     implementation project(':core')
+    api project(':ui_core')
 }

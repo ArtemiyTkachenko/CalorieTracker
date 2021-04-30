@@ -1,4 +1,4 @@
-package com.artkachenko.core_impl.utils
+package com.artkachenko.core_api.utils
 
 import android.util.Log
 import androidx.multidex.BuildConfig
