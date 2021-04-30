@@ -1,5 +1,7 @@
 package com.artkachenko.core_impl.network
 
+import com.artkachenko.core_api.network.repositories.RecipeRepository
+import com.artkachenko.core_impl.repositories.RecipeRepositoryImpl
 import com.artkachenko.core_impl.utils.debugLog
 import com.artkachenko.core_impl.utils.debugVerbose
 import dagger.Module

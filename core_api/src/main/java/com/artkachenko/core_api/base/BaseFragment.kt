@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class BaseFragment(@LayoutRes layout: Int) : Fragment(layout) {
+abstract class BaseFragment(@LayoutRes layout: Int) : Fragment(layout) {
     private val parentJob = Job()
 
     private val coroutineContext: CoroutineContext

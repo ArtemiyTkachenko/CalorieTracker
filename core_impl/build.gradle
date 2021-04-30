@@ -61,4 +61,7 @@ dependencies {
 
     kapt hiltKapt.values()
     kapt roomKapt.values()
+
+    api project(':core_api')
+
 }
