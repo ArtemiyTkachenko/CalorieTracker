@@ -1,0 +1,11 @@
+include ':core_api'
+include ':core'
+include ':core_impl'
+include ':core_api'
+include ':settings'
+include ':calendar'
+include ':recipe_list'
+include ':ui_core'
+include ':navigation'
+include ':app'
+rootProject.name = "CalorieTracker"
