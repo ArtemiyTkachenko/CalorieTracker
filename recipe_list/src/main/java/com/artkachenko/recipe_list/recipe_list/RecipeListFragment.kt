@@ -9,23 +9,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.artkachenko.recipe_list.R
+import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecipeListFragment : Fragment() {
+class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
 
     private val recipeListViewModel by viewModels<RecipeListViewModel>()
+
+    private lateinit var binding: FragmentRecipeListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
+        binding = FragmentRecipeListBinding.inflate(inflater, container, false)
         recipeListViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+            binding.textDashboard.text = it
         })
-        return root
+        return binding.root
     }
 }

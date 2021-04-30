@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/main"
         android:name="com.artkachenko.recipe_list.recipe_list.RecipeListFragment"
-        tools:layout="@layout/fragment_dashboard"/>
+        tools:layout="@layout/fragment_recipe_list"/>
 
 </navigation>
