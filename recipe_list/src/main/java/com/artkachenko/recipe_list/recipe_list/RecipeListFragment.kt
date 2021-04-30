@@ -10,12 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.artkachenko.recipe_list.R
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class RecipeListFragment : Fragment() {
 
-    private val dashboardViewModel by viewModels<DashboardViewModel>()
+    private val recipeListViewModel by viewModels<RecipeListViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,7 +23,7 @@ class DashboardFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val textView: TextView = root.findViewById(R.id.text_dashboard)
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        recipeListViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

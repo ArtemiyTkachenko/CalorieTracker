@@ -8,7 +8,7 @@ import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(): ViewModel() {
+class CalendarViewModel @Inject constructor(): ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
