@@ -11,11 +11,14 @@ import androidx.lifecycle.Observer
 import com.artkachenko.recipe_list.R
 import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
 
-    private val recipeListViewModel by viewModels<RecipeListViewModel>()
+    private val viewModel by viewModels<RecipeListViewModel>()
+//    @Inject
+//    lateinit var viewModel: RecipeListViewModel
 
     private lateinit var binding: FragmentRecipeListBinding
 
@@ -25,9 +28,12 @@ class RecipeListFragment : Fragment(R.layout.fragment_recipe_list) {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecipeListBinding.inflate(inflater, container, false)
-        recipeListViewModel.text.observe(viewLifecycleOwner, Observer {
+        viewModel.text.observe(viewLifecycleOwner, Observer {
             binding.textDashboard.text = it
         })
+
+        viewModel.getRecipeList()
+
         return binding.root
     }
 }

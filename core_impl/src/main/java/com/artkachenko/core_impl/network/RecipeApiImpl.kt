@@ -11,7 +11,8 @@ import javax.inject.Singleton
 class RecipeApiImpl @Inject constructor(private val client: HttpClient) : RecipeApi {
 
     override suspend fun getRecipeList(page: Int): List<RecipeEntity> {
-        return client.get("")
+//        return client.get("")
+        return emptyList()
     }
 
     override suspend fun getRecipeDetail(id: Int): RecipeEntity {

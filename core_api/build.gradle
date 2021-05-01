@@ -44,20 +44,11 @@ dependencies {
     coreLibraryDesugaring desugaring
     implementation androidCore
     implementation multidex
-    implementation fragment
-    implementation material
-    implementation constraintLayout
     implementation coroutineDependencies.values()
-    implementation navigationDependencies.values()
-    implementation recycler
     implementation ktor.values()
     implementation ktorSerialization
-    implementation lifecycle.values()
-    implementation coil
     implementation hilt.values()
     implementation room.values()
-    implementation calendarView
-    implementation charts
 
     kapt hiltKapt.values()
     kapt roomKapt.values()

@@ -1,8 +1,10 @@
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-abstract class BaseViewModel: ViewModel() {
+open class BaseViewModel: ViewModel() {
 
     private val parentJob = Job()
 

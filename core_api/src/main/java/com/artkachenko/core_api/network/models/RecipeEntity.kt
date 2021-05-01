@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RecipeEntity(
     @SerialName("id")
-    val id: String,
+    val id: String? = null,
     @SerialName("name")
-    val name: String,
+    val name: String? = null,
     @SerialName("currentRank")
-    val currentRank: Int,
+    val currentRank: Int? = null,
     @SerialName("totalStars")
-    val totalStars: Int,
+    val totalStars: Int? = null,
     @SerialName("totalWordsMastered")
-    val totalWordsMastered: Int,
+    val totalWordsMastered: Int? = null,
 )

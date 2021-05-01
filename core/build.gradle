@@ -39,6 +39,5 @@ apply from: "$project.rootDir/scripts/deps_versions.gradle"
 dependencies {
 
     implementation kotlin
-    api project(':core_api')
-    implementation project(':core_impl')
+    api project(':core_impl')
 }

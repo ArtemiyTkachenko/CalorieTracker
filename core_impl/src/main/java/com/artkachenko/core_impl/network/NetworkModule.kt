@@ -1,7 +1,10 @@
 package com.artkachenko.core_impl.network
 
+import com.artkachenko.core_api.network.api.RecipeApi
+import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.core_api.utils.debugVerbose
+import com.artkachenko.core_impl.repositories.RecipeRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -16,8 +19,7 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.features.observer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-
-private const val TIME_OUT = 60_000
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -28,6 +30,8 @@ object NetworkModule {
     fun provideHttpClient() : HttpClient {
         return HttpClient(Android) {
 
+            val timeOut = 60_000
+
             install(JsonFeature) {
                 serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
                     prettyPrint = true
@@ -36,8 +40,8 @@ object NetworkModule {
                 })
 
                 engine {
-                    connectTimeout = TIME_OUT
-                    socketTimeout = TIME_OUT
+                    connectTimeout = timeOut
+                    socketTimeout = timeOut
                 }
             }
 
@@ -60,5 +64,19 @@ object NetworkModule {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
             }
         }
+    }
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideRecipeRepository(recipeApi: RecipeApi) : RecipeRepository {
+        return RecipeRepositoryImpl(recipeApi)
+    }
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideRecipeApi() : RecipeApi {
+        return RecipeApiImpl(provideHttpClient())
     }
 }
