@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.multidex.BuildConfig
 
 fun Any.debugLog(message: String) {
-    if (BuildConfig.DEBUG) {
+//    if (BuildConfig.DEBUG) {
         Log.d(this::class.java.simpleName, message)
-    }
+//    }
 }
 
 fun Any.debugVerbose(message: String) {

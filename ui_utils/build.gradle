@@ -1,9 +1,8 @@
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'kotlinx-serialization'
     id 'androidx.navigation.safeargs.kotlin'
     id 'dagger.hilt.android.plugin'
 }
@@ -13,83 +12,50 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.artkachenko.calorietracker"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
-        debug {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "URL_BASE", "\"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com\""
-
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "URL_BASE", "\"https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com\""
         }
     }
     compileOptions {
-        coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-        exclude("META-INF/*.kotlin_module")
-    }
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
 }
 
 apply from: "$project.rootDir/scripts/deps_versions.gradle"
 
 dependencies {
+
     coreLibraryDesugaring desugaring
     implementation androidCore
-    implementation multidex
     implementation fragment
     implementation material
     implementation constraintLayout
     implementation coroutineDependencies.values()
     implementation navigationDependencies.values()
     implementation recycler
-    implementation ktor.values()
-    implementation ktorSerialization
     implementation lifecycle.values()
     implementation coil
     implementation hilt.values()
-    implementation room.values()
     implementation calendarView
     implementation charts
 
     kapt hiltKapt.values()
-    kapt roomKapt.values()
 
     testImplementation junit
     androidTestImplementation androidTest.values()
-
-    api project(':core')
-    api project(':ui_core')
 }

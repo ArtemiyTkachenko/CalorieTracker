@@ -49,6 +49,8 @@ dependencies {
     implementation ktorSerialization
     implementation hilt.values()
     implementation room.values()
+    implementation recycler
+    implementation coil
 
     kapt hiltKapt.values()
     kapt roomKapt.values()

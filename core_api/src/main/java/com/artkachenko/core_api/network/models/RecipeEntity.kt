@@ -1,18 +1,22 @@
 package com.artkachenko.core_api.network.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Parcelize
 data class RecipeEntity(
     @SerialName("id")
-    val id: String? = null,
-    @SerialName("name")
-    val name: String? = null,
-    @SerialName("currentRank")
-    val currentRank: Int? = null,
+    override val id: Long = 0,
+    @SerialName("title")
+    val title: String? = null,
+    @SerialName("readyInMinutes")
+    val readyInMinutes: Int? = null,
     @SerialName("totalStars")
-    val totalStars: Int? = null,
-    @SerialName("totalWordsMastered")
-    val totalWordsMastered: Int? = null,
-)
+    val image: String? = null
+): Parcelable, HasId
+
+@Serializable
+data class RecipeResultsWrapper(val results: List<RecipeEntity>)

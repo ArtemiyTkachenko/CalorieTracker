@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/recipe_list" />
             <option value="$PROJECT_DIR$/settings" />
             <option value="$PROJECT_DIR$/ui_core" />
+            <option value="$PROJECT_DIR$/ui_utils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
