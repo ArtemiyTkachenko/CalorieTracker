@@ -11,8 +11,18 @@ object ImageUtils {
     private const val baseUrl = "https://spoonacular.com/recipeImages/"
     private const val baseIngredientsUrl = "https://spoonacular.com/cdn/ingredients_100x100/"
 
-    fun buildRecipeImageUrl(id: Long, size: String = "312x150", type: String = ".jpg"): String {
-        return "$baseUrl$id-$size$type"
+    enum class RecipeImageSize(val size: String) {
+        XS("90x90"),
+        S("240x150"),
+        XM("312x150"),
+        M("312x231"),
+        L("480x360"),
+        XL("556x370"),
+        XXL("636x393")
+    }
+
+    fun buildRecipeImageUrl(id: Long, imageSize: RecipeImageSize = RecipeImageSize.XM, type: String = ".jpg"): String {
+        return "$baseUrl$id-${imageSize.size}$type"
     }
 
     fun buildIngredientsImageUrl(image: String?): String {
