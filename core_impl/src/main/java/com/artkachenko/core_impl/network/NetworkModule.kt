@@ -40,6 +40,7 @@ object NetworkModule {
                 })
 
                 engine {
+                    acceptContentTypes = listOf(ContentType.Application.FormUrlEncoded)
                     connectTimeout = timeOut
                     socketTimeout = timeOut
                 }
@@ -48,7 +49,7 @@ object NetworkModule {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        debugVerbose(message)
+                        debugLog(message)
                     }
                 }
                 level = LogLevel.ALL
@@ -61,7 +62,7 @@ object NetworkModule {
             }
 
             install(DefaultRequest) {
-                header(HttpHeaders.ContentType, ContentType.Application.Json)
+                parameter("apiKey", "c87a3abc6947480ba37093ddcdc6855d")
             }
         }
     }
