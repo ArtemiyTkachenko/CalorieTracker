@@ -42,7 +42,7 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
 
         argId?.let { viewModel.getRecipeDetail(it) }
 
-        (activity as ImageUtils.CanHideBottomNavView).hideNavigationBar(true)
+        (activity as ImageUtils.CanHideBottomNavView).hideNavigationBar(false)
 
         binding.ingredients.layoutManager = object : LinearLayoutManager(requireContext()) {
             override fun canScrollVertically(): Boolean {
@@ -62,7 +62,7 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
     }
 
     override fun onDestroyView() {
-        (activity as ImageUtils.CanHideBottomNavView).hideNavigationBar(false)
+        (activity as ImageUtils.CanHideBottomNavView).hideNavigationBar(true)
 
         super.onDestroyView()
     }

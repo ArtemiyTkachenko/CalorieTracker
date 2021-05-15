@@ -30,7 +30,7 @@ object ImageUtils {
     }
 
     interface CanHideBottomNavView {
-        fun hideNavigationBar(hide : Boolean)
+        fun hideNavigationBar(show : Boolean)
     }
 }
 

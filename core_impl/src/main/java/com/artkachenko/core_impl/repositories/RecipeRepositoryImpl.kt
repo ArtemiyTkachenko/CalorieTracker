@@ -1,6 +1,7 @@
 package com.artkachenko.core_impl.repositories
 
 import com.artkachenko.core_api.network.api.RecipeApi
+import com.artkachenko.core_api.network.models.Ingredient
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
@@ -19,5 +20,9 @@ class RecipeRepositoryImpl @Inject constructor(
 
     override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {
         return recipeApi.getRecipeDetail(id)
+    }
+
+    override suspend fun parseIngredients(ingredients: List<String>): List<Ingredient> {
+        return recipeApi.parseIngredients(ingredients)
     }
 }

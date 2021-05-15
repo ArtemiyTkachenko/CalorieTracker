@@ -8,8 +8,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Parcelize
+@Entity(tableName = "recipe_details")
 data class RecipeDetailModel(
-    val id: Long = 0L,
+    @PrimaryKey
+    override val id: Long = 0L,
     val title: String? = "",
     val readyInMinutes: Int? = 0,
     val image: String? = null,
@@ -37,11 +39,13 @@ data class RecipeDetailModel(
     val sourceName: String? = null,
     val extendedIngredients: List<Ingredient>? = null,
     val diets: List<String>
-) : Parcelable
+) : Parcelable, HasId
 
+@Entity(tableName = "ingredients")
 @Serializable
 @Parcelize
 data class Ingredient(
+    @PrimaryKey
     override val id: Long,
     val aisle: String? = null,
     val image: String? = null,

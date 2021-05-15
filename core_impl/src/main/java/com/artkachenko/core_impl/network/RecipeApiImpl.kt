@@ -1,6 +1,7 @@
 package com.artkachenko.core_impl.network
 
 import com.artkachenko.core_api.network.api.RecipeApi
+import com.artkachenko.core_api.network.models.Ingredient
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.models.RecipeResultsWrapper
@@ -35,6 +36,10 @@ class RecipeApiImpl @Inject constructor(private val client: HttpClient) : Recipe
     override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {
 //        return client.get<RecipeDetailModel>(NetworkEndpoints.getRecipeDetailEndPoint(id))
         return Json {ignoreUnknownKeys = true}.decodeFromString(Json.serializersModule.serializer(), mockDetail)
+    }
+
+    override suspend fun parseIngredients(ingredients: List<String>): List<Ingredient> {
+    return emptyList()
     }
 }
 
