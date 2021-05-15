@@ -3,4 +3,5 @@
     <item name="list_nav_graph" type="id"/>
     <item name="calendar_nav_graph" type="id"/>
     <item name="profile_nav_graph" type="id"/>
+    <item name="recipe_detail_nav_graph" type="id"/>
 </resources>

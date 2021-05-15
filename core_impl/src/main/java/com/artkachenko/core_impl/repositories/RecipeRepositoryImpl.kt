@@ -1,6 +1,7 @@
 package com.artkachenko.core_impl.repositories
 
 import com.artkachenko.core_api.network.api.RecipeApi
+import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_impl.network.RecipeApiImpl
@@ -16,7 +17,7 @@ class RecipeRepositoryImpl @Inject constructor(
         return recipeApi.getRecipeList(page)
     }
 
-    override suspend fun getRecipeDetail(id: Int): RecipeEntity {
+    override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {
         return recipeApi.getRecipeDetail(id)
     }
 }

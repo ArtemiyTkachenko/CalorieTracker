@@ -4,5 +4,9 @@ object NetworkEndpoints {
 
     private const val baseUrl = "https://api.spoonacular.com"
 
-    const val RecepeSearch = "$baseUrl/recipes/search"
+    const val RecipeSearch = "$baseUrl/recipes/search"
+
+    fun getRecipeDetailEndPoint(id: Long): String {
+        return "$baseUrl/recipes/$id/information"
+    }
 }

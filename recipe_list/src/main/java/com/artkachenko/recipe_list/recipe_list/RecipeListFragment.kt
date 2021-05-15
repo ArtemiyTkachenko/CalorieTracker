@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
@@ -46,5 +47,9 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
+        val bundle = Bundle().apply {
+            putLong("id", model.id)
+        }
+        findNavController().navigate(R.id.recipe_to_detail, bundle)
     }
 }

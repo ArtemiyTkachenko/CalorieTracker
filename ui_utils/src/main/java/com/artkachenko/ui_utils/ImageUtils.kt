@@ -28,6 +28,10 @@ object ImageUtils {
     fun buildIngredientsImageUrl(image: String?): String {
         return "$baseIngredientsUrl$image"
     }
+
+    interface CanHideBottomNavView {
+        fun hideNavigationBar(hide : Boolean)
+    }
 }
 
 fun ImageView.loadImage(url: String) {

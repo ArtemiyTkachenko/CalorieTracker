@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/list_nav_graph"
-    >
+    app:startDestination="@id/list_nav_graph">
 
-    <include app:graph="@navigation/calendar_nav_graph"/>
-    <include app:graph="@navigation/list_nav_graph"/>
-    <include app:graph="@navigation/profile_nav_graph"/>
+    <include app:graph="@navigation/calendar_nav_graph" />
+    <include app:graph="@navigation/list_nav_graph" />
+    <include app:graph="@navigation/profile_nav_graph" />
+    <include app:graph="@navigation/recipe_detail_nav_graph" />
+
+    <action
+        android:id="@+id/recipe_to_detail"
+        app:destination="@id/recipe_detail_nav_graph"
+        app:enterAnim="@anim/enter_slide_left"
+        app:popEnterAnim="@anim/pop_exit_slide_right"/>
 
 </navigation>

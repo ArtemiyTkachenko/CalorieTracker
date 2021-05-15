@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="diets">Diets</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="summary">Summary</string>
+</resources>
