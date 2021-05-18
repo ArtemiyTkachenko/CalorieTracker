@@ -1,6 +1,6 @@
-### CalorieTracker
+## CalorieTracker
 
-## Stack:
+### Stack:
 * Coroutines
 * Hilt
 * Jetpack
