@@ -36,7 +36,7 @@ class CalendarViewModel @Inject constructor(
             selectedDate.emit(date)
             val start = date.atStartOfDay()
             val end = date.atStartOfDay().plusDays(1)
-            state.emit(State.Gone)
+            state.emit(State.Clear)
             getDishes(start, end)
         }
     }
@@ -63,11 +63,6 @@ class CalendarViewModel @Inject constructor(
                         val previousValue = sources[formattedTitle] ?: 0.0
 
                         sources[formattedTitle] = previousValue.plus(ingredient.amount ?: 0.0)
-                        calories += ingredient.nutrition?.nutrients?.firstOrNull {
-                            IngredientTitles.CALORIES == IngredientTitles.mapFromString(
-                                it.title
-                            )
-                        }?.amount ?: 0.0
                     }
 
                     val breakdown = dishDetail.nutrition?.caloricBreakdown
@@ -75,6 +70,7 @@ class CalendarViewModel @Inject constructor(
                     breakdown?.percentFat?.let { fatItems.add(it) }
                     breakdown?.percentProtein?.let { proteinItems.add(it) }
                     breakdown?.percentCarbs?.let { carbItems.add(it) }
+                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories = it?.amount ?: 0.0 }
                 }
 
                 val fatAverage = fatItems.average()
@@ -130,6 +126,6 @@ class CalendarViewModel @Inject constructor(
         data class Calories(val data: Double) : State()
         data class Dishes(val data: List<ManualDishDetail>?) : State()
         object Visible : State()
-        object Gone : State()
+        object Clear : State()
     }
 }

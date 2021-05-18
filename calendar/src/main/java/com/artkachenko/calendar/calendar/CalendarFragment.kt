@@ -122,10 +122,10 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     private fun processState(state: CalendarViewModel.State) {
         when (state) {
             is CalendarViewModel.State.Bar -> adapter.addData(ChartDataWrapper(2, state.data))
-            is CalendarViewModel.State.Calories -> binding.calorieCount.text = "Calorie Count: 2000 - ${state.data} = ${2000 - state.data}"
+            is CalendarViewModel.State.Calories -> binding.calorieCount.text = "Calories Left:\n2000 - ${state.data} = ${2000 - state.data}"
             is CalendarViewModel.State.Dishes -> {}
             is CalendarViewModel.State.Pie -> adapter.addData(ChartDataWrapper(1, state.data))
-            CalendarViewModel.State.Gone -> {
+            CalendarViewModel.State.Clear -> {
                 binding.info.isVisible = false
                 adapter.clearList()
             }
@@ -163,9 +163,4 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             }
         )
     }
-//
-//    private fun navigateWithClean(navDirections: NavDirections, navOptions: NavOptions? = null) {
-//        adapter.clearList()
-//        super.navigate(navDirections, navOptions)
-//    }
 }
