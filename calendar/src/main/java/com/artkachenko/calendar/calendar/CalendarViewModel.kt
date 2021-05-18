@@ -46,8 +46,7 @@ class CalendarViewModel @Inject constructor(
         end: LocalDateTime = LocalDate.now().atStartOfDay().plusDays(1)
     ) {
         viewModelScope.launch {
-//            dishesRepository.getDishesByDate(start, end).collect {list ->
-            dishesRepository.getDishes().collect { list ->
+            dishesRepository.getDishesByDate(start, end).collect { list ->
                 state.emit(State.Dishes(list))
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
