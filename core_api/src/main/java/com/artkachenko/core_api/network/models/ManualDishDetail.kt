@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
 data class ManualDishDetail(
     @PrimaryKey(autoGenerate = true)
     override var id: Long = 0,
+    val nutrition: Nutrition? = null,
     val extendedIngredients: List<Ingredient>? = null,
     val date: Long? = null
 ) : Parcelable, HasId

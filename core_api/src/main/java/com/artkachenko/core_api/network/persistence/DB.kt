@@ -47,7 +47,7 @@ abstract class DB : RoomDatabase() {
         }
 
         @TypeConverter
-        fun nutritionToString(nutrition: Nutrition) = nutrition.toString()
+        fun nutritionToString(nutrition: Nutrition) = Json {  }.encodeToString(Json.serializersModule.serializer(), nutrition)
 
         @TypeConverter
         fun stringToNutrition(nutritionString: String): Nutrition? {

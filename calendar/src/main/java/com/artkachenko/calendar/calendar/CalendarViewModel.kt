@@ -58,13 +58,7 @@ class CalendarViewModel @Inject constructor(
                 list.forEach { dishDetail ->
                     dishDetail.extendedIngredients?.forEach { ingredient ->
                         totalWeight += ingredient.amount ?: 0.0
-                        ingredient.nutrition?.caloricBreakdown.let { breakdown ->
-                            breakdown?.let {
-                                fatItems.add(breakdown.percentFat)
-                                proteinItems.add(breakdown.percentProtein)
-                                carbItems.add(breakdown.percentCarbs)
-                            }
-                        }
+
                         val formattedTitle = ingredient.aisle?.replace("Frozen;", "") ?: ""
 
                         val previousValue = sources[formattedTitle] ?: 0.0
@@ -76,6 +70,12 @@ class CalendarViewModel @Inject constructor(
                             )
                         }?.amount ?: 0.0
                     }
+
+                    val breakdown = dishDetail.nutrition?.caloricBreakdown
+
+                    breakdown?.percentFat?.let { fatItems.add(it) }
+                    breakdown?.percentProtein?.let { proteinItems.add(it) }
+                    breakdown?.percentCarbs?.let { carbItems.add(it) }
                 }
 
                 val fatAverage = fatItems.average()

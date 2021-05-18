@@ -32,8 +32,10 @@ class RecipeDetailViewModel @Inject constructor(
     }
 
     fun saveRecipe(model: RecipeDetailModel) {
-        val manualDish = ManualDishDetail(extendedIngredients = model.extendedIngredients, date = LocalDateTime.now().toEpochSecond(
-            ZoneOffset.UTC))
+        val manualDish = ManualDishDetail(
+            extendedIngredients = model.extendedIngredients,
+            nutrition = model.nutrition,
+            date = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC))
         viewModelScope.launch {
             dishesRepository.insertDish(manualDish)
         }
