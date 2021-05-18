@@ -4,6 +4,7 @@ import com.artkachenko.core_api.network.api.RecipeApi
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.core_api.utils.debugVerbose
+import com.artkachenko.core_impl.DispatchersModule
 import com.artkachenko.core_impl.repositories.RecipeRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -71,7 +72,7 @@ object NetworkModule {
     @Singleton
     @JvmStatic
     fun provideRecipeRepository(recipeApi: RecipeApi) : RecipeRepository {
-        return RecipeRepositoryImpl(recipeApi)
+        return RecipeRepositoryImpl(recipeApi, DispatchersModule.provideIODispatcher())
     }
 
     @Provides

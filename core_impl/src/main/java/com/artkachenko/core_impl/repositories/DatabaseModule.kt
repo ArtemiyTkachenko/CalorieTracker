@@ -1,4 +1,4 @@
-package com.artkachenko.core_impl.network
+package com.artkachenko.core_impl.repositories
 
 import android.app.Application
 import androidx.room.Room
@@ -7,7 +7,6 @@ import com.artkachenko.core_api.network.persistence.DishesDao
 import com.artkachenko.core_api.network.persistence.IngredientsDao
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_api.network.repositories.RecipeRepository
-import com.artkachenko.core_impl.repositories.DishesRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

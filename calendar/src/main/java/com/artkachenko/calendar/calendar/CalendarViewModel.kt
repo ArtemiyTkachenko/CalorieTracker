@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.artkachenko.core_api.network.models.IngredientTitles
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.repositories.DishesRepository
+import com.artkachenko.core_api.utils.debugLog
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,34 +25,30 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val dishesRepository: DishesRepository
-): ViewModel() {
+) : ViewModel() {
 
     val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
-    val dishes = MutableLiveData<List<ManualDishDetail>>()
-
-    val pieData = Channel<PieData>()
-
-    val sourcesData = Channel<BarData>()
-
-    val calorieData = MutableLiveData<Double>()
-
-    val visibility = MutableLiveData<Visibility>()
+    val state = MutableSharedFlow<State>()
 
     fun changeDate(date: LocalDate) {
         viewModelScope.launch {
             selectedDate.emit(date)
             val start = date.atStartOfDay()
             val end = date.atStartOfDay().plusDays(1)
-            visibility.postValue(Visibility.Gone)
+            state.emit(State.Gone)
             getDishes(start, end)
         }
     }
 
-    fun getDishes(start: LocalDateTime = LocalDate.now().atStartOfDay(), end: LocalDateTime = LocalDate.now().atStartOfDay().plusDays(1)) {
+    fun getDishes(
+        start: LocalDateTime = LocalDate.now().atStartOfDay(),
+        end: LocalDateTime = LocalDate.now().atStartOfDay().plusDays(1)
+    ) {
         viewModelScope.launch {
-            dishesRepository.getDishesByDate(start, end).collect {list ->
-                dishes.postValue(list)
+//            dishesRepository.getDishesByDate(start, end).collect {list ->
+            dishesRepository.getDishes().collect { list ->
+                state.emit(State.Dishes(list))
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
                 val carbItems = mutableListOf<Double>()
@@ -59,7 +56,7 @@ class CalendarViewModel @Inject constructor(
                 var calories = 0.0
                 var totalWeight = 0.0
                 list.forEach { dishDetail ->
-                    dishDetail.extendedIngredients?.forEach {ingredient ->
+                    dishDetail.extendedIngredients?.forEach { ingredient ->
                         totalWeight += ingredient.amount ?: 0.0
                         ingredient.nutrition?.caloricBreakdown.let { breakdown ->
                             breakdown?.let {
@@ -73,7 +70,11 @@ class CalendarViewModel @Inject constructor(
                         val previousValue = sources[formattedTitle] ?: 0.0
 
                         sources[formattedTitle] = previousValue.plus(ingredient.amount ?: 0.0)
-                        calories += ingredient.nutrition?.nutrients?.firstOrNull { IngredientTitles.CALORIES == IngredientTitles.mapFromString(it.title) }?.amount ?: 0.0
+                        calories += ingredient.nutrition?.nutrients?.firstOrNull {
+                            IngredientTitles.CALORIES == IngredientTitles.mapFromString(
+                                it.title
+                            )
+                        }?.amount ?: 0.0
                     }
                 }
 
@@ -95,10 +96,8 @@ class CalendarViewModel @Inject constructor(
                     dataSet.stackLabels = labels.toTypedArray()
                     dataSet.colors = ColorTemplate.COLORFUL_COLORS.toMutableList()
 
-//                    sourcesData.postValue(BarData(dataSet))
-                    visibility.postValue(Visibility.Visible)
-                }  else {
-                    visibility.postValue(Visibility.Gone)
+                    state.emit(State.Bar(BarData(dataSet)))
+                    state.emit(State.Visible)
                 }
 
                 if (!fatAverage.isNaN() || !proteinAverage.isNaN() || !carbAverage.isNaN()) {
@@ -118,19 +117,20 @@ class CalendarViewModel @Inject constructor(
                         valueTextColor = Color.WHITE
                     }
 
-//                    pieData.postValue(PieData(dataSet))
-                    visibility.postValue(Visibility.Visible)
-                } else {
-                    visibility.postValue(Visibility.Gone)
+                    state.emit(State.Pie(PieData(dataSet)))
+                    state.emit(State.Visible)
                 }
-
-                calorieData.postValue(calories)
+                state.emit(State.Calories(calories))
             }
         }
     }
 
-    sealed class Visibility() {
-        object Visible : Visibility()
-        object Gone : Visibility()
+    sealed class State() {
+        data class Pie(val data: PieData) : State()
+        data class Bar(val data: BarData) : State()
+        data class Calories(val data: Double) : State()
+        data class Dishes(val data: List<ManualDishDetail>?) : State()
+        object Visible : State()
+        object Gone : State()
     }
 }

@@ -37,6 +37,7 @@ data class RecipeDetailModel(
     val aggregateLikes: Int? = 0,
     val creditText: String? = null,
     val sourceName: String? = null,
+    val nutrition: Nutrition? = null,
     val extendedIngredients: List<Ingredient>? = null,
     val diets: List<String>
 ) : Parcelable, HasId

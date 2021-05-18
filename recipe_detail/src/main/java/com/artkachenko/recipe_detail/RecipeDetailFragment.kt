@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.RecipeDetailModel
+import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_detail.databinding.FragmentRecipeDetailBinding
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.loadImage
@@ -90,6 +91,12 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
 
             if (!ingredientsList.isNullOrEmpty()) {
                 ingredientsAdapter.submitList(ingredientsList)
+            }
+
+            add.setOnClickListener {
+                val nutrients = model.nutrition
+                debugLog("nutrients are $nutrients")
+                viewModel.saveRecipe(model)
             }
         }
     }

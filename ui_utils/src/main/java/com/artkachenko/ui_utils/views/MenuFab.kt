@@ -60,11 +60,10 @@ class MenuFab @JvmOverloads constructor(
 
         setupFab(mainFab, mainFabConfig)
 
-        mainFab.setOnLongClickListener {
+        mainFab.setOnClickListener {
             it as FloatingActionButton
             menuOpened = !menuOpened
             showMenu(it, menuOpened)
-            true
         }
     }
 
@@ -100,12 +99,14 @@ class MenuFab @JvmOverloads constructor(
     private fun showMenu(fab: FloatingActionButton, open: Boolean) {
         if (menuOpened) {
             isClickable = true
+            isFocusable = true
             setOnClickListener {
                 menuOpened = false
                 showMenu(mainFab, menuOpened)
             }
         } else {
             isClickable = false
+            isFocusable = false
             setOnClickListener(null)
         }
 

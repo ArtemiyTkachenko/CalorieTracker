@@ -1,5 +1,6 @@
 package com.artkachenko.calendar.calendar
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
@@ -8,17 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.TextView
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.navigation.NavDirections
-import androidx.navigation.NavOptions
 import com.artkachenko.calendar.R
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.ManualDishDetail
+import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.views.MenuFab
 import com.github.mikephil.charting.utils.Utils
 import com.kizitonwose.calendarview.model.CalendarDay
@@ -26,6 +23,8 @@ import com.kizitonwose.calendarview.utils.Size
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -50,10 +49,6 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false)
 
-//        hideNavigationBar(false)
-
-
-        // initialize the utilities
         Utils.init(requireContext())
 
         with(binding) {
@@ -64,32 +59,15 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             }
         }
 
-//        viewModel.getDishes()
-//
-//        observe(viewModel.pieData) {
-//            it?.let {
-//                adapter.addData(ChartDataWrapper(1, it)) }
-//        }
-//
-//        observe(viewModel.sourcesData) {
-//            it?.let {
-//                adapter.addData(ChartDataWrapper(2, it))
-//            }
-//        }
-//
-//        observe(viewModel.calorieData) {
-//            binding.calorieCount.text = "Calorie Count: 2000 - ${it} = ${2000 - it}"
-//        }
-//
-//        observe(viewModel.visibility) {
-//            when (it) {
-//                InfoViewModel.Visibility.Visible -> binding.info.isVisible = true
-//                InfoViewModel.Visibility.Gone -> {
-//                    binding.info.isGone = true
-//                    adapter.clearList()
-//                }
-//            }
-//        }
+        viewModel.getDishes()
+
+        scope.launch {
+            debugLog("CalendarFragment, scope launched")
+            viewModel.state.collect {
+                debugLog("CalendarFragment, state is $it")
+                processState(it)
+            }
+        }
 
         return binding.root
     }
@@ -109,11 +87,10 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         binding.calendar.dayBinder = DayViewBinder(this, scope)
 
         val currentMonth = YearMonth.now()
-        // Value for firstDayOfWeek does not matter since inDates and outDates are not generated.
         binding.calendar.setup(
             currentMonth,
             currentMonth.plusMonths(3),
-            DayOfWeek.values().random()
+            DayOfWeek.MONDAY
         )
         binding.calendar.scrollToDate(LocalDate.now())
     }
@@ -141,6 +118,21 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         return viewModel.selectedDate
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun processState(state: CalendarViewModel.State) {
+        when (state) {
+            is CalendarViewModel.State.Bar -> adapter.addData(ChartDataWrapper(2, state.data))
+            is CalendarViewModel.State.Calories -> binding.calorieCount.text = "Calorie Count: 2000 - ${state.data} = ${2000 - state.data}"
+            is CalendarViewModel.State.Dishes -> {}
+            is CalendarViewModel.State.Pie -> adapter.addData(ChartDataWrapper(1, state.data))
+            CalendarViewModel.State.Gone -> {
+                binding.info.isVisible = false
+                adapter.clearList()
+            }
+            CalendarViewModel.State.Visible -> binding.info.isVisible = true
+        }
+    }
+
     private fun generateFabConfigs(): List<MenuFab.FabConfig> {
         val point = Point(56, 56)
         val margins = 16F
@@ -164,7 +156,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             MenuFab.FabConfig(
                 size = point,
                 margins = margins,
-                icon = R.drawable.ic_calories
+                icon = R.drawable.ic_exercise
             ) {
 //                val directions = InfoFragmentDirections.infoScreenToExercise()
 //                navigate(directions)

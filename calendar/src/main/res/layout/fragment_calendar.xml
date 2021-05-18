@@ -60,5 +60,6 @@
     <com.artkachenko.ui_utils.views.MenuFab
         android:id="@+id/menu_fab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
