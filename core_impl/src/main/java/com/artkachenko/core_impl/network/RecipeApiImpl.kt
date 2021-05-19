@@ -23,23 +23,20 @@ import javax.inject.Singleton
 class RecipeApiImpl @Inject constructor(private val client: HttpClient) : RecipeApi {
 
     override suspend fun getRecipeList(page: Int): List<RecipeEntity> {
-//        val wrapper = client.get<RecipeResultsWrapper>(NetworkEndpoints.RecipeSearch) {
+        return client.get<RecipeResultsWrapper>(NetworkEndpoints.RecipeSearch) {
 //            url.path("/recipes/search")
-//            parameter("query", "chicken")
-//        }
-//        debugLog("results are ${wrapper.results}")
-//        return wrapper.results
+            parameter("query", "chicken")
+        }.results
 //        return emptyList()
-        val results = Json {
-            ignoreUnknownKeys = true
-        }.decodeFromString<RecipeResultsWrapper>(Json.serializersModule.serializer(), mockResults)
-        return results.results
+//        val results = Json {
+//            ignoreUnknownKeys = true
+//        }.decodeFromString<RecipeResultsWrapper>(Json.serializersModule.serializer(), mockResults)
+//        return results.results
     }
 
     override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {
         return client.get<RecipeDetailModel>(NetworkEndpoints.getRecipeDetailEndPoint(id)) {
             parameter("includeNutrition", true)
-            debugLog("API, url is ${url.build()}")
         }
 //        return Json {ignoreUnknownKeys = true}.decodeFromString(Json.serializersModule.serializer(), mockDetail)
     }

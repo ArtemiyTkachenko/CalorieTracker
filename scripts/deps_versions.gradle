@@ -60,7 +60,8 @@ ext {
     ktor = [
             "ktor_client_android"      : "io.ktor:ktor-client-android:$ktor_version",
             "ktor_client_serialization": "io.ktor:ktor-client-serialization:$ktor_version",
-            "ktor_client_client"       : "io.ktor:ktor-client-logging-jvm:$ktor_version"
+            "ktor_client_client"       : "io.ktor:ktor-client-logging-jvm:$ktor_version",
+            "ktor-client-mock"         : "io.ktor:ktor-client-mock:$ktor_version"
     ]
 
     ktorSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinx_serialization_version"
