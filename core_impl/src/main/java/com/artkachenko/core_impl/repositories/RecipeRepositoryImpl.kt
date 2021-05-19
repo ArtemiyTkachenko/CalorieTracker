@@ -6,13 +6,9 @@ import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_impl.IoDispatcher
-import com.artkachenko.core_impl.network.RecipeApiImpl
-import dagger.Provides
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class RecipeRepositoryImpl @Inject constructor(
     private val recipeApi: RecipeApi,

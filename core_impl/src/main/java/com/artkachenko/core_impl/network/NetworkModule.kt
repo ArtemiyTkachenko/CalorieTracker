@@ -5,6 +5,7 @@ import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.core_api.utils.debugVerbose
 import com.artkachenko.core_impl.DispatchersModule
+import com.artkachenko.core_impl.IoDispatcher
 import com.artkachenko.core_impl.repositories.RecipeRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,7 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.features.observer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -71,8 +73,8 @@ object NetworkModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun provideRecipeRepository(recipeApi: RecipeApi) : RecipeRepository {
-        return RecipeRepositoryImpl(recipeApi, DispatchersModule.provideIODispatcher())
+    fun provideRecipeRepository(recipeApi: RecipeApi, @IoDispatcher dispatcher: CoroutineDispatcher) : RecipeRepository {
+        return RecipeRepositoryImpl(recipeApi, dispatcher)
     }
 
     @Provides

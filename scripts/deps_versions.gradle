@@ -20,6 +20,7 @@ ext {
     sentry_plugin_version = '2.3.1'
     ktor_version = '1.5.3'
     kotlinx_serialization_version = '1.0.1'
+    mockk_version = '1.11.0'
 
     desugaring = "com.android.tools:desugar_jdk_libs:$desugaring_version"
     kotlin = "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -43,6 +44,8 @@ ext {
             'coroutines_android': "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version",
             'coroutines_core'   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     ]
+
+    coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
 
     //Navigation
     navigationDependencies = [
@@ -74,8 +77,8 @@ ext {
 
     //Dagger Hilt
     hilt = [
-            "hilt_android"  : "com.google.dagger:hilt-android:$hiltAndroid_version",
-            "hilt_common"   : "androidx.hilt:hilt-common:$hilt_version"
+            "hilt_android": "com.google.dagger:hilt-android:$hiltAndroid_version",
+            "hilt_common" : "androidx.hilt:hilt-common:$hilt_version"
 //            "hilt_lifecycle": "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version"
     ]
     hiltKapt = [
@@ -99,4 +102,11 @@ ext {
 
     //Charts
     charts = 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    //MockK
+    mockK = "io.mockk:mockk:$mockk_version"
+
+    //KotlinTest
+    kotlinTest = "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+
 }

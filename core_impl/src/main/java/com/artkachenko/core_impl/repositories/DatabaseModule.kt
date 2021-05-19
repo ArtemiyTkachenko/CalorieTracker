@@ -7,10 +7,13 @@ import com.artkachenko.core_api.network.persistence.DishesDao
 import com.artkachenko.core_api.network.persistence.IngredientsDao
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_api.network.repositories.RecipeRepository
+import com.artkachenko.core_impl.DispatchersModule
+import com.artkachenko.core_impl.IoDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -28,8 +31,8 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDishesRepository(recipeRepository: RecipeRepository, dishesDao: DishesDao) : DishesRepository {
-        return DishesRepositoryImpl(recipeRepository, dishesDao)
+    fun provideDishesRepository(dishesDao: DishesDao, @IoDispatcher dispatcher: CoroutineDispatcher) : DishesRepository {
+        return DishesRepositoryImpl(dishesDao, dispatcher)
     }
 
     @Provides
