@@ -18,6 +18,8 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -55,6 +57,26 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude("META-INF/*.kotlin_module")
     }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        googlePlay {
+            dimension "version"
+        }
+
+        uiTest {
+            minSdkVersion 29
+        }
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+
+        if (names.contains("uiTest") && variant.buildType.name == "release") {
+            variant.ignore = true
+        }
+    }
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -62,6 +84,12 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         jvmTarget = "1.8"
     }
 }
+
+//configurations.all {
+//    resolutionStrategy {
+//        force "androidx.test:monitor:${rootProject.androidxTestRunner}"
+//    }
+//}
 
 apply from: "$project.rootDir/scripts/deps_versions.gradle"
 

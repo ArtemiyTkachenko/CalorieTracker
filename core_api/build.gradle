@@ -22,12 +22,6 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -35,6 +29,26 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    flavorDimensions "version"
+
+    productFlavors {
+        googlePlay {
+            dimension "version"
+        }
+
+        uiTest {
+            minSdkVersion 29
+        }
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+
+        if (names.contains("uiTest") && variant.buildType.name == "release") {
+            variant.ignore = true
+        }
     }
 }
 
