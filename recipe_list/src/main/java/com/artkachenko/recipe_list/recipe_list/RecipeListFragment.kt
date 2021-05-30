@@ -62,7 +62,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
         binding.search.setSingleClickListener {
             findNavController().navigate(R.id.recipe_to_search)
         }
-        viewModel.getRecipeList()
+//        viewModel.getRecipeList()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
