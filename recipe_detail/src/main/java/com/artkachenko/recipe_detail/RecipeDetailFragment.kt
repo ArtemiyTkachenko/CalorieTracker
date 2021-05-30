@@ -1,5 +1,6 @@
 package com.artkachenko.recipe_detail
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -9,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import coil.load
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_detail.databinding.FragmentRecipeDetailBinding
 import com.artkachenko.ui_utils.ImageUtils
+import com.artkachenko.ui_utils.loadCircleImage
 import com.artkachenko.ui_utils.loadImage
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,6 +43,10 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRecipeDetailBinding.inflate(layoutInflater, container, false)
+
+        binding.backArrow.setOnClickListener {
+            activity?.onBackPressed()
+        }
 
         argId?.let { viewModel.getRecipeDetail(it) }
 

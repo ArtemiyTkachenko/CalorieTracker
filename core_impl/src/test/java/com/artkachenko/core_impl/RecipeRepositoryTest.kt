@@ -80,7 +80,7 @@ class RecipeRepositoryTest {
 
     @Test
     fun `should return recipe details on recipeRepository getRecipeList call`() = runBlockingTest {
-        val result = recipeRepository.getRecipeList(1)
+        val result = recipeRepository.getRecipeList(1, "" to emptyList())
         assertEquals(result, list)
     }
 

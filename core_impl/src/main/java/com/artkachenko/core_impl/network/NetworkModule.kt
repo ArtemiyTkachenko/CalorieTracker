@@ -1,5 +1,6 @@
 package com.artkachenko.core_impl.network
 
+import android.util.Log
 import com.artkachenko.core_api.network.api.RecipeApi
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
@@ -52,7 +53,7 @@ object NetworkModule {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        debugLog(message)
+                        debugLog(message, tag = "HTTPClient")
                     }
                 }
                 level = LogLevel.ALL

@@ -34,11 +34,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 apply from: "$project.rootDir/scripts/deps_versions.gradle"
 
 dependencies {
+    implementation project(':navigation')
+    implementation project(':core')
+    implementation project(':ui_utils')
 
     coreLibraryDesugaring desugaring
     implementation androidCore
@@ -58,12 +65,4 @@ dependencies {
 
     testImplementation junit
     androidTestImplementation androidTest.values()
-
-    implementation project(':navigation')
-    implementation project(':ui_utils')
-    api project(':recipe_list')
-    api project(':calendar')
-    api project(':settings')
-    api project(':recipe_detail')
-    api project(':search')
 }

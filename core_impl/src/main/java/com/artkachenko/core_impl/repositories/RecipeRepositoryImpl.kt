@@ -15,10 +15,10 @@ class RecipeRepositoryImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher
 ) : RecipeRepository {
 
-    override suspend fun getRecipeList(page: Int): List<RecipeEntity> {
+    override suspend fun getRecipeList(offset: Int, vararg filters: Pair<String, List<String>>): List<RecipeEntity> {
         val list: List<RecipeEntity>
         withContext(dispatcher) {
-            list = recipeApi.getRecipeList(page)
+            list = recipeApi.getRecipeList(offset, *filters)
         }
         return list
     }

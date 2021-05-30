@@ -41,13 +41,10 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
     private lateinit var binding: FragmentCalendarBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentCalendarBinding.inflate(inflater, container, false)
+        binding = FragmentCalendarBinding.bind(view)
 
         Utils.init(requireContext())
 
@@ -68,12 +65,6 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
                 processState(it)
             }
         }
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         val dm = DisplayMetrics()
         val wm = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager

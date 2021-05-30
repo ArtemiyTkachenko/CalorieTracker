@@ -6,26 +6,22 @@ import com.artkachenko.core_api.network.models.Ingredient
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.models.RecipeResultsWrapper
-import com.artkachenko.core_api.utils.debugLog
 import io.ktor.client.*
 import io.ktor.client.request.*
-import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.decodeFromJsonElement
-import kotlinx.serialization.serializer
+import io.ktor.http.*
+import io.ktor.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class RecipeApiImpl @Inject constructor(private val client: HttpClient) : RecipeApi {
 
-    override suspend fun getRecipeList(page: Int): List<RecipeEntity> {
+    override suspend fun getRecipeList(offset: Int, vararg filters: Pair<String, List<String>>): List<RecipeEntity> {
         return client.get<RecipeResultsWrapper>(NetworkEndpoints.RecipeSearch) {
-//            url.path("/recipes/search")
-            parameter("query", "chicken")
+            parametersOf(pairs = filters).forEach { s, list ->
+                this.url.parameters.appendAll(s, list)
+            }
+
         }.results
 //        return emptyList()
 //        val results = Json {

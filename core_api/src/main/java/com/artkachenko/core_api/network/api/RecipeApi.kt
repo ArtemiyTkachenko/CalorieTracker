@@ -6,7 +6,7 @@ import com.artkachenko.core_api.network.models.RecipeEntity
 
 interface RecipeApi {
 
-    suspend fun getRecipeList(page: Int): List<RecipeEntity>
+    suspend fun getRecipeList(offset: Int, vararg filters: Pair<String, List<String>>): List<RecipeEntity>
 
     suspend fun getRecipeDetail(id: Long) : RecipeDetailModel
 

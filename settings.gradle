@@ -11,3 +11,4 @@ include ':ui_core'
 include ':navigation'
 include ':app'
 rootProject.name = "CalorieTracker"
+include ':search'

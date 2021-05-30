@@ -1,7 +1,10 @@
 package com.artkachenko.ui_utils
 
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
 import coil.load
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
@@ -40,6 +43,14 @@ fun ImageView.loadImage(url: String) {
         placeholder(R.drawable.ic_my_recipes_placeholder_image)
 //        transformations(CircleCropTransformation())
         scale(Scale.FIT)
+    }
+}
+
+fun ImageView.loadCircleImage(@DrawableRes drawable: Int, @ColorInt backgroundColor: Int = Color.TRANSPARENT) {
+    this.load(drawable) {
+        scale(Scale.FIT)
+        transformations(CircleCropTransformation())
+//        setBackgroundColor(backgroundColor)
     }
 }
 

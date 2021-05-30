@@ -11,6 +11,7 @@ import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_list.R
 import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
+import com.artkachenko.ui_utils.setSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,28 +23,46 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
 
     private lateinit var binding: FragmentRecipeListBinding
 
-    private val recipesAdapter by lazy {
+    private val firstAdapter by lazy {
         RecipesAdapter(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentRecipeListBinding.inflate(inflater, container, false)
+    private val secondAdapter by lazy {
+        RecipesAdapter(this)
+    }
+
+    private val thirdAdapter by lazy {
+        RecipesAdapter(this)
+    }
+
+    private val fourthAdapter by lazy {
+        RecipesAdapter(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentRecipeListBinding.bind(view)
         scope.launch {
             viewModel.recipes.collect {
                 debugLog("from fragment, results are $it")
-                recipesAdapter.submitList(it)
+                processState(it)
             }
         }
 
-        binding.recycler.adapter = recipesAdapter
+        with (binding) {
+            indian.adapter = firstAdapter
+            vegetarian.adapter = secondAdapter
+            italian.adapter = thirdAdapter
+            quick.adapter = fourthAdapter
 
+
+        }
+
+        binding.search.setSingleClickListener {
+            findNavController().navigate(R.id.recipe_to_search)
+        }
         viewModel.getRecipeList()
-
-        return binding.root
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
@@ -51,5 +70,25 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             putLong("id", model.id)
         }
         findNavController().navigate(R.id.recipe_to_detail, bundle)
+    }
+
+    private fun processState(state: RecipeListViewModel.State) {
+        when (state) {
+            RecipeListViewModel.State.FirstItemEmitted -> {
+            }
+            is RecipeListViewModel.State.Indian -> firstAdapter.submitList(state.data)
+
+            RecipeListViewModel.State.Initial -> {
+
+            }
+            is RecipeListViewModel.State.Italian -> secondAdapter.submitList(state.data)
+            RecipeListViewModel.State.Loading -> {
+
+            }
+            is RecipeListViewModel.State.Quick -> thirdAdapter.submitList(state.data)
+            is RecipeListViewModel.State.Vegetarian -> fourthAdapter.submitList(state.data)
+            else -> {}
+        }
+
     }
 }
