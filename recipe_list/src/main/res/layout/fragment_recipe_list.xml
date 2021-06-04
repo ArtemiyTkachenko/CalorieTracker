@@ -11,18 +11,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search"
+        <FrameLayout
+            android:id="@+id/search_view_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:focusable="false"
+                app:iconifiedByDefault="false"
+                app:queryHint="@string/search_hint" />
+
+        </FrameLayout>
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:text="Italian"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Italian" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/italian"
@@ -33,12 +45,12 @@
             tools:listitem="@layout/i_recipe_list" />
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:text="Vegetarian"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Vegetarian" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/vegetarian"
@@ -49,12 +61,12 @@
             tools:listitem="@layout/i_recipe_list" />
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:text="Indian"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Indian" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/indian"
@@ -65,12 +77,12 @@
             tools:listitem="@layout/i_recipe_list" />
 
         <TextView
+            style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:text="Quick recipes"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:text="Quick recipes" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/quick"

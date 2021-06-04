@@ -12,8 +12,10 @@ import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentSearchBinding
+import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.dpF
 import com.artkachenko.ui_utils.onLoadMore
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -36,6 +38,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(false)
+
         binding = FragmentSearchBinding.bind(view)
 
         binding.results.adapter = adapter
@@ -70,10 +74,31 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
             }
         }
 
+        val map = mapOf<String, List<String>>()
+
         argPresets?.let {
             populateChips(it)
             viewModel.loadRecipes("", it)
+        } ?: binding.root.postDelayed(
+            {
+                binding.search.requestFocus()
+                showKeyboard()
+            }, 200
+        )
+
+        binding.standardBottomSheet.setOnClickListener {
+            val behavior = BottomSheetBehavior.from(it)
+            if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else {
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
+        super.onDestroyView()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {

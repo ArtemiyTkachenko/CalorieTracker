@@ -1,9 +1,8 @@
 package com.artkachenko.recipe_list.recipe_list
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -65,10 +64,18 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             )
         }
 
-        binding.search.setSingleClickListener {
-            findNavController().navigate(R.id.recipe_to_search)
+        binding.search.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
+            .setOnFocusChangeListener { v, hasFocus ->
+                if (hasFocus) {
+                    v.clearFocus()
+                    navigateToSearch(null)
+                }
+            }
+
+        binding.searchViewContainer.setSingleClickListener {
+            navigateToSearch(null)
         }
-        viewModel.getRecipeList()
+//        viewModel.getRecipeList()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
@@ -78,7 +85,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
         findNavController().navigate(R.id.recipe_to_detail, bundle)
     }
 
-    override fun moveToFragmentWithPresets(filters: FilterWrapper) {
+    override fun navigateToSearch(filters: FilterWrapper?) {
         val bundle = Bundle().apply {
             putParcelable("presets", filters)
         }

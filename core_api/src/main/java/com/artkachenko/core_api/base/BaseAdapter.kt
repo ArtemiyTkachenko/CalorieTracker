@@ -1,11 +1,8 @@
 package com.artkachenko.core_api.base
 
-import android.annotation.SuppressLint
 import android.view.View
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.artkachenko.core_api.network.models.HasId
+import com.artkachenko.core_api.interfaces.HasId
 
 abstract class BaseAdapter <T : HasId> (private val bindings: ViewHolderBindings<T> ?= null) : RecyclerView.Adapter<BaseViewHolder<T>>() {
 

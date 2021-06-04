@@ -13,7 +13,8 @@
         android:label="CalorieTracker"
         android:theme="@style/Theme.CalorieTracker">
         <activity
-            android:name="com.artkachenko.activity.MainActivity">
+            android:name="com.artkachenko.activity.MainActivity"
+            android:theme="@style/Theme.CalorieTracker">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

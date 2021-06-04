@@ -60,7 +60,7 @@ dependencies {
     androidTestImplementation androidTest.values()
 
     implementation project(':navigation')
-    implementation project(':ui_utils')
+    api project(':ui_utils')
     api project(':recipe_list')
     api project(':calendar')
     api project(':settings')

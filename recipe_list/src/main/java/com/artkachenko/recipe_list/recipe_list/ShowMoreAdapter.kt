@@ -24,7 +24,7 @@ class ShowMoreViewHolder(private val binding: IShowMoreBinding): RecyclerView.Vi
 
     fun bind(actions: RecipeListActions, filters: FilterWrapper) {
         binding.root.setSingleClickListener {
-            actions.moveToFragmentWithPresets(filters)
+            actions.navigateToSearch(filters)
         }
     }
 }

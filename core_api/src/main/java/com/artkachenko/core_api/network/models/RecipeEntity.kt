@@ -1,6 +1,7 @@
 package com.artkachenko.core_api.network.models
 
 import android.os.Parcelable
+import com.artkachenko.core_api.interfaces.HasId
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

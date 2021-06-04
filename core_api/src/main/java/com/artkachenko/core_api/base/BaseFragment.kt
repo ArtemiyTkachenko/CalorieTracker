@@ -1,11 +1,14 @@
 package com.artkachenko.core_api.base
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.artkachenko.core_api.R
 import com.artkachenko.core_api.utils.debugLog
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -27,14 +30,22 @@ abstract class BaseFragment(@LayoutRes layout: Int) : Fragment(layout), Lifecycl
 
     protected val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
 
-    protected fun getNewScope(): CoroutineScope {
-        val job = Job()
-        val context = job + Dispatchers.Main
-        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-            throwable.printStackTrace()
-        }
+    protected fun hideKeyboard() {
+        val inputMethodManager = activity?.getSystemService(
+            Activity.INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+            activity?.currentFocus?.windowToken, 0
+        )
+    }
 
-        return CoroutineScope(SupervisorJob() + context + exceptionHandler)
+    protected fun showKeyboard() {
+        val inputMethodManager = activity?.getSystemService(
+            Activity.INPUT_METHOD_SERVICE
+        ) as InputMethodManager
+        inputMethodManager.toggleSoftInput(
+            InputMethodManager.SHOW_FORCED, 0
+        )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

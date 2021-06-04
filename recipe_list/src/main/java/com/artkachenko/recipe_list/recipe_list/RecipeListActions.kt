@@ -6,5 +6,5 @@ import com.artkachenko.core_api.network.models.RecipeEntity
 
 interface RecipeListActions : ViewHolderBindings<RecipeEntity> {
 
-    fun moveToFragmentWithPresets(filters: FilterWrapper)
+    fun navigateToSearch(filters: FilterWrapper?)
 }
