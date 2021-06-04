@@ -30,19 +30,16 @@ object DatabaseModule {
     }
 
     @Provides
-    @Singleton
     fun provideDishesRepository(dishesDao: DishesDao, @IoDispatcher dispatcher: CoroutineDispatcher) : DishesRepository {
         return DishesRepositoryImpl(dishesDao, dispatcher)
     }
 
     @Provides
-    @Singleton
     fun provideIngredientsDao(appDatabase: DB) : IngredientsDao {
         return appDatabase.ingredientsDao()
     }
 
     @Provides
-    @Singleton
     fun provideDishesDao(appDatabase: DB) : DishesDao {
         return appDatabase.dishesDao()
     }

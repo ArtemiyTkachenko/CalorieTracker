@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.SearchView
 import coil.load
 import coil.size.Scale
 import coil.transform.CircleCropTransformation

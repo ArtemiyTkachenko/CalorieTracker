@@ -1,7 +1,9 @@
 package com.artkachenko.recipe_list.recipe_list
 
+import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.artkachenko.core_api.base.BaseViewModel
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
@@ -13,7 +15,7 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
-class RecipeListViewModel @Inject constructor(private val recipeRepository: RecipeRepository) : ViewModel() {
+class RecipeListViewModel @Inject constructor(private val recipeRepository: RecipeRepository) : ViewModel(),BaseViewModel by BaseViewModelImpl() {
 
     private val _recipes = MutableStateFlow<State>(State.Initial)
 
@@ -21,18 +23,6 @@ class RecipeListViewModel @Inject constructor(private val recipeRepository: Reci
 
     val recipes: StateFlow<State>
         get() = _recipes
-
-    private val parentJob = Job()
-
-    private val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.IO
-
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
-    }
-
-    protected val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
-
 
     fun getRecipeList() {
         scope.launch {

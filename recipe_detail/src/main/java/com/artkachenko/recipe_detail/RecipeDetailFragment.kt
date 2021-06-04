@@ -97,7 +97,7 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
             val ingredientsList = model.extendedIngredients
 
             if (!ingredientsList.isNullOrEmpty()) {
-                ingredientsAdapter.submitList(ingredientsList)
+                ingredientsAdapter.setData(ingredientsList)
             }
 
             add.setOnClickListener {

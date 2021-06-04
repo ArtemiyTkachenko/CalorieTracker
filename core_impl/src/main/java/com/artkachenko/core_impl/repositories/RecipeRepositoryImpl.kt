@@ -16,26 +16,20 @@ class RecipeRepositoryImpl @Inject constructor(
 ) : RecipeRepository {
 
     override suspend fun getRecipeList(offset: Int, vararg filters: Pair<String, List<String>>): List<RecipeEntity> {
-        val list: List<RecipeEntity>
-        withContext(dispatcher) {
-            list = recipeApi.getRecipeList(offset, *filters)
+        return withContext(dispatcher) {
+            recipeApi.getRecipeList(offset, *filters)
         }
-        return list
     }
 
     override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {
-        val model: RecipeDetailModel
-        withContext(dispatcher) {
-            model = recipeApi.getRecipeDetail(id)
+        return withContext(dispatcher) {
+            recipeApi.getRecipeDetail(id)
         }
-        return model
     }
 
     override suspend fun parseIngredients(ingredients: List<String>): List<Ingredient> {
-        val list: List<Ingredient>
-        withContext(dispatcher) {
-            list = recipeApi.parseIngredients(ingredients)
+        return withContext(dispatcher) {
+            recipeApi.parseIngredients(ingredients)
         }
-        return list
     }
 }

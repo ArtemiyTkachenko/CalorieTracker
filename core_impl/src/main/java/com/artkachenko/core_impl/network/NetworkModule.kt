@@ -56,7 +56,7 @@ object NetworkModule {
                         debugLog(message, tag = "HTTPClient")
                     }
                 }
-                level = LogLevel.ALL
+                level = LogLevel.NONE
             }
 
             install(ResponseObserver) {

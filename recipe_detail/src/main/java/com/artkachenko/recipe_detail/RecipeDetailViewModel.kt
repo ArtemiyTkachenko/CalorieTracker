@@ -1,7 +1,9 @@
 package com.artkachenko.recipe_detail
 
+import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.artkachenko.core_api.base.BaseViewModel
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.repositories.DishesRepository
@@ -19,12 +21,12 @@ import javax.inject.Inject
 class RecipeDetailViewModel @Inject constructor(
     private val repository: RecipeRepository,
     private val dishesRepository: DishesRepository
-    ) : ViewModel() {
+    ) : ViewModel(), BaseViewModel by BaseViewModelImpl() {
 
     val channel = Channel<RecipeDetailModel> {  }
 
     fun getRecipeDetail(id: Long) {
-        viewModelScope.launch {
+        scope.launch {
             val detail = repository.getRecipeDetail(id)
             debugLog("detail is $detail")
             channel.send(detail)
@@ -36,7 +38,7 @@ class RecipeDetailViewModel @Inject constructor(
             extendedIngredients = model.extendedIngredients,
             nutrition = model.nutrition,
             date = LocalDateTime.now())
-        viewModelScope.launch {
+        scope.launch {
             dishesRepository.insertDish(manualDish)
         }
     }

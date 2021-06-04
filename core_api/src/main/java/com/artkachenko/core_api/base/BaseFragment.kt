@@ -27,6 +27,16 @@ abstract class BaseFragment(@LayoutRes layout: Int) : Fragment(layout), Lifecycl
 
     protected val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
 
+    protected fun getNewScope(): CoroutineScope {
+        val job = Job()
+        val context = job + Dispatchers.Main
+        val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+            throwable.printStackTrace()
+        }
+
+        return CoroutineScope(SupervisorJob() + context + exceptionHandler)
+    }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     fun create() {
         debugLog("ON_CREATE")

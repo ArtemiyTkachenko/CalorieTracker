@@ -55,8 +55,6 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             vegetarian.adapter = secondAdapter
             italian.adapter = thirdAdapter
             quick.adapter = fourthAdapter
-
-
         }
 
         binding.search.setSingleClickListener {
@@ -76,17 +74,17 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
         when (state) {
             RecipeListViewModel.State.FirstItemEmitted -> {
             }
-            is RecipeListViewModel.State.Indian -> firstAdapter.submitList(state.data)
+            is RecipeListViewModel.State.Indian -> firstAdapter.setData(state.data)
 
             RecipeListViewModel.State.Initial -> {
 
             }
-            is RecipeListViewModel.State.Italian -> secondAdapter.submitList(state.data)
+            is RecipeListViewModel.State.Italian -> secondAdapter.setData(state.data)
             RecipeListViewModel.State.Loading -> {
 
             }
-            is RecipeListViewModel.State.Quick -> thirdAdapter.submitList(state.data)
-            is RecipeListViewModel.State.Vegetarian -> fourthAdapter.submitList(state.data)
+            is RecipeListViewModel.State.Quick -> thirdAdapter.setData(state.data)
+            is RecipeListViewModel.State.Vegetarian -> fourthAdapter.setData(state.data)
             else -> {}
         }
 

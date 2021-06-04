@@ -1,24 +1,19 @@
-import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
-import javax.inject.Inject
+package com.artkachenko.core_api.base
+
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-open class BaseViewModel: ViewModel() {
+interface BaseViewModel {
 
-    private val parentJob = Job()
+    val parentJob: Job
 
-    private val coroutineContext: CoroutineContext
+    val coroutineContext: CoroutineContext
         get() = parentJob + Dispatchers.IO
 
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        throwable.printStackTrace()
-    }
+    val exceptionHandler: CoroutineExceptionHandler
 
-    protected val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
-
-    override fun onCleared() {
-        parentJob.cancel()
-        super.onCleared()
-    }
+    val scope: CoroutineScope
 }
