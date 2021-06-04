@@ -4,6 +4,7 @@ import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artkachenko.core_api.base.BaseViewModel
+import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
@@ -21,20 +22,33 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
     private var isLoading = false
 
     val results: SharedFlow<List<RecipeEntity>>
-    get() = _results
+        get() = _results
 
     private val _results = MutableSharedFlow<List<RecipeEntity>>()
 
-    fun getInitial(query: String) {
+    private var filtersWrapper: FilterWrapper? = null
+
+    fun getInitial(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         offset = 0
-        loadRecipes(query)
+        loadRecipes(query, wrapper)
     }
 
-    fun loadRecipes(query: String) {
+    fun loadRecipes(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         if (isLoading) return
+        val unWrapperFilters = wrapper?.filters?.map {
+            val first = it.first
+            val second = it.second
+            first to second
+        }?.toTypedArray() ?: arrayOf()
+
         scope.launch {
             isLoading = true
-            val recipes = recipeRepository.getRecipeList(offset, "query" to listOf(query), "offset" to listOf(offset.toString()))
+            val recipes = recipeRepository.getRecipeList(
+                offset,
+                "query" to listOf(query),
+                "offset" to listOf(offset.toString()),
+                *unWrapperFilters
+            )
             debugLog("results from viewmodel getRecipeList are $recipes")
             _results.emit(recipes)
             offset += 10
@@ -43,9 +57,9 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
     }
 
     sealed class State() {
-        object Initial: State()
-        object Loading: State()
-        object FirstItemEmitted: State()
-        object LoadingFinished: State()
+        object Initial : State()
+        object Loading : State()
+        object FirstItemEmitted : State()
+        object LoadingFinished : State()
     }
 }

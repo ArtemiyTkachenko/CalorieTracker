@@ -3,14 +3,18 @@ package com.artkachenko.search
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.artkachenko.core_api.base.BaseFragment
+import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentSearchBinding
+import com.artkachenko.ui_utils.dpF
 import com.artkachenko.ui_utils.onLoadMore
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -25,6 +29,10 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     private var queryChangeJob: Job? = null
 
     private val adapter = RecipeSearchAdapter(this)
+
+    private val argPresets by lazy {
+        arguments?.getParcelable<FilterWrapper>("presets")
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -61,6 +69,11 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 }
             }
         }
+
+        argPresets?.let {
+            populateChips(it)
+            viewModel.loadRecipes("", it)
+        }
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
@@ -68,5 +81,24 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
             putLong("id", model.id)
         }
         findNavController().navigate(R.id.search_to_detail, bundle)
+    }
+
+    private fun populateChips(filterWrapper: FilterWrapper) {
+        val filterChips = binding.filterChips
+        filterWrapper.filters.forEach { filter ->
+            filter.second.forEach { filterValue ->
+                Chip(requireContext()).apply {
+                    text = filterValue
+
+                    isCloseIconVisible = true
+                    closeIconSize = dpF(16F)
+                    setCloseIconResource(R.drawable.ic_baseline_close_24)
+                    setOnCloseIconClickListener {
+                        filterChips.removeView(it)
+                    }
+                    filterChips.addView(this)
+                }
+            }
+        }
     }
 }

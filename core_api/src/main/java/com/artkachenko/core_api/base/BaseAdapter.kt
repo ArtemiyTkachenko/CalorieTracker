@@ -17,6 +17,13 @@ abstract class BaseAdapter <T : HasId> (private val bindings: ViewHolderBindings
 
     override fun getItemCount() = items.size
 
+    fun setInitial(data: List<T>, callback: (() -> Unit)? = null) {
+        items.clear()
+        items.addAll(data)
+        notifyDataSetChanged()
+        callback?.invoke()
+    }
+
     fun setData(data: List<T>, callback: (() -> Unit)? = null) {
         val start = items.size
         items.addAll(data)
