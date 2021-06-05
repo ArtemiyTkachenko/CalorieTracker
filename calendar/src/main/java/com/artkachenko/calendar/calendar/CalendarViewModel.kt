@@ -29,14 +29,17 @@ class CalendarViewModel @Inject constructor(
 
     val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
-    val state = MutableSharedFlow<State>()
+    val state: SharedFlow<State>
+    get() = _state
+
+    private val _state = MutableSharedFlow<State>()
 
     fun changeDate(date: LocalDate) {
         viewModelScope.launch {
             selectedDate.emit(date)
             val start = date.atStartOfDay()
             val end = date.atStartOfDay().plusDays(1)
-            state.emit(State.Clear)
+            _state.emit(State.Clear)
             getDishes(start, end)
         }
     }
@@ -49,12 +52,12 @@ class CalendarViewModel @Inject constructor(
             dishesRepository.getDishesByDate(start, end).collect { list ->
                 val dishNames =
                 debugLog("dish list size is ${list.size} ")
-                state.emit(State.Dishes(list))
+                _state.emit(State.Dishes(list))
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
                 val carbItems = mutableListOf<Double>()
                 val sources = mutableMapOf<String, Double>()
-                var calories = 0.0
+                var calories = 0
                 var totalWeight = 0.0
                 list.forEach { dishDetail ->
                     dishDetail.extendedIngredients?.forEach { ingredient ->
@@ -72,7 +75,7 @@ class CalendarViewModel @Inject constructor(
                     breakdown?.percentFat?.let { fatItems.add(it) }
                     breakdown?.percentProtein?.let { proteinItems.add(it) }
                     breakdown?.percentCarbs?.let { carbItems.add(it) }
-                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories += it?.amount ?: 0.0 }
+                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories += it?.amount?.toInt() ?: 0 }
                 }
 
                 val fatAverage = fatItems.average()
@@ -93,8 +96,8 @@ class CalendarViewModel @Inject constructor(
                     dataSet.stackLabels = labels.toTypedArray()
                     dataSet.colors = ColorTemplate.COLORFUL_COLORS.toMutableList()
 
-                    state.emit(State.Bar(BarData(dataSet)))
-                    state.emit(State.Visible)
+                    _state.emit(State.Bar(BarData(dataSet)))
+                    _state.emit(State.Visible)
                 }
 
                 if (!fatAverage.isNaN() || !proteinAverage.isNaN() || !carbAverage.isNaN()) {
@@ -114,10 +117,10 @@ class CalendarViewModel @Inject constructor(
                         valueTextColor = Color.WHITE
                     }
 
-                    state.emit(State.Pie(PieData(dataSet)))
-                    state.emit(State.Visible)
+                    _state.emit(State.Pie(PieData(dataSet)))
+                    _state.emit(State.Visible)
                 }
-                state.emit(State.Calories(calories))
+                _state.emit(State.Calories(calories))
             }
         }
     }
@@ -125,7 +128,7 @@ class CalendarViewModel @Inject constructor(
     sealed class State() {
         data class Pie(val data: PieData) : State()
         data class Bar(val data: BarData) : State()
-        data class Calories(val data: Double) : State()
+        data class Calories(val data: Int) : State()
         data class Dishes(val data: List<ManualDishDetail>?) : State()
         object Visible : State()
         object Clear : State()

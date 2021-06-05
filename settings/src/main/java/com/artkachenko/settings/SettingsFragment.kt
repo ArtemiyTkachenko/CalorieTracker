@@ -25,9 +25,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        settingsViewModel.text.observe(viewLifecycleOwner, Observer {
-            binding.textNotifications.text = it
-        })
+
         return binding.root
     }
 

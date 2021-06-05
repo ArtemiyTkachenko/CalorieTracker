@@ -68,8 +68,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         }
 
         val dm = DisplayMetrics()
-        val wm = requireContext().getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        wm.defaultDisplay.getMetrics(dm)
+        requireContext().display?.getRealMetrics(dm)
         binding.calendar.apply {
             val dayWidth = dm.widthPixels / 7
             val dayHeight = (dayWidth * 1.5).toInt()
@@ -80,11 +79,11 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         val currentMonth = YearMonth.now()
         binding.calendar.setup(
-            currentMonth,
+            currentMonth.minusMonths(3),
             currentMonth.plusMonths(3),
             DayOfWeek.MONDAY
         )
-        binding.calendar.scrollToDate(LocalDate.now())
+        binding.calendar.scrollToDate(LocalDate.now().minusDays(3))
     }
 
     override fun onResume() {
