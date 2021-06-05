@@ -2,7 +2,6 @@ package com.artkachenko.search
 
 import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.artkachenko.core_api.base.BaseViewModel
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
@@ -26,7 +25,8 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
 
     private val _results = MutableSharedFlow<List<RecipeEntity>>()
 
-    private var filtersWrapper: FilterWrapper? = null
+    var filtersWrapper: FilterWrapper? = null
+    private set
 
     fun getInitial(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         offset = 0
@@ -49,6 +49,15 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
             offset += 10
             isLoading = false
         }
+    }
+
+    fun processFilter(filter: Map.Entry<String, String>, isChecked: Boolean) {
+        if (filtersWrapper == null) filtersWrapper = FilterWrapper(mutableMapOf())
+        val filters = filtersWrapper?.filters
+        val filterKey = filter.key
+        val keyList = filters?.get(filter.key) ?: mutableListOf()
+        if (isChecked) keyList.add(filter.value) else keyList.remove(filter.value)
+        filters?.put(filterKey, keyList)
     }
 
     sealed class State() {

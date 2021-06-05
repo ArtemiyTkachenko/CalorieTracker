@@ -2,12 +2,12 @@ package com.artkachenko.core_impl.network
 
 object Filters {
 
-    val vegetarianPreset = mapOf("diet" to listOf("vegetarian"))
-    val italianPreset = mapOf("cuisine" to listOf("italian"))
-    val indianPreset = mapOf("cuisine" to listOf("indian"))
-    val quickPreset = mapOf("maxReadyTime" to listOf("20"))
-    val cuisineFilters = mapOf(
-        "cuisine" to listOf(
+    val vegetarianPreset = mutableMapOf("diet" to mutableListOf("vegetarian"))
+    val italianPreset = mutableMapOf("cuisine" to mutableListOf("italian"))
+    val indianPreset = mutableMapOf("cuisine" to mutableListOf("indian"))
+    val quickPreset = mutableMapOf("maxReadyTime" to mutableListOf("20"))
+    val cuisineFilters = mutableMapOf(
+        "cuisine" to mutableListOf(
             "African",
             "American",
             "British",
@@ -37,8 +37,8 @@ object Filters {
         )
     )
 
-    val dietFilters = mapOf(
-        "diet" to listOf(
+    val dietFilters = mutableMapOf(
+        "diet" to mutableListOf(
             "gluten free",
             "ketogenic",
             "vegetarian",
@@ -51,8 +51,8 @@ object Filters {
         )
     )
 
-    val intolerancesFilters = mapOf(
-        "intolerances" to listOf(
+    val intolerancesFilters = mutableMapOf(
+        "intolerances" to mutableListOf(
             "dairy",
             "egg",
             "gluten",

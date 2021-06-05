@@ -3,6 +3,7 @@ package com.artkachenko.search
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.artkachenko.search.databinding.FragmentSearchBinding
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.buildChip
 import com.artkachenko.ui_utils.onLoadMore
+import com.artkachenko.ui_utils.setSingleClickListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -69,11 +71,11 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     override fun filterChecked(filter: Map.Entry<String, String>, isChecked: Boolean) {
-
+        viewModel.processFilter(filter, isChecked)
     }
 
     private fun setAdapters() {
-        with (binding) {
+        with(binding) {
             results.adapter = searchAdapter
 
             results.onLoadMore {
@@ -104,7 +106,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 queryChangeJob?.cancel()
                 queryChangeJob = lifecycleScope.launch {
                     delay(1000L)
-                    newText?.let { viewModel.getInitial(it) }
+                    newText?.let { setInitial(it) }
                 }
 
                 return false
@@ -125,22 +127,61 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun setBottomSheetBehaviour() {
-        binding.standardBottomSheet.setOnClickListener {
-            val behavior = BottomSheetBehavior.from(it)
-            if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            } else {
-                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        with(binding) {
+            val behavior = BottomSheetBehavior.from(standardBottomSheet)
+            standardBottomSheet.setOnClickListener {
+                behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        apply.isVisible = newState == BottomSheetBehavior.STATE_EXPANDED
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+                }
+                )
+                if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                } else {
+                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                }
+            }
+            apply.setSingleClickListener {
+                updateFilter()
             }
         }
     }
 
-    private fun populateChips(filterWrapper: FilterWrapper) {
+    private fun updateFilter() {
+        with (binding) {
+            filterChips.removeAllViews()
+            populateChips(viewModel.filtersWrapper)
+            val behavior = BottomSheetBehavior.from(standardBottomSheet)
+            behavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            hideKeyboard()
+            setInitial()
+        }
+    }
+
+    private fun setInitial(query: String = binding.search.query.toString()) {
+        searchAdapter.setInitial(emptyList()) {
+            debugLog("adapter count is ${searchAdapter.itemCount}")
+        }
+        viewModel.getInitial(query)
+    }
+
+    private fun populateChips(filterWrapper: FilterWrapper?) {
         val filterChips = binding.filterChips
-        filterChips
-        filterWrapper.filters.forEach { filter ->
+        filterWrapper?.filters?.forEach { filter ->
             filter.value.forEach { filterValue ->
-                buildChip(requireContext(), filterChips, filterValue = MapPair(filter.key to filterValue))
+                buildChip(
+                    requireContext(),
+                    filterChips,
+                    isChecked = true,
+                    filterValue = MapPair(filter.key to filterValue),
+                    checkCallback = { entry: Map.Entry<String, String>?, isChecked: Boolean ->
+                        if (!isChecked) entry?.let { viewModel.processFilter(it, isChecked) }
+                        updateFilter()
+                    }
+                )
             }
         }
     }

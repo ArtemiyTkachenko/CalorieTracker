@@ -73,6 +73,7 @@ fun buildChip(
     id: Int ?= null,
     filterValue: Map.Entry<String, String>? = null,
     canClose: Boolean = true,
+    isChecked: Boolean = false,
     checkCallback: ((Map.Entry<String, String>?, Boolean) -> Unit) ?= null
 ): Chip {
     return Chip(context).apply {
@@ -92,37 +93,10 @@ fun buildChip(
         isCheckable = true
         isClickable = true
 
+        this.isChecked = isChecked
+
         chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.background_color_chip_state_list)
         setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_chip_state_list))
-
-        setOnCheckedChangeListener { buttonView, isChecked ->
-            filterValue?.let { value -> checkCallback?.invoke(value, isChecked) }
-        }
-        viewGroup.addView(this)
-    }
-}
-
-fun buildChip(
-    context: Context,
-    viewGroup: ConstraintHelper,
-    id: Int ?= null,
-    filterValue: Map.Entry<String, String>? = null,
-    canClose: Boolean = true,
-    checkCallback: ((Map.Entry<String, String>?, Boolean) -> Unit) ?= null
-): Chip {
-    return Chip(context).apply {
-        id?.let { this.id = it }
-        text = filterValue?.value
-
-        if (canClose) {
-            isCloseIconVisible = true
-            closeIconSize = dpF(16F)
-            setCloseIconResource(R.drawable.ic_baseline_close_24)
-            setOnCloseIconClickListener {
-                viewGroup.removeView(it)
-                filterValue?.let { value -> checkCallback?.invoke(value, false) }
-            }
-        }
 
         setOnCheckedChangeListener { buttonView, isChecked ->
             filterValue?.let { value -> checkCallback?.invoke(value, isChecked) }

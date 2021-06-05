@@ -2,6 +2,7 @@ package com.artkachenko.core_api.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.artkachenko.core_api.utils.debugLog
 
 abstract class BaseAdapter <T> (private val actions: ViewHolderActions<T> ?= null) : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
@@ -22,8 +23,10 @@ abstract class BaseAdapter <T> (private val actions: ViewHolderActions<T> ?= nul
 
     fun setData(data: List<T>, callback: (() -> Unit)? = null) {
         val start = items.size
+        debugLog("start is $start")
         items.addAll(data)
-        notifyItemRangeChanged(start, start + data.size - 1)
+        debugLog("listSize is ${items.size}")
+        notifyItemRangeChanged(start, start + data.size)
         callback?.invoke()
     }
 }

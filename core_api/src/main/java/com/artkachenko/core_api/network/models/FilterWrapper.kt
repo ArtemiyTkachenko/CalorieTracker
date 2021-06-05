@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class FilterWrapper(val filters: Map<String, List<String>>): Parcelable
+class FilterWrapper(val filters: MutableMap<String, MutableList<String>>): Parcelable
