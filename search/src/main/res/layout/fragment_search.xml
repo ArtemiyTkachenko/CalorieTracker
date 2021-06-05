@@ -7,8 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search"
@@ -56,11 +55,37 @@
         android:id="@+id/standard_bottom_sheet"
         style="?attr/bottomSheetStyle"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="350dp"
         android:background="@drawable/card_like_view_background"
-        android:orientation="vertical"
         android:elevation="8dp"
+        android:orientation="vertical"
         app:behavior_hideable="false"
         app:behavior_peekHeight="36dp"
-        app:layout_behavior="com.artkachenko.ui_utils.views.AutoCloseBottomSheetBehavior"/>
+        app:layout_behavior="com.artkachenko.ui_utils.views.AutoCloseBottomSheetBehavior">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:src="@drawable/ic_baseline_drag_handle_24" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/filters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:nestedScrollingEnabled="true"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </androidx.core.widget.NestedScrollView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

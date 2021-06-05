@@ -2,9 +2,8 @@ package com.artkachenko.core_api.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.artkachenko.core_api.interfaces.HasId
 
-abstract class BaseAdapter <T : HasId> (private val bindings: ViewHolderBindings<T> ?= null) : RecyclerView.Adapter<BaseViewHolder<T>>() {
+abstract class BaseAdapter <T> (private val actions: ViewHolderActions<T> ?= null) : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
     protected val items = mutableListOf<T>()
 
@@ -29,12 +28,12 @@ abstract class BaseAdapter <T : HasId> (private val bindings: ViewHolderBindings
     }
 }
 
-abstract class BaseViewHolder <T : HasId>(itemView: View, private val bindings: ViewHolderBindings<T> ?= null) : RecyclerView.ViewHolder(itemView) {
+abstract class BaseViewHolder <T>(itemView: View, private val actions: ViewHolderActions<T> ?= null) : RecyclerView.ViewHolder(itemView) {
 
-    open fun bind(model: T) {}
+    abstract fun bind(model: T)
 }
 
-interface ViewHolderBindings<T> {
+interface ViewHolderActions<T> {
 
     fun onItemClicked(model: T, view: View)
 }

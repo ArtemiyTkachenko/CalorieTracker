@@ -35,11 +35,6 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
 
     fun loadRecipes(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         if (isLoading) return
-        val unWrapperFilters = wrapper?.filters?.map {
-            val first = it.first
-            val second = it.second
-            first to second
-        }?.toTypedArray() ?: arrayOf()
 
         scope.launch {
             isLoading = true
@@ -47,7 +42,7 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
                 offset,
                 "query" to listOf(query),
                 "offset" to listOf(offset.toString()),
-                *unWrapperFilters
+                *wrapper?.filters?.toList()?.toTypedArray() ?: arrayOf()
             )
             debugLog("results from viewmodel getRecipeList are $recipes")
             _results.emit(recipes)

@@ -10,7 +10,7 @@ import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
-import com.artkachenko.core_impl.network.FilterPresets
+import com.artkachenko.core_impl.network.Filters
 import com.artkachenko.recipe_list.R
 import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
 import com.artkachenko.ui_utils.setSingleClickListener
@@ -48,19 +48,19 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             val actions = this@RecipeListFragment
             indian.adapter = ConcatAdapter(
                 firstAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(FilterPresets.indianPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.indianPreset))
             )
             vegetarian.adapter = ConcatAdapter(
                 secondAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(FilterPresets.vegetarianPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.vegetarianPreset))
             )
             italian.adapter = ConcatAdapter(
                 thirdAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(FilterPresets.italianPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.italianPreset))
             )
             quick.adapter = ConcatAdapter(
                 fourthAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(FilterPresets.quickPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.quickPreset))
             )
         }
 

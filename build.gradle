@@ -4,7 +4,7 @@ buildscript {
         kotlin_version = "1.4.30"
         gradle_version = '4.1.1'
         nav_version = "2.3.4"
-        hiltAndroid_version ='2.35'
+        hiltAndroid_version = '2.35'
     }
     repositories {
         mavenCentral()

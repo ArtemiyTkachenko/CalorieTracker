@@ -3,20 +3,19 @@ package com.artkachenko.search
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.FilterWrapper
+import com.artkachenko.core_api.network.models.MapPair
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentSearchBinding
 import com.artkachenko.ui_utils.ImageUtils
-import com.artkachenko.ui_utils.dpF
+import com.artkachenko.ui_utils.buildChip
 import com.artkachenko.ui_utils.onLoadMore
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
@@ -30,7 +29,9 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     private var queryChangeJob: Job? = null
 
-    private val adapter = RecipeSearchAdapter(this)
+    private val searchAdapter = RecipeSearchAdapter(this)
+
+    private val filterAdapter = FilterAdapter(this)
 
     private val argPresets by lazy {
         arguments?.getParcelable<FilterWrapper>("presets")
@@ -42,10 +43,58 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
         binding = FragmentSearchBinding.bind(view)
 
-        binding.results.adapter = adapter
-
         viewModel
 
+        setAdapters()
+
+        launchScope()
+
+        setQueryListener()
+
+        processArgs()
+
+        setBottomSheetBehaviour()
+    }
+
+    override fun onDestroyView() {
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
+        super.onDestroyView()
+    }
+
+    override fun onItemClicked(model: RecipeEntity, view: View) {
+        val bundle = Bundle().apply {
+            putLong("id", model.id)
+        }
+        findNavController().navigate(R.id.search_to_detail, bundle)
+    }
+
+    override fun filterChecked(filter: Map.Entry<String, String>, isChecked: Boolean) {
+
+    }
+
+    private fun setAdapters() {
+        with (binding) {
+            results.adapter = searchAdapter
+
+            results.onLoadMore {
+                viewModel.loadRecipes(binding.search.query.toString())
+            }
+            filters.adapter = filterAdapter
+        }
+
+    }
+
+    private fun launchScope() {
+        scope.launch {
+            viewModel.results.collect {
+                searchAdapter.setData(it) {
+                    debugLog("adapter count is ${searchAdapter.itemCount}")
+                }
+            }
+        }
+    }
+
+    private fun setQueryListener() {
         binding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
@@ -61,31 +110,21 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 return false
             }
         })
+    }
 
-        binding.results.onLoadMore {
-            viewModel.loadRecipes(binding.search.query.toString())
-        }
-
-        scope.launch {
-            viewModel.results.collect {
-                adapter.setData(it) {
-                    debugLog("adapter count is ${adapter.itemCount}")
-                }
-            }
-        }
-
-        val map = mapOf<String, List<String>>()
-
+    private fun processArgs() {
         argPresets?.let {
             populateChips(it)
             viewModel.loadRecipes("", it)
         } ?: binding.root.postDelayed(
             {
-                binding.search.requestFocus()
-                showKeyboard()
+//                binding.search.requestFocus()
+//                showKeyboard()
             }, 200
         )
+    }
 
+    private fun setBottomSheetBehaviour() {
         binding.standardBottomSheet.setOnClickListener {
             val behavior = BottomSheetBehavior.from(it)
             if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
@@ -96,33 +135,12 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
         }
     }
 
-    override fun onDestroyView() {
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
-        super.onDestroyView()
-    }
-
-    override fun onItemClicked(model: RecipeEntity, view: View) {
-        val bundle = Bundle().apply {
-            putLong("id", model.id)
-        }
-        findNavController().navigate(R.id.search_to_detail, bundle)
-    }
-
     private fun populateChips(filterWrapper: FilterWrapper) {
         val filterChips = binding.filterChips
+        filterChips
         filterWrapper.filters.forEach { filter ->
-            filter.second.forEach { filterValue ->
-                Chip(requireContext()).apply {
-                    text = filterValue
-
-                    isCloseIconVisible = true
-                    closeIconSize = dpF(16F)
-                    setCloseIconResource(R.drawable.ic_baseline_close_24)
-                    setOnCloseIconClickListener {
-                        filterChips.removeView(it)
-                    }
-                    filterChips.addView(this)
-                }
+            filter.value.forEach { filterValue ->
+                buildChip(requireContext(), filterChips, filterValue = MapPair(filter.key to filterValue))
             }
         }
     }

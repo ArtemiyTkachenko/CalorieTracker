@@ -54,13 +54,3 @@ fun ImageView.loadCircleImage(@DrawableRes drawable: Int, @ColorInt backgroundCo
 //        setBackgroundColor(backgroundColor)
     }
 }
-
-fun View.setSingleClickListener(waitMillis: Long = 1000, listener: () -> Unit) {
-    var lastClickTime = 0L
-    setOnClickListener { view ->
-        if (System.currentTimeMillis() > lastClickTime + waitMillis) {
-            listener.invoke()
-            lastClickTime = System.currentTimeMillis()
-        }
-    }
-}

@@ -1,6 +1,5 @@
 package com.artkachenko.calendar.calendar
 
-import android.view.LayoutInflater
 import android.view.View.TEXT_ALIGNMENT_CENTER
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -14,6 +13,7 @@ import com.artkachenko.calendar.databinding.IDefaultChartBinding
 import com.artkachenko.calendar.databinding.IPieChartBinding
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.dp
+import com.artkachenko.ui_utils.inflater
 import com.github.mikephil.charting.data.*
 
 class ChartAdapter : ListAdapter<ChartDataWrapper<*>, RecyclerView.ViewHolder>(object :
@@ -35,7 +35,7 @@ class ChartAdapter : ListAdapter<ChartDataWrapper<*>, RecyclerView.ViewHolder>(o
     private val list = mutableListOf<ChartDataWrapper<*>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
+        val inflater = parent.inflater()
 
         return when (viewType) {
             PIE_ENTRY -> {

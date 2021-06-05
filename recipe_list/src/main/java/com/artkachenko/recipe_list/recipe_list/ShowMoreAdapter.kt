@@ -5,11 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.recipe_list.databinding.IShowMoreBinding
+import com.artkachenko.ui_utils.inflater
 import com.artkachenko.ui_utils.setSingleClickListener
 
 class ShowMoreAdapter(private val actions: RecipeListActions, private val filters: FilterWrapper): RecyclerView.Adapter<ShowMoreViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShowMoreViewHolder {
-        val binding = IShowMoreBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = IShowMoreBinding.inflate(parent.inflater(), parent, false)
         return ShowMoreViewHolder(binding)
     }
 

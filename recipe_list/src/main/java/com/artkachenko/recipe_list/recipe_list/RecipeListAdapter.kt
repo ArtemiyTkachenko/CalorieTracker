@@ -8,25 +8,26 @@ import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.recipe_list.databinding.IRecipeListBinding
 import com.artkachenko.ui_utils.ImageUtils
+import com.artkachenko.ui_utils.inflater
 import com.artkachenko.ui_utils.loadImage
 import com.artkachenko.ui_utils.setSingleClickListener
 
-class RecipesAdapter(private val bindings: RecipeListActions) : BaseAdapter<RecipeEntity>(bindings) {
+class RecipesAdapter(private val actions: RecipeListActions) : BaseAdapter<RecipeEntity>(actions) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<RecipeEntity> {
-        val binding = IRecipeListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return RecipeListViewHolder(binding, bindings)
+        val binding = IRecipeListBinding.inflate(parent.inflater(), parent, false)
+        return RecipeListViewHolder(binding, actions)
     }
 }
 
-class RecipeListViewHolder(private val binding: IRecipeListBinding, private val viewHolderBindings: RecipeListActions) : BaseViewHolder<RecipeEntity>(binding.root, viewHolderBindings) {
+class RecipeListViewHolder(private val binding: IRecipeListBinding, private val actions: RecipeListActions) : BaseViewHolder<RecipeEntity>(binding.root, actions) {
     override fun bind(model: RecipeEntity) {
         with(binding) {
             val url = ImageUtils.buildRecipeImageUrl(model.id)
             recipeImage.loadImage(url)
             recipeTitle.text = model.title
             root.setSingleClickListener {
-                viewHolderBindings.onItemClicked(model, recipeImage)
+                actions.onItemClicked(model, recipeImage)
             }
         }
     }
