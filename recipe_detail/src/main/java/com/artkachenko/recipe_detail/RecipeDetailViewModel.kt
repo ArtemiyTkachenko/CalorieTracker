@@ -2,7 +2,6 @@ package com.artkachenko.recipe_detail
 
 import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.artkachenko.core_api.base.BaseViewModel
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeDetailModel
@@ -12,9 +11,7 @@ import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.ZoneOffset
 import javax.inject.Inject
 
 @HiltViewModel
@@ -33,7 +30,9 @@ class RecipeDetailViewModel @Inject constructor(
         }
     }
 
-    fun saveRecipe(model: RecipeDetailModel) {
+    fun saveRecipe(model: RecipeDetailModel, servingSize: Int) {
+        val servings = model.servings ?: 0
+        val increment = servingSize/servings
         val manualDish = ManualDishDetail(
             extendedIngredients = model.extendedIngredients,
             nutrition = model.nutrition,

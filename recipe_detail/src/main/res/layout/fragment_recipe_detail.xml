@@ -64,6 +64,26 @@
                     android:paddingEnd="8dp" />
             </HorizontalScrollView>
 
+            <TextView
+                android:id="@+id/servings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Medium_16"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@id/title"
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/diets_horizontal_view"/>
+
+            <TextView
+                android:id="@+id/calories"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.AppCompat.Medium_16"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="@id/title"
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/servings"/>
+
             <com.artkachenko.ui_utils.views.ExpandableView
                 android:id="@+id/summary_container"
                 android:layout_width="0dp"
@@ -71,7 +91,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@id/title"
                 app:layout_constraintStart_toStartOf="@id/title"
-                app:layout_constraintTop_toBottomOf="@id/diets_horizontal_view"
+                app:layout_constraintTop_toBottomOf="@id/calories"
                 app:title="@string/summary">
 
                 <TextView

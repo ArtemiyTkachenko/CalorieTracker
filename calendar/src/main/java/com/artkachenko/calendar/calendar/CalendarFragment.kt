@@ -16,6 +16,7 @@ import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.utils.debugLog
+import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.views.MenuFab
 import com.github.mikephil.charting.utils.Utils
 import com.kizitonwose.calendarview.model.CalendarDay
@@ -86,6 +87,10 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         binding.calendar.scrollToDate(LocalDate.now())
     }
 
+    override fun onResume() {
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
+        super.onResume()
+    }
 
     override fun onItemClicked(model: ManualDishDetail, view: View) {
 

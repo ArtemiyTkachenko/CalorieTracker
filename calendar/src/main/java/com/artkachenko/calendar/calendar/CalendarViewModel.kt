@@ -47,6 +47,8 @@ class CalendarViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             dishesRepository.getDishesByDate(start, end).collect { list ->
+                val dishNames =
+                debugLog("dish list size is ${list.size} ")
                 state.emit(State.Dishes(list))
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
@@ -70,7 +72,7 @@ class CalendarViewModel @Inject constructor(
                     breakdown?.percentFat?.let { fatItems.add(it) }
                     breakdown?.percentProtein?.let { proteinItems.add(it) }
                     breakdown?.percentCarbs?.let { carbItems.add(it) }
-                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories = it?.amount ?: 0.0 }
+                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories += it?.amount ?: 0.0 }
                 }
 
                 val fatAverage = fatItems.average()

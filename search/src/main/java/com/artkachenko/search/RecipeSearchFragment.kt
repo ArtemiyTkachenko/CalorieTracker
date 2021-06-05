@@ -41,7 +41,6 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(false)
 
         binding = FragmentSearchBinding.bind(view)
 
@@ -58,9 +57,9 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
         setBottomSheetBehaviour()
     }
 
-    override fun onDestroyView() {
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
-        super.onDestroyView()
+    override fun onResume() {
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(false)
+        super.onResume()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {

@@ -14,7 +14,10 @@ import com.artkachenko.calendar.databinding.IPieChartBinding
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.dp
 import com.artkachenko.ui_utils.inflater
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.utils.ColorTemplate
 
 class ChartAdapter : ListAdapter<ChartDataWrapper<*>, RecyclerView.ViewHolder>(object :
     DiffUtil.ItemCallback<ChartDataWrapper<*>>() {
@@ -124,33 +127,53 @@ class BarChartHolder(private val binding: IBarChartBinding) :
         with(binding.barChart) {
             val labels = binding.labels
             labels.removeAllViews()
-            val stackLabels = wrapper.data.dataSets.first().stackLabels
-            labels.weightSum = stackLabels?.size?.toFloat() ?: 0F
-            stackLabels.forEachIndexed { index, s ->
-                val label = TextView(itemView.context).apply {
-                    layoutParams =
-                        LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
-                            .apply {
-                                val firstItemOffset =
-                                    if (index == 0 && stackLabels.size > 1) dp(10F) else 0
-                                val lastItemOffset =
-                                    if (index == stackLabels.size - 1 && stackLabels.size > 1) dp(
-                                        10F
-                                    ) else 0
-                                val margin = dp(8F)
-                                updateMargins(
-                                    left = margin + firstItemOffset,
-                                    top = margin,
-                                    bottom = margin,
-                                    right = margin + lastItemOffset
-                                )
-                                textAlignment = TEXT_ALIGNMENT_CENTER
-                                textSize = 14F
-                            }
-                    text = s
+            val colors = ColorTemplate.COLORFUL_COLORS
+            var modifiedIndex = -1
+            val stackLabels = wrapper.data.dataSets.first().stackLabels.mapIndexed { index, title ->
+                LegendEntry().apply {
+                    label = title
+                    form = Legend.LegendForm.CIRCLE
+                    if (modifiedIndex >= colors.size) modifiedIndex = 0
+                    modifiedIndex = if (index >= colors.size) modifiedIndex else index
+                    formColor = colors[modifiedIndex]
+                    modifiedIndex++
+
                 }
-                labels.addView(label)
             }
+            legend.setCustom(stackLabels)
+
+            legend.orientation = Legend.LegendOrientation.VERTICAL
+            legend.setDrawInside(false)
+            legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
+            legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
+            disableScroll()
+            setPinchZoom(false)
+//            labels.weightSum = stackLabels?.size?.toFloat() ?: 0F
+//            stackLabels.forEachIndexed { index, s ->
+//                val label = TextView(itemView.context).apply {
+//                    layoutParams =
+//                        LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1f)
+//                            .apply {
+//                                val firstItemOffset =
+//                                    if (index == 0 && stackLabels.size > 1) dp(10F) else 0
+//                                val lastItemOffset =
+//                                    if (index == stackLabels.size - 1 && stackLabels.size > 1) dp(
+//                                        10F
+//                                    ) else 0
+//                                val margin = dp(8F)
+//                                updateMargins(
+//                                    left = margin + firstItemOffset,
+//                                    top = margin,
+//                                    bottom = margin,
+//                                    right = margin + lastItemOffset
+//                                )
+//                                textAlignment = TEXT_ALIGNMENT_CENTER
+//                                textSize = 14F
+//                            }
+//                    text = s
+//                }
+//                labels.addView(label)
+//            }
             debugLog("Got here and pie chart is $this")
             setDrawGridBackground(false)
             xAxis.setDrawLabels(false)

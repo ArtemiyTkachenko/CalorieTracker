@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.artkachenko.settings.databinding.FragmentSettingsBinding
+import com.artkachenko.ui_utils.ImageUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,5 +29,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             binding.textNotifications.text = it
         })
         return binding.root
+    }
+
+    override fun onResume() {
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
+        super.onResume()
     }
 }

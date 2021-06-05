@@ -13,6 +13,7 @@ import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.core_impl.network.Filters
 import com.artkachenko.recipe_list.R
 import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
+import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.setSingleClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -76,6 +77,11 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             navigateToSearch(null)
         }
 //        viewModel.getRecipeList()
+    }
+
+    override fun onResume() {
+        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
+        super.onResume()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
