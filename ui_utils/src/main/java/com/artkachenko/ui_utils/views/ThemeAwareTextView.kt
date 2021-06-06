@@ -21,7 +21,6 @@ class ThemeAwareTextView @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        Log.d(this@ThemeAwareTextView::class.java.simpleName, "themeAwareTextView onAttach to window was called")
 
         scope.launch {
             ThemeManager.themeFlow.collect {

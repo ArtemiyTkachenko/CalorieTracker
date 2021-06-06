@@ -9,6 +9,8 @@ import androidx.appcompat.widget.SearchView
 import coil.load
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
+import coil.transition.CrossfadeTransition
+import coil.transition.Transition
 
 object ImageUtils {
 
@@ -43,6 +45,7 @@ fun ImageView.loadImage(url: String) {
         crossfade(true)
         placeholder(R.drawable.ic_my_recipes_placeholder_image)
 //        transformations(CircleCropTransformation())
+        error(R.drawable.ic_my_recipes_placeholder_image)
         scale(Scale.FIT)
     }
 }

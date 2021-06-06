@@ -24,19 +24,28 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeListActions {
 
-    @Inject lateinit var themeManager: ThemeManager
+    @Inject
+    lateinit var themeManager: ThemeManager
 
     private val viewModel by viewModels<RecipeListViewModel>()
 
     private lateinit var binding: FragmentRecipeListBinding
 
-    private val firstAdapter = RecipesAdapter(this)
+    private val firstAdapter = RecipesAdapter(this).apply {
+        setData(generatePlaceholderList())
+    }
 
-    private val secondAdapter = RecipesAdapter(this)
+    private val secondAdapter = RecipesAdapter(this).apply {
+        setData(generatePlaceholderList())
+    }
 
-    private val thirdAdapter = RecipesAdapter(this)
+    private val thirdAdapter = RecipesAdapter(this).apply {
+        setData(generatePlaceholderList())
+    }
 
-    private val fourthAdapter =  RecipesAdapter(this)
+    private val fourthAdapter = RecipesAdapter(this).apply {
+        setData(generatePlaceholderList())
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -80,7 +89,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
         binding.searchViewContainer.setSingleClickListener {
             navigateToSearch(null)
         }
-//        viewModel.getRecipeList()
+        viewModel.getRecipeList()
     }
 
     override fun onResume() {
@@ -111,14 +120,18 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             RecipeListViewModel.State.Initial -> {
 
             }
-            is RecipeListViewModel.State.Italian -> secondAdapter.setInitial(state.data)
+            is RecipeListViewModel.State.Italian -> thirdAdapter.setInitial(state.data)
             RecipeListViewModel.State.Loading -> {
             }
-            is RecipeListViewModel.State.Quick -> thirdAdapter.setInitial(state.data)
-            is RecipeListViewModel.State.Vegetarian -> fourthAdapter.setInitial(state.data)
+            is RecipeListViewModel.State.Quick -> fourthAdapter.setInitial(state.data)
+            is RecipeListViewModel.State.Vegetarian -> thirdAdapter.setInitial(state.data)
             else -> {
             }
         }
 
+    }
+
+    private fun generatePlaceholderList(): List<RecipeEntity> {
+        return List(5) { index: Int -> RecipeEntity() }
     }
 }

@@ -23,9 +23,7 @@ abstract class BaseAdapter <T> (private val actions: ViewHolderActions<T> ?= nul
 
     fun setData(data: List<T>, callback: (() -> Unit)? = null) {
         val start = items.size
-        debugLog("start is $start")
         items.addAll(data)
-        debugLog("listSize is ${items.size}")
         notifyItemRangeChanged(start, start + data.size)
         callback?.invoke()
     }

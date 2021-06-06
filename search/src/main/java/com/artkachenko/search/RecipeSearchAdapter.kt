@@ -25,7 +25,7 @@ class RecipeListViewHolder(private val binding: ISearchRecipeBinding, private va
             val url = com.artkachenko.ui_utils.ImageUtils.buildRecipeImageUrl(model.id)
             recipeImage.loadImage(url)
             recipeTitle.text = model.title
-            root.setSingleClickListener {
+            clickContainer.setSingleClickListener {
                 actions.onItemClicked(model, recipeImage)
             }
         }

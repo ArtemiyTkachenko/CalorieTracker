@@ -21,10 +21,10 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
 
     private var isLoading = false
 
-    val results: SharedFlow<List<RecipeEntity>>
-        get() = _results
+    val state: StateFlow<State>
+        get() = _state
 
-    private val _results = MutableSharedFlow<List<RecipeEntity>>()
+    private val _state = MutableStateFlow<State>(State.Initial)
 
     var filtersWrapper: FilterWrapper? = null
     private set
@@ -38,6 +38,7 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
         if (isLoading) return
 
         scope.launch {
+            if (offset == 0) _state.emit(State.Loading)
             isLoading = true
             val recipes = recipeRepository.getRecipeList(
                 offset,
@@ -45,8 +46,7 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
                 "offset" to listOf(offset.toString()),
                 *wrapper?.filters?.toList()?.toTypedArray() ?: arrayOf()
             )
-            debugLog("results from viewmodel getRecipeList are $recipes")
-            _results.emit(recipes)
+            _state.tryEmit(State.Success(recipes))
             offset += 10
             isLoading = false
         }
@@ -64,7 +64,7 @@ class RecipeSearchViewModel @Inject constructor(private val recipeRepository: Re
     sealed class State() {
         object Initial : State()
         object Loading : State()
-        object FirstItemEmitted : State()
+        class Success(val data: List<RecipeEntity>) : State()
         object LoadingFinished : State()
     }
 }

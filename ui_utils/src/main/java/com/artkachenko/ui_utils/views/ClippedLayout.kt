@@ -12,7 +12,7 @@ class ClippedLinearLayout @JvmOverloads constructor(context: Context, attributeS
     }
 }
 
-class ClippedConstraintLayout @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyle: Int = 0) : ThemeAwareConstraintLayout(context, attributeSet, defStyle) {
+class ClippedConstraintLayout @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null, defStyle: Int = 0) : ConstraintLayout(context, attributeSet, defStyle) {
 
     init {
         clipToOutline = true

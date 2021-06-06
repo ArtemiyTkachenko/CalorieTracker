@@ -87,8 +87,20 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     private fun launchScope() {
         scope.launch {
-            viewModel.results.collect {
-                searchAdapter.setData(it) {
+            viewModel.state.collect {
+                debugLog("searchFragment state is $it")
+                processState(it)
+            }
+        }
+    }
+
+    private fun processState(state: RecipeSearchViewModel.State) {
+        when (state) {
+            RecipeSearchViewModel.State.Initial -> { }
+            RecipeSearchViewModel.State.Loading -> binding.progress.isVisible = true
+            RecipeSearchViewModel.State.LoadingFinished -> binding.progress.isVisible = false
+            is RecipeSearchViewModel.State.Success -> {
+                searchAdapter.setData(state.data) {
                     debugLog("adapter count is ${searchAdapter.itemCount}")
                 }
             }
