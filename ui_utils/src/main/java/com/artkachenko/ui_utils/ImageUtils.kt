@@ -46,7 +46,7 @@ fun ImageView.loadImage(url: String) {
         placeholder(R.drawable.ic_my_recipes_placeholder_image)
 //        transformations(CircleCropTransformation())
         error(R.drawable.ic_my_recipes_placeholder_image)
-        scale(Scale.FIT)
+        scale(Scale.FILL)
     }
 }
 
