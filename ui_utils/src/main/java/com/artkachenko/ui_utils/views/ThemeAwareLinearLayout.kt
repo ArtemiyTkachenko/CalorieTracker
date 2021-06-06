@@ -11,7 +11,7 @@ import com.artkachenko.ui_utils.themes.ThemeManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ThemeAwareLinearLayout @JvmOverloads constructor(
+open class ThemeAwareLinearLayout @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0

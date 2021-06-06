@@ -5,7 +5,8 @@ enum class Theme(
     val bottomNavigationViewTheme: BottomNavigationViewTheme,
     val textViewTheme: TextViewTheme,
     val imageViewTheme: ImageViewTheme,
-    val chipTheme: ChipTheme
+    val chipTheme: ChipTheme,
+    val searchViewTheme: SearchViewTheme
 ) {
     DARK(
         viewGroupTheme = ViewGroupTheme(
@@ -24,6 +25,12 @@ enum class Theme(
         chipTheme = ChipTheme(
             chipBackgroundColor = Themes.backgroundColorStateListDark,
             textColor = Themes.textColorStateListDark
+        ),
+        searchViewTheme = SearchViewTheme(
+            textColor = Themes.textColorSecondary,
+            hintColor = Themes.textColorSecondary,
+            underlineColor = Themes.textColorSecondary,
+            iconTint = Themes.textColorSecondary
         )
     ),
     LIGHT(
@@ -43,6 +50,12 @@ enum class Theme(
         chipTheme = ChipTheme(
             chipBackgroundColor = Themes.backgroundColorStateListLight,
             textColor = Themes.textColorStateListLight
+        ),
+        searchViewTheme = SearchViewTheme(
+            textColor = Themes.textColorSecondary,
+            hintColor = Themes.textColorSecondary,
+            underlineColor = Themes.textColorSecondary,
+            iconTint = Themes.textColorSecondary
         )
     );
 }

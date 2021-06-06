@@ -82,7 +82,6 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
             }
             filters.adapter = filterAdapter
         }
-
     }
 
     private fun launchScope() {

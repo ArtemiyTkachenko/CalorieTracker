@@ -9,6 +9,7 @@ object Themes {
 
     val textColorDark = R.color.white
     val textColorLight = R.color.black
+    val textColorSecondary = R.color.text_secondary
 
     private val states = arrayOf(
         intArrayOf(android.R.attr.state_enabled),
