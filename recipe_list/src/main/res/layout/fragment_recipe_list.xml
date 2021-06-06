@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="56dp">
 
-    <LinearLayout
+    <com.artkachenko.ui_utils.views.ThemeAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -91,5 +91,5 @@
             android:orientation="horizontal"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/i_recipe_list" />
-    </LinearLayout>
+    </com.artkachenko.ui_utils.views.ThemeAwareLinearLayout>
 </ScrollView>

@@ -2,6 +2,7 @@ package com.artkachenko.ui_utils.views
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import com.artkachenko.ui_utils.themes.BaseCoroutineView
 import com.artkachenko.ui_utils.themes.BaseCoroutineViewImpl
 import com.artkachenko.ui_utils.themes.ThemeManager
@@ -18,10 +19,11 @@ class ThemeAwareChip @JvmOverloads constructor(
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+
         scope.launch {
             ThemeManager.themeFlow.collect {
                 val chipViewTheme = it.chipTheme
-                backgroundTintList = chipViewTheme.chipBackgroundColor
+                chipBackgroundColor = chipViewTheme.chipBackgroundColor
                 setTextColor(chipViewTheme.textColor)
             }
         }

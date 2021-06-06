@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.artkachenko.ui_utils.views.ThemeAwareLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <com.artkachenko.ui_utils.views.ThemeAwareLinearLayout
         android:id="@+id/labels"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,4 +16,4 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"/>
 
-</LinearLayout>
+</com.artkachenko.ui_utils.views.ThemeAwareLinearLayout>

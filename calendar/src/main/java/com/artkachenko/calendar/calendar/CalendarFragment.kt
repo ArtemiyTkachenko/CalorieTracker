@@ -1,14 +1,10 @@
 package com.artkachenko.calendar.calendar
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.artkachenko.calendar.R
@@ -17,6 +13,7 @@ import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.ImageUtils
+import com.artkachenko.ui_utils.themes.ThemeManager
 import com.artkachenko.ui_utils.views.MenuFab
 import com.github.mikephil.charting.utils.Utils
 import com.kizitonwose.calendarview.model.CalendarDay
@@ -29,10 +26,14 @@ import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import javax.inject.Inject
 
 @InternalCoroutinesApi
 @AndroidEntryPoint
 class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActions {
+
+    @Inject
+    lateinit var themeManager: ThemeManager
 
     private val viewModel by viewModels<CalendarViewModel>()
 
@@ -73,7 +74,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             daySize = Size(dayWidth, dayHeight)
         }
 
-        binding.calendar.dayBinder = DayViewBinder(this, scope)
+        binding.calendar.dayBinder = DayViewBinder(this, scope, themeManager)
 
         val currentMonth = YearMonth.now()
         binding.calendar.setup(

@@ -63,7 +63,7 @@
         app:behavior_peekHeight="36dp"
         app:layout_behavior="com.artkachenko.ui_utils.views.AutoCloseBottomSheetBehavior">
 
-        <com.artkachenko.ui_utils.views.ThemeAwareImageView
+        <ImageView
             android:id="@+id/handle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
-        <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        <TextView
             android:id="@+id/apply"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

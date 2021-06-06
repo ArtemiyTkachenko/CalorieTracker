@@ -15,12 +15,16 @@ import com.artkachenko.recipe_list.R
 import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.setSingleClickListener
+import com.artkachenko.ui_utils.themes.ThemeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeListActions {
+
+    @Inject lateinit var themeManager: ThemeManager
 
     private val viewModel by viewModels<RecipeListViewModel>()
 

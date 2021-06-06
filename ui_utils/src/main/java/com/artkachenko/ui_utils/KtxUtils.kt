@@ -69,7 +69,7 @@ fun buildChip(
     canClose: Boolean = true,
     isChecked: Boolean = false,
     checkCallback: ((Map.Entry<String, String>?, Boolean) -> Unit) ?= null
-): Chip {
+): ThemeAwareChip {
     return ThemeAwareChip(context).apply {
         id?.let { this.id = it }
         text = filterValue?.value

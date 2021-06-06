@@ -20,6 +20,7 @@ import com.artkachenko.ui_utils.themes.ThemeAwareInflater
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ImageUtils.CanHideBottomNavView {

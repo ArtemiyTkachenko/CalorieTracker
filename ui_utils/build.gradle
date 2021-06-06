@@ -41,6 +41,8 @@ apply from: "$project.rootDir/scripts/deps_versions.gradle"
 
 dependencies {
 
+    implementation project(':core')
+
     coreLibraryDesugaring desugaring
     implementation androidCore
     implementation fragment

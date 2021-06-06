@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground">
 
-    <LinearLayout
+    <com.artkachenko.ui_utils.views.ThemeAwareLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:textSize="14sp"
             tools:text="Mon" />
-    </LinearLayout>
+    </com.artkachenko.ui_utils.views.ThemeAwareLinearLayout>
 
     <View
         android:id="@+id/day_view"
