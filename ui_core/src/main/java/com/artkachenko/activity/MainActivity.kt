@@ -43,8 +43,8 @@ class MainActivity : AppCompatActivity(), ImageUtils.CanHideBottomNavView {
         navView.setupWithNavController(navController)
     }
 
-    override fun showNavigationBar(hide : Boolean) {
+    override fun showNavigationBar(show : Boolean) {
         val view = findViewById<BottomNavigationView>(R.id.nav_view)
-        AnimationUtils.expandView(view, hide)
+        AnimationUtils.expandView(view, show)
     }
 }

@@ -9,6 +9,7 @@ import com.artkachenko.ui_utils.themes.BaseCoroutineView
 import com.artkachenko.ui_utils.themes.BaseCoroutineViewImpl
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -19,10 +20,14 @@ class ThemeAwareBottomNavigationView @JvmOverloads constructor(
 ) : BottomNavigationView(context, attributeSet, defStyle),
     BaseCoroutineView by BaseCoroutineViewImpl() {
 
+    private var firstDraw = true
+
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         scope.launch {
             ThemeManager.themeFlow.collect {
+                if (!firstDraw) delay(225)
+                firstDraw = false
                 val theme = it.bottomNavigationViewTheme
                 setBackgroundColor(ContextCompat.getColor(context, theme.backgroundColor))
                 itemIconTintList = ContextCompat.getColorStateList(context, theme.checkedStateList)

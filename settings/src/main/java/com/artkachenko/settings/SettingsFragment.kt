@@ -66,12 +66,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             themeImageView.setImageBitmap(bitmap)
             themeImageView.isVisible = true
 
+            val animX = darkThemeSwitch.x.toInt() + darkThemeSwitch.width / 2
+            val animY = darkThemeSwitch.y.toInt() + darkThemeSwitch.height / 2
+
             val finalRadius = hypot(w.toFloat(), h.toFloat())
 
             themeManager.theme = theme
 
             val anim =
-                ViewAnimationUtils.createCircularReveal(container, w / 2, h / 2, 0f, finalRadius)
+                ViewAnimationUtils.createCircularReveal(container, animX, animY, 0f, finalRadius)
             anim.duration = 400L
             anim.doOnEnd {
                 themeImageView.setImageDrawable(null)
