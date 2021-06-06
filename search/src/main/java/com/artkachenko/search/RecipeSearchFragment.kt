@@ -122,6 +122,10 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 return false
             }
         })
+        binding.filter.setSingleClickListener {
+            val behavior = BottomSheetBehavior.from(binding.standardBottomSheet)
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
     }
 
     private fun processArgs() {
