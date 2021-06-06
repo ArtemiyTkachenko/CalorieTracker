@@ -8,7 +8,7 @@
     android:elevation="4dp"
     android:background="@drawable/bg_rounded">
 
-    <ImageView
+    <com.artkachenko.ui_utils.views.ThemeAwareImageView
         android:id="@+id/recipe_image"
         android:layout_width="0dp"
         android:layout_height="150dp"
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <TextView
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
         android:id="@+id/recipe_title"
         style="@style/TextAppearance.AppCompat.Regular_16"
         android:layout_width="0dp"

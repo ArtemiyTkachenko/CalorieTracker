@@ -1,20 +1,14 @@
 package com.artkachenko.ui_utils
 
 import android.content.Context
-import android.graphics.drawable.ColorStateListDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import androidx.appcompat.widget.SearchView
-import androidx.constraintlayout.widget.ConstraintHelper
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.artkachenko.ui_utils.views.ThemeAwareChip
 import com.google.android.material.chip.Chip
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 fun Context.dp(value: Float): Int {
     return (this.resources.displayMetrics.density * value).toInt()
@@ -76,7 +70,7 @@ fun buildChip(
     isChecked: Boolean = false,
     checkCallback: ((Map.Entry<String, String>?, Boolean) -> Unit) ?= null
 ): Chip {
-    return Chip(context).apply {
+    return ThemeAwareChip(context).apply {
         id?.let { this.id = it }
         text = filterValue?.value
 
@@ -95,8 +89,8 @@ fun buildChip(
 
         this.isChecked = isChecked
 
-        chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.background_color_chip_state_list)
-        setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_chip_state_list))
+//        chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.background_color_checked_state_list)
+//        setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_chip_state_list))
 
         setOnCheckedChangeListener { buttonView, isChecked ->
             filterValue?.let { value -> checkCallback?.invoke(value, isChecked) }

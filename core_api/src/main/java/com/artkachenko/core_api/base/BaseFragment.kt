@@ -23,12 +23,12 @@ abstract class BaseFragment(@LayoutRes layout: Int) : Fragment(layout), Lifecycl
         throwable.printStackTrace()
     }
 
+    protected val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         lifecycle.addObserver(this)
         super.onCreate(savedInstanceState)
     }
-
-    protected val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
 
     protected fun hideKeyboard() {
         val inputMethodManager = activity?.getSystemService(

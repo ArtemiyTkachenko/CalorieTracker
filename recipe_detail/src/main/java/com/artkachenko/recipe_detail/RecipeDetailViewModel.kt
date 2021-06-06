@@ -3,6 +3,7 @@ package com.artkachenko.recipe_detail
 import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.BaseViewModel
+import com.artkachenko.ui_utils.themes.BaseCoroutineView
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.repositories.DishesRepository

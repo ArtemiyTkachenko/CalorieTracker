@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <com.artkachenko.ui_utils.views.ThemeAwareFrameLayout
             android:id="@+id/search_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -25,9 +25,9 @@
                 app:iconifiedByDefault="false"
                 app:queryHint="@string/search_hint" />
 
-        </FrameLayout>
+        </com.artkachenko.ui_utils.views.ThemeAwareFrameLayout>
 
-        <TextView
+        <com.artkachenko.ui_utils.views.ThemeAwareTextView
             style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/i_recipe_list" />
 
-        <TextView
+        <com.artkachenko.ui_utils.views.ThemeAwareTextView
             style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/i_recipe_list" />
 
-        <TextView
+        <com.artkachenko.ui_utils.views.ThemeAwareTextView
             style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/i_recipe_list" />
 
-        <TextView
+        <com.artkachenko.ui_utils.views.ThemeAwareTextView
             style="@style/TextAppearance.AppCompat.Bold_20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

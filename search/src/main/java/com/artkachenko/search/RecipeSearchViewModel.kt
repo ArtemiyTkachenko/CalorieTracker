@@ -3,6 +3,7 @@ package com.artkachenko.search
 import BaseViewModelImpl
 import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.BaseViewModel
+import com.artkachenko.ui_utils.themes.BaseCoroutineView
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository

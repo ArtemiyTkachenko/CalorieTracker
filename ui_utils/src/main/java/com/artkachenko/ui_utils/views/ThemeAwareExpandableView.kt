@@ -8,12 +8,22 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.core.view.setPadding
 import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.R
+import com.artkachenko.ui_utils.themes.BaseCoroutineView
+import com.artkachenko.ui_utils.themes.BaseCoroutineViewImpl
+import com.artkachenko.ui_utils.themes.ThemeManager
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
-class ExpandableView @JvmOverloads constructor(context: Context, attributeSet: AttributeSet ?= null, defStyle: Int = 0) : FrameLayout(context, attributeSet, defStyle) {
+class ThemeAwareExpandableView @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defStyle: Int = 0
+) : FrameLayout(context, attributeSet, defStyle), BaseCoroutineView by BaseCoroutineViewImpl() {
 
     private var isExpanded = false
 
@@ -41,7 +51,8 @@ class ExpandableView @JvmOverloads constructor(context: Context, attributeSet: A
         }
 
         imageView = ImageView(context).apply {
-            val layoutParams = FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            val layoutParams =
+                FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             layoutParams.height = (density * imageSize).toInt()
             layoutParams.width = (density * imageSize).toInt()
             layoutParams.gravity = Gravity.END
@@ -60,5 +71,24 @@ class ExpandableView @JvmOverloads constructor(context: Context, attributeSet: A
                 AnimationUtils.animateAlpha(view, isExpanded)
             }
         }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        scope.launch {
+            ThemeManager.themeFlow.collect {
+                setBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        it.viewGroupTheme.backgroundColor
+                    )
+                )
+            }
+        }
+    }
+
+    override fun onDetachedFromWindow() {
+        parentJob.cancel()
+        super.onDetachedFromWindow()
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.artkachenko.ui_utils.views.ThemeAwareCoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,11 +8,11 @@
     android:paddingBottom="56dp"
     android:background="@color/design_default_color_surface">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.artkachenko.ui_utils.views.ThemeAwareConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.artkachenko.ui_utils.views.ThemeAwareTextView
             android:id="@+id/calorieCount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.artkachenko.ui_utils.views.ThemeAwareRecyclerView
             android:id="@+id/info"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -48,7 +49,7 @@
             app:cv_orientation="horizontal"
             app:cv_outDateStyle="none"
             app:cv_scrollMode="continuous" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.artkachenko.ui_utils.views.ThemeAwareConstraintLayout>
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
     <!--        android:id="@+id/saved_item"-->
@@ -72,4 +73,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.artkachenko.ui_utils.views.ThemeAwareCoordinatorLayout >

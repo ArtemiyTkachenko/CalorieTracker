@@ -36,9 +36,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
     private val viewModel by viewModels<CalendarViewModel>()
 
-    private val adapter by lazy {
-        ChartAdapter()
-    }
+    private val adapter = ChartAdapter()
 
     private lateinit var binding: FragmentCalendarBinding
 
