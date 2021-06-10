@@ -1,10 +1,7 @@
 package com.artkachenko.calendar.calendar
 
-import android.view.View.TEXT_ALIGNMENT_CENTER
+import android.graphics.Color
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.core.view.updateMargins
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,14 +9,15 @@ import com.artkachenko.calendar.databinding.IBarChartBinding
 import com.artkachenko.calendar.databinding.IDefaultChartBinding
 import com.artkachenko.calendar.databinding.IPieChartBinding
 import com.artkachenko.core_api.utils.debugLog
-import com.artkachenko.ui_utils.dp
 import com.artkachenko.ui_utils.inflater
+import com.artkachenko.ui_utils.themes.Theme
+import com.artkachenko.ui_utils.themes.ThemeManager
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.LegendEntry
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
 
-class ChartAdapter : ListAdapter<ChartDataWrapper<*>, RecyclerView.ViewHolder>(object :
+class ChartAdapter(private val themeManager: ThemeManager) : ListAdapter<ChartDataWrapper<*>, RecyclerView.ViewHolder>(object :
     DiffUtil.ItemCallback<ChartDataWrapper<*>>() {
     override fun areItemsTheSame(
         oldItem: ChartDataWrapper<*>,
@@ -47,7 +45,7 @@ class ChartAdapter : ListAdapter<ChartDataWrapper<*>, RecyclerView.ViewHolder>(o
             }
             BAR_ENTRY -> {
                 val binding = IBarChartBinding.inflate(inflater, parent, false)
-                BarChartHolder(binding)
+                BarChartHolder(binding, themeManager)
             }
             else -> {
                 val binding = IDefaultChartBinding.inflate(inflater, parent, false)
@@ -121,7 +119,7 @@ class PieChartHolder(private val binding: IPieChartBinding) :
     }
 }
 
-class BarChartHolder(private val binding: IBarChartBinding) :
+class BarChartHolder(private val binding: IBarChartBinding, private val themeManager: ThemeManager) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(wrapper: ChartDataWrapper<BarData>) {
         with(binding.barChart) {
@@ -143,6 +141,7 @@ class BarChartHolder(private val binding: IBarChartBinding) :
             legend.setCustom(stackLabels)
 
             legend.orientation = Legend.LegendOrientation.VERTICAL
+            legend.textColor = if (themeManager.theme == Theme.DARK) Color.WHITE else Color.BLACK
             legend.setDrawInside(false)
             legend.verticalAlignment = Legend.LegendVerticalAlignment.BOTTOM
             legend.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
