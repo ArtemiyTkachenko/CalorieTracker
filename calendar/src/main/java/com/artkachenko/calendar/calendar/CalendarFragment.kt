@@ -116,7 +116,11 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     private fun processState(state: CalendarViewModel.State) {
         when (state) {
             is CalendarViewModel.State.Bar -> adapter.addData(ChartDataWrapper(2, state.data))
-            is CalendarViewModel.State.Calories -> binding.calorieCount.text = "Calories Left:\n2000 - ${state.data} = ${2000 - state.data}"
+            is CalendarViewModel.State.Calories -> {
+                binding.calorieBase.text = "2000"
+                binding.caloriesSpent.text = "${state.data}"
+                binding.caloriesLeft.text = "${2000 - state.data}"
+            }
             is CalendarViewModel.State.Dishes -> {}
             is CalendarViewModel.State.Pie -> adapter.addData(ChartDataWrapper(1, state.data))
             CalendarViewModel.State.Clear -> {

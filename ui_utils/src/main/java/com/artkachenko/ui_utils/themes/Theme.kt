@@ -6,7 +6,8 @@ enum class Theme(
     val textViewTheme: TextViewTheme,
     val imageViewTheme: ImageViewTheme,
     val chipTheme: ChipTheme,
-    val searchViewTheme: SearchViewTheme
+    val searchViewTheme: SearchViewTheme,
+    val cardViewTheme: CardViewTheme
 ) {
     DARK(
         viewGroupTheme = ViewGroupTheme(
@@ -31,6 +32,9 @@ enum class Theme(
             hintColor = Themes.textColorSecondary,
             underlineColor = Themes.textColorSecondary,
             iconTint = Themes.textColorSecondary
+        ),
+        cardViewTheme = CardViewTheme(
+            cardBackground = Themes.backgroundColorDark
         )
     ),
     LIGHT(
@@ -56,6 +60,9 @@ enum class Theme(
             hintColor = Themes.textColorSecondary,
             underlineColor = Themes.textColorSecondary,
             iconTint = Themes.textColorSecondary
+        ),
+        cardViewTheme = CardViewTheme(
+            cardBackground = Themes.backgroundColorLight
         )
     );
 }

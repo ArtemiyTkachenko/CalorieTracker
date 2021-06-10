@@ -3,14 +3,10 @@ package com.artkachenko.ui_utils.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
-import androidx.core.view.setPadding
 import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.R
 import com.artkachenko.ui_utils.themes.BaseCoroutineView
@@ -45,12 +41,12 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
 
         val density = context.resources.displayMetrics.density
 
-        val title = TextView(context).apply {
-            setTextAppearance(context, R.style.TextAppearance_AppCompat_Medium_16)
+        val title = ThemeAwareTextView(context).apply {
+            setTextAppearance(context, R.style.TextAppearance_AppCompat_Bold_20)
             text = title
         }
 
-        imageView = ImageView(context).apply {
+        imageView = ThemeAwareImageView(context).apply {
             val layoutParams =
                 FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             layoutParams.height = (density * imageSize).toInt()

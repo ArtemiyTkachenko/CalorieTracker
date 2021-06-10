@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.artkachenko.ui_utils.views.ThemeAwareConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -37,7 +37,7 @@
 
             <com.artkachenko.ui_utils.views.ThemeAwareTextView
                 android:id="@+id/title"
-                style="@style/TextAppearance.AppCompat.Medium_20"
+                style="@style/TextAppearance.AppCompat.Bold_22.Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -69,8 +69,9 @@
                 android:id="@+id/servings"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Medium_16"
+                style="@style/TextAppearance.AppCompat.Bold_20"
                 android:layout_marginTop="8dp"
+                android:text="@string/current_serving_amount"
                 app:layout_constraintEnd_toEndOf="@id/title"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/diets_horizontal_view"/>
@@ -79,8 +80,9 @@
                 android:id="@+id/calories"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Medium_16"
+                style="@style/TextAppearance.AppCompat.Bold_20"
                 android:layout_marginTop="8dp"
+                android:text="@string/current_calories_are"
                 app:layout_constraintEnd_toEndOf="@id/title"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/servings"/>
@@ -97,7 +99,7 @@
 
                 <com.artkachenko.ui_utils.views.ThemeAwareTextView
                     android:id="@+id/summary"
-                    style="@style/TextAppearance.AppCompat.Medium_16"
+                    style="@style/TextAppearance.AppCompat.Medium_20"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
@@ -114,15 +116,17 @@
                 app:layout_constraintTop_toBottomOf="@id/summary_container"
                 app:title="@string/ingredients">
 
-                <androidx.recyclerview.widget.RecyclerView
+                <com.artkachenko.ui_utils.views.ThemeAwareRecyclerView
                     android:id="@+id/ingredients"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:orientation="vertical"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:listitem="@layout/i_ingredient"
+                    tools:itemCount="3"/>
             </com.artkachenko.ui_utils.views.ThemeAwareExpandableView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.artkachenko.ui_utils.views.ThemeAwareConstraintLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
