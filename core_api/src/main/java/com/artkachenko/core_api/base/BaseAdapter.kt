@@ -36,5 +36,5 @@ abstract class BaseViewHolder <T>(itemView: View, private val actions: ViewHolde
 
 interface ViewHolderActions<T> {
 
-    fun onItemClicked(model: T, view: View)
+    fun onItemClicked(model: T, view: View) {}
 }

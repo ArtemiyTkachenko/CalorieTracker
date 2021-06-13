@@ -3,8 +3,11 @@ package com.artkachenko.settings
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.view.inputmethod.EditorInfo
 import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -16,6 +19,7 @@ import com.artkachenko.ui_utils.themes.ThemeManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.math.hypot
+
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -33,15 +37,45 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding = FragmentSettingsBinding.bind(view)
 
-        binding.darkThemeSwitch.isChecked = prefManager.isDarkTheme
+        with(binding) {
+            darkThemeSwitch.isChecked = prefManager.isDarkTheme
 
-        binding.darkThemeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            val newTheme = when (themeManager.theme) {
-                Theme.DARK -> Theme.LIGHT
-                Theme.LIGHT -> Theme.DARK
+            darkThemeSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                val newTheme = when (themeManager.theme) {
+                    Theme.DARK -> Theme.LIGHT
+                    Theme.LIGHT -> Theme.DARK
+                }
+                prefManager.isDarkTheme = newTheme == Theme.DARK
+                setTheme(newTheme)
             }
-            prefManager.isDarkTheme = newTheme == Theme.DARK
-            setTheme(newTheme)
+
+            desiredCaloriesText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val parsedNumber = s.toString().toIntOrNull()
+                    parsedNumber?.let { prefManager.desiredCalories = it }
+                }
+            })
+
+            if (desiredCaloriesText.text.isNullOrEmpty()) desiredCaloriesText.setText(prefManager.desiredCalories.toString())
+
+            desiredCaloriesText.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    desiredCaloriesText.clearFocus()
+                }
+                false
+            }
         }
     }
 

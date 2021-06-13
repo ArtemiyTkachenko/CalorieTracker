@@ -1,8 +1,6 @@
 package com.artkachenko.calendar.calendar
 
 import android.graphics.Color
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.artkachenko.core_api.network.models.IngredientTitles
@@ -12,9 +10,7 @@ import com.artkachenko.core_api.utils.debugLog
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.utils.ColorTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -50,7 +46,6 @@ class CalendarViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             dishesRepository.getDishesByDate(start, end).collect { list ->
-                val dishNames =
                 debugLog("dish list size is ${list.size} ")
                 _state.emit(State.Dishes(list))
                 val fatItems = mutableListOf<Double>()
@@ -59,6 +54,7 @@ class CalendarViewModel @Inject constructor(
                 val sources = mutableMapOf<String, Double>()
                 var calories = 0
                 var totalWeight = 0.0
+
                 list.forEach { dishDetail ->
                     dishDetail.extendedIngredients?.forEach { ingredient ->
                         totalWeight += ingredient.amount ?: 0.0
@@ -77,51 +73,59 @@ class CalendarViewModel @Inject constructor(
                     breakdown?.percentCarbs?.let { carbItems.add(it) }
                     dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories += it?.amount?.toInt() ?: 0 }
                 }
-
                 val fatAverage = fatItems.average()
                 val proteinAverage = proteinItems.average()
                 val carbAverage = carbItems.average()
 
-                if (!sources.isNullOrEmpty()) {
-                    var count = 0
-                    val entries = mutableListOf<BarEntry>()
-                    val labels = mutableListOf<String>()
-                    sources.forEach {
-                        entries.add(BarEntry(count.toFloat(), it.value.toFloat()))
-                        labels.add(it.key)
-                        count++
-                    }
+                emitBarDataSet(sources)
 
-                    val dataSet = BarDataSet(entries, "")
-                    dataSet.stackLabels = labels.toTypedArray()
-                    dataSet.colors = ColorTemplate.COLORFUL_COLORS.toMutableList()
+                emitPieDataSet(fatAverage, proteinAverage, carbAverage)
 
-                    _state.emit(State.Bar(BarData(dataSet)))
-                    _state.emit(State.Visible)
-                }
-
-                if (!fatAverage.isNaN() || !proteinAverage.isNaN() || !carbAverage.isNaN()) {
-
-                    val entries = mutableListOf<PieEntry>().apply {
-                        add(PieEntry(fatAverage.toFloat(), "Fat"))
-                        add(PieEntry(proteinAverage.toFloat(), "Protein"))
-                        add(PieEntry(carbAverage.toFloat(), "Carbs"))
-                    }
-
-                    val dataSet = PieDataSet(entries, "")
-
-                    dataSet.apply {
-                        sliceSpace = 2F
-                        colors = ColorTemplate.MATERIAL_COLORS.toMutableList()
-                        valueTextSize = 10F
-                        valueTextColor = Color.WHITE
-                    }
-
-                    _state.emit(State.Pie(PieData(dataSet)))
-                    _state.emit(State.Visible)
-                }
                 _state.emit(State.Calories(calories))
             }
+        }
+    }
+
+    private suspend fun emitBarDataSet(sources: MutableMap<String, Double>) {
+        if (!sources.isNullOrEmpty()) {
+            var count = 0
+            val entries = mutableListOf<BarEntry>()
+            val labels = mutableListOf<String>()
+            sources.forEach {
+                entries.add(BarEntry(count.toFloat(), it.value.toFloat()))
+                labels.add(it.key)
+                count++
+            }
+
+            val dataSet = BarDataSet(entries, "")
+            dataSet.stackLabels = labels.toTypedArray()
+            dataSet.colors = ColorTemplate.COLORFUL_COLORS.toMutableList()
+
+            _state.emit(State.Bar(BarData(dataSet)))
+            _state.emit(State.Visible)
+        }
+    }
+
+    private suspend fun emitPieDataSet(fatAverage: Double, proteinAverage: Double, carbAverage: Double) {
+        if (!fatAverage.isNaN() || !proteinAverage.isNaN() || !carbAverage.isNaN()) {
+
+            val entries = mutableListOf<PieEntry>().apply {
+                add(PieEntry(fatAverage.toFloat(), "Fat"))
+                add(PieEntry(proteinAverage.toFloat(), "Protein"))
+                add(PieEntry(carbAverage.toFloat(), "Carbs"))
+            }
+
+            val dataSet = PieDataSet(entries, "")
+
+            dataSet.apply {
+                sliceSpace = 2F
+                colors = ColorTemplate.MATERIAL_COLORS.toMutableList()
+                valueTextSize = 10F
+                valueTextColor = Color.WHITE
+            }
+
+            _state.emit(State.Pie(PieData(dataSet)))
+            _state.emit(State.Visible)
         }
     }
 

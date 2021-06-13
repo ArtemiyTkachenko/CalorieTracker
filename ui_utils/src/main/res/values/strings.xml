@@ -7,4 +7,6 @@
     <string name="current_calories_are">Calories: %1$s</string>
     <string name="nutrition_added">Nutrition added to your calendar</string>
     <string name="dark_theme_toggle">Dark theme</string>
+    <string name="desired_calories_title">Desired calories</string>
+
 </resources>

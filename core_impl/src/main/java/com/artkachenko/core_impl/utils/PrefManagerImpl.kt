@@ -9,7 +9,11 @@ class PrefManagerImpl(private val prefs: SharedPreferences) : PrefManager {
 
     private val isDarkThemeKey = "IS_DARK_THEME"
 
+    private val desiredCaloriesAmount = "DESIRED_AMOUNT"
+
     override var isDarkTheme by BooleanPreference(isDarkThemeKey, false)
+
+    override var desiredCalories by IntPreference(desiredCaloriesAmount, 2000)
 
     class BooleanPreference(val name: String, val default: Boolean = false) {
 

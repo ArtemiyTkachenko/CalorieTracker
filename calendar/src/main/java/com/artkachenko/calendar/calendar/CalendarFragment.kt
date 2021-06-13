@@ -11,6 +11,7 @@ import com.artkachenko.calendar.R
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.ManualDishDetail
+import com.artkachenko.core_api.utils.PrefManager
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.themes.ThemeManager
@@ -34,6 +35,9 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
     @Inject
     lateinit var themeManager: ThemeManager
+
+    @Inject
+    lateinit var prefManager: PrefManager
 
     private val viewModel by viewModels<CalendarViewModel>()
 
@@ -119,11 +123,13 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         when (state) {
             is CalendarViewModel.State.Bar -> adapter.addData(ChartDataWrapper(2, state.data))
             is CalendarViewModel.State.Calories -> {
-                binding.calorieBase.text = "2000"
+                val desiredAmount = prefManager.desiredCalories
+                binding.calorieBase.text = desiredAmount.toString()
                 binding.caloriesSpent.text = "${state.data}"
-                binding.caloriesLeft.text = "${2000 - state.data}"
+                binding.caloriesLeft.text = "${desiredAmount - state.data}"
             }
-            is CalendarViewModel.State.Dishes -> {}
+            is CalendarViewModel.State.Dishes -> {
+            }
             is CalendarViewModel.State.Pie -> adapter.addData(ChartDataWrapper(1, state.data))
             CalendarViewModel.State.Clear -> {
                 binding.info.isVisible = false
