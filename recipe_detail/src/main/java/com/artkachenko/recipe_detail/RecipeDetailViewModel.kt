@@ -33,10 +33,32 @@ class RecipeDetailViewModel @Inject constructor(
 
     fun saveRecipe(model: RecipeDetailModel, servingSize: Int) {
         val servings = model.servings ?: 0
-        val increment = servingSize/servings
+        val increment = servingSize.toDouble()/servings.toDouble()
+        val adjustedIngredients = model.extendedIngredients?.map {
+            it.copy(amount = it.amount?.times(increment))
+        }
+        val nutrition = model.nutrition
+        val adjustedNutrition = nutrition?.copy(
+            nutrients = nutrition.nutrients?.map { nutritionItem ->
+                nutritionItem.copy(
+                    amount = nutritionItem.amount?.times(increment),
+                    percentOfDailyNeeds = nutritionItem.percentOfDailyNeeds?.times(increment)
+                )
+            },
+            properties = nutrition.properties?.map { propertiesItem ->
+                propertiesItem.copy(amount = propertiesItem.amount?.times(increment))
+            },
+            weightPerServing = nutrition.weightPerServing?.copy(
+                amount = nutrition.weightPerServing?.amount?.times(increment) ?: 0.0
+            )
+        )
+
+        debugLog("nutrition is $adjustedNutrition")
+        debugLog("ingredients are $adjustedIngredients")
+
         val manualDish = ManualDishDetail(
-            extendedIngredients = model.extendedIngredients,
-            nutrition = model.nutrition,
+            extendedIngredients = adjustedIngredients,
+            nutrition = adjustedNutrition,
             date = LocalDateTime.now())
         scope.launch {
             dishesRepository.insertDish(manualDish)
