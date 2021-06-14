@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.FilterWrapper
@@ -13,10 +14,7 @@ import com.artkachenko.core_api.network.models.MapPair
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentSearchBinding
-import com.artkachenko.ui_utils.ImageUtils
-import com.artkachenko.ui_utils.buildChip
-import com.artkachenko.ui_utils.onLoadMore
-import com.artkachenko.ui_utils.setSingleClickListener
+import com.artkachenko.ui_utils.*
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -42,7 +40,21 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        postponeEnterTransition()
+
+        sharedElementEnterTransition = DetailTransition()
+
+        sharedElementReturnTransition = DetailTransition()
+
+        startPostponedEnterTransition()
+
         binding = FragmentSearchBinding.bind(view)
+
+        binding.arrowBack.setOnClickListener {
+            activity?.onBackPressed()
+        }
+
+        AnimationUtils.animateAlpha(binding.arrowBack, shouldShow = true, delay = 300)
 
         viewModel
 

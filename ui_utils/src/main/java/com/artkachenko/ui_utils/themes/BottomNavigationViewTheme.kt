@@ -7,7 +7,7 @@ data class BottomNavigationViewTheme (
     @ColorRes
     val backgroundColor: Int,
     @ColorRes
-    val checkedStateList: Int = R.color.background_color_checked_state_list,
+    val checkedStateList: Int = R.color.background_color_bottom_nav_checked_state_list,
     @ColorRes
-    val checkedTextStateList: Int = R.color.text_color_chip_state_list
+    val checkedTextStateList: Int = R.color.text_color_bottom_navigation
 )

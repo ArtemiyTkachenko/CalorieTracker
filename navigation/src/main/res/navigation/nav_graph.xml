@@ -18,7 +18,9 @@
 
     <action
         android:id="@+id/recipe_to_search"
-        app:destination="@id/search_nav_graph"/>
+        app:destination="@id/search_nav_graph"
+        app:enterAnim="@anim/enter_slide_left"
+        app:popEnterAnim="@anim/pop_exit_slide_right"/>
 
     <action
         android:id="@+id/search_to_detail"

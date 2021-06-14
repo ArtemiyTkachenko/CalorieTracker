@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.artkachenko.core_api.base.BaseFragment
@@ -108,7 +109,9 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
         val bundle = Bundle().apply {
             putParcelable("presets", filters)
         }
-        findNavController().navigate(R.id.recipe_to_search, bundle)
+        val extras = FragmentNavigatorExtras(binding.searchViewContainer to "searchViewContainer")
+
+        findNavController().navigate(R.id.recipe_to_search, bundle, null, extras)
     }
 
     private fun processState(state: RecipeListViewModel.State) {

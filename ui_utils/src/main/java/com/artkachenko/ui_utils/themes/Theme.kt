@@ -23,10 +23,7 @@ enum class Theme(
         imageViewTheme = ImageViewTheme(
             backgroundColor = Themes.backgroundColorDark
         ),
-        chipTheme = ChipTheme(
-            chipBackgroundColor = Themes.backgroundColorStateListDark,
-            textColor = Themes.textColorStateListDark
-        ),
+        chipTheme = ChipTheme(),
         searchViewTheme = SearchViewTheme(
             textColor = Themes.textColorSecondary,
             hintColor = Themes.textColorSecondary,
@@ -51,10 +48,7 @@ enum class Theme(
         imageViewTheme = ImageViewTheme(
             backgroundColor = Themes.backgroundColorLight
         ),
-        chipTheme = ChipTheme(
-            chipBackgroundColor = Themes.backgroundColorStateListLight,
-            textColor = Themes.textColorStateListLight
-        ),
+        chipTheme = ChipTheme(),
         searchViewTheme = SearchViewTheme(
             textColor = Themes.textColorSecondary,
             hintColor = Themes.textColorSecondary,

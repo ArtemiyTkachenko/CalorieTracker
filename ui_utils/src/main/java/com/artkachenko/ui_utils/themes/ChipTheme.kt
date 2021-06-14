@@ -1,8 +1,11 @@
 package com.artkachenko.ui_utils.themes
 
-import android.content.res.ColorStateList
+import androidx.annotation.ColorRes
+import com.artkachenko.ui_utils.R
 
 data class ChipTheme (
-    val chipBackgroundColor: ColorStateList,
-    val textColor: ColorStateList
+   @ColorRes
+   val checkedStateList: Int = R.color.background_color_bottom_nav_checked_state_list,
+   @ColorRes
+   val checkedTextStateList: Int = R.color.text_color_bottom_navigation
 )
