@@ -1,13 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.artkachenko.ui_utils.views.ThemeAwareFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.artkachenko.ui_utils.views.ThemeAwareConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/pie_Chart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"/>
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.AppCompat.Bold_20"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/macronutrients"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</com.artkachenko.ui_utils.views.ThemeAwareFrameLayout>
+    <com.artkachenko.ui_utils.views.NutritionPieChart
+        android:id="@+id/pie_Chart"
+        android:layout_width="137dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/fat_legend"
+        style="@style/TextAppearance.AppCompat.Medium_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="@string/fat_percentage"
+        app:layout_constraintBottom_toTopOf="@+id/protein_legend"
+        app:layout_constraintStart_toEndOf="@id/pie_Chart"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <View
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/fat_pie_chart"
+        app:layout_constraintTop_toTopOf="@id/fat_legend"
+        app:layout_constraintBottom_toBottomOf="@id/fat_legend"
+        app:layout_constraintEnd_toStartOf="@id/fat_legend" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/protein_legend"
+        style="@style/TextAppearance.AppCompat.Medium_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/protein_percentage"
+        app:layout_constraintBottom_toTopOf="@+id/carbs_legend"
+        app:layout_constraintStart_toStartOf="@id/fat_legend"
+        app:layout_constraintTop_toBottomOf="@+id/fat_legend" />
+
+    <View
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/protein_pie_chart"
+        app:layout_constraintTop_toTopOf="@id/protein_legend"
+        app:layout_constraintBottom_toBottomOf="@id/protein_legend"
+        app:layout_constraintEnd_toStartOf="@id/protein_legend" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/carbs_legend"
+        style="@style/TextAppearance.AppCompat.Medium_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/carb_percentage"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/fat_legend"
+        app:layout_constraintTop_toBottomOf="@+id/protein_legend" />
+
+    <View
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/bg_circle"
+        android:backgroundTint="@color/carbs_pie_chart"
+        app:layout_constraintTop_toTopOf="@id/carbs_legend"
+        app:layout_constraintBottom_toBottomOf="@id/carbs_legend"
+        app:layout_constraintEnd_toStartOf="@id/carbs_legend" />
+
+</com.artkachenko.ui_utils.views.ThemeAwareConstraintLayout>

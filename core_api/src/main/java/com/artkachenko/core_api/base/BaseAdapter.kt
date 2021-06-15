@@ -27,6 +27,11 @@ abstract class BaseAdapter <T> (private val actions: ViewHolderActions<T> ?= nul
         notifyItemRangeChanged(start, start + data.size)
         callback?.invoke()
     }
+
+    fun clear() {
+        items.clear()
+        notifyDataSetChanged()
+    }
 }
 
 abstract class BaseViewHolder <T>(itemView: View, private val actions: ViewHolderActions<T> ?= null) : RecyclerView.ViewHolder(itemView) {

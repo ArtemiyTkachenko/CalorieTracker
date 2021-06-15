@@ -1,12 +1,12 @@
 package com.artkachenko.calendar.calendar
 
-import android.annotation.SuppressLint
 import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ConcatAdapter
 import com.artkachenko.calendar.R
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
@@ -41,8 +41,16 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
     private val viewModel by viewModels<CalendarViewModel>()
 
+    private val pieAdapter by lazy {
+        PieAdapter()
+    }
+
+    private val sourcesAdapter by lazy {
+        SourcesAdapter()
+    }
+
     private val adapter by lazy {
-        ChartAdapter(themeManager)
+        ConcatAdapter(pieAdapter, sourcesAdapter)
     }
 
     private lateinit var binding: FragmentCalendarBinding
@@ -118,10 +126,9 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         return viewModel.selectedDate
     }
 
-    @SuppressLint("SetTextI18n")
     private fun processState(state: CalendarViewModel.State) {
         when (state) {
-            is CalendarViewModel.State.Bar -> adapter.addData(ChartDataWrapper(2, state.data))
+            is CalendarViewModel.State.Bar -> sourcesAdapter.setInitial(listOf(state.data))
             is CalendarViewModel.State.Calories -> {
                 val desiredAmount = prefManager.desiredCalories
                 binding.calorieBase.text = desiredAmount.toString()
@@ -130,13 +137,16 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             }
             is CalendarViewModel.State.Dishes -> {
             }
-            is CalendarViewModel.State.Pie -> adapter.addData(ChartDataWrapper(1, state.data))
-            CalendarViewModel.State.Clear -> {
-                binding.info.isVisible = false
-                adapter.clearList()
-            }
+            is CalendarViewModel.State.Pie -> pieAdapter.setInitial(listOf(state.data))
+
+            CalendarViewModel.State.Clear -> clearAdapters()
             CalendarViewModel.State.Visible -> binding.info.isVisible = true
         }
+    }
+
+    private fun clearAdapters() {
+        binding.info.isVisible = false
+        pieAdapter.clear()
     }
 
     private fun generateFabConfigs(): List<MenuFab.FabConfig> {

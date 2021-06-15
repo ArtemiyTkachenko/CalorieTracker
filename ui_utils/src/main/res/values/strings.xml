@@ -8,5 +8,13 @@
     <string name="nutrition_added">Nutrition added to your calendar</string>
     <string name="dark_theme_toggle">Dark theme</string>
     <string name="desired_calories_title">Desired calories</string>
-
+    <string name="calories_goal">Goal</string>
+    <string name="calories_spent">Spent</string>
+    <string name="calories_left">Left</string>
+    <string name="kcal">Kcal</string>
+    <string name="macronutrients">Macronutrients</string>
+    <string name="sources_of_food">Food sources</string>
+    <string name="fat_percentage">Fat</string>
+    <string name="protein_percentage">Protein</string>
+    <string name="carb_percentage">Carbohydrates</string>
 </resources>

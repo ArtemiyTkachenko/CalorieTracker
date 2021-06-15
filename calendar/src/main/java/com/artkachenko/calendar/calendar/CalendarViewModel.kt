@@ -26,7 +26,7 @@ class CalendarViewModel @Inject constructor(
     val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
     val state: SharedFlow<State>
-    get() = _state
+        get() = _state
 
     private val _state = MutableSharedFlow<State>()
 
@@ -71,7 +71,8 @@ class CalendarViewModel @Inject constructor(
                     breakdown?.percentFat?.let { fatItems.add(it) }
                     breakdown?.percentProtein?.let { proteinItems.add(it) }
                     breakdown?.percentCarbs?.let { carbItems.add(it) }
-                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }.let { calories += it?.amount?.toInt() ?: 0 }
+                    dishDetail.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }
+                        .let { calories += it?.amount?.toInt() ?: 0 }
                 }
                 val fatAverage = fatItems.average()
                 val proteinAverage = proteinItems.average()
@@ -88,50 +89,25 @@ class CalendarViewModel @Inject constructor(
 
     private suspend fun emitBarDataSet(sources: MutableMap<String, Double>) {
         if (!sources.isNullOrEmpty()) {
-            var count = 0
-            val entries = mutableListOf<BarEntry>()
-            val labels = mutableListOf<String>()
-            sources.forEach {
-                entries.add(BarEntry(count.toFloat(), it.value.toFloat()))
-                labels.add(it.key)
-                count++
-            }
-
-            val dataSet = BarDataSet(entries, "")
-            dataSet.stackLabels = labels.toTypedArray()
-            dataSet.colors = ColorTemplate.COLORFUL_COLORS.toMutableList()
-
-            _state.emit(State.Bar(BarData(dataSet)))
+            _state.emit(State.Bar(sources))
             _state.emit(State.Visible)
         }
     }
 
-    private suspend fun emitPieDataSet(fatAverage: Double, proteinAverage: Double, carbAverage: Double) {
+    private suspend fun emitPieDataSet(
+        fatAverage: Double,
+        proteinAverage: Double,
+        carbAverage: Double
+    ) {
         if (!fatAverage.isNaN() || !proteinAverage.isNaN() || !carbAverage.isNaN()) {
-
-            val entries = mutableListOf<PieEntry>().apply {
-                add(PieEntry(fatAverage.toFloat(), "Fat"))
-                add(PieEntry(proteinAverage.toFloat(), "Protein"))
-                add(PieEntry(carbAverage.toFloat(), "Carbs"))
-            }
-
-            val dataSet = PieDataSet(entries, "")
-
-            dataSet.apply {
-                sliceSpace = 2F
-                colors = ColorTemplate.MATERIAL_COLORS.toMutableList()
-                valueTextSize = 10F
-                valueTextColor = Color.WHITE
-            }
-
-            _state.emit(State.Pie(PieData(dataSet)))
+            _state.emit(State.Pie(Triple(fatAverage.toLong(), proteinAverage.toLong(), carbAverage.toLong())))
             _state.emit(State.Visible)
         }
     }
 
     sealed class State() {
-        data class Pie(val data: PieData) : State()
-        data class Bar(val data: BarData) : State()
+        data class Pie(val data: Triple<Long, Long, Long>) : State()
+        data class Bar(val data: Map<String, Double>) : State()
         data class Calories(val data: Int) : State()
         data class Dishes(val data: List<ManualDishDetail>?) : State()
         object Visible : State()
