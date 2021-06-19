@@ -1,21 +1,22 @@
 package com.artkachenko.search
 
-import BaseViewModelImpl
+import com.artkachenko.core_impl.viewmodel.ViewModelScopeProviderImpl
 import androidx.lifecycle.ViewModel
-import com.artkachenko.core_api.base.BaseViewModel
-import com.artkachenko.ui_utils.themes.BaseCoroutineView
+import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
-import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipeSearchViewModel @Inject constructor(private val recipeRepository: RecipeRepository) :
-    ViewModel(), BaseViewModel by BaseViewModelImpl() {
+class RecipeSearchViewModel @Inject constructor(
+    private val recipeRepository: RecipeRepository,
+    private val scopeProvider: ViewModelScopeProvider
+    ) :
+    ViewModel(), ViewModelScopeProvider by scopeProvider {
 
     private var offset = 0
 

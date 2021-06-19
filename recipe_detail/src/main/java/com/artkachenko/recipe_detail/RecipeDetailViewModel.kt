@@ -1,9 +1,8 @@
 package com.artkachenko.recipe_detail
 
-import BaseViewModelImpl
+import com.artkachenko.core_impl.viewmodel.ViewModelScopeProviderImpl
 import androidx.lifecycle.ViewModel
-import com.artkachenko.core_api.base.BaseViewModel
-import com.artkachenko.ui_utils.themes.BaseCoroutineView
+import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.repositories.DishesRepository
@@ -18,8 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeDetailViewModel @Inject constructor(
     private val repository: RecipeRepository,
-    private val dishesRepository: DishesRepository
-    ) : ViewModel(), BaseViewModel by BaseViewModelImpl() {
+    private val dishesRepository: DishesRepository,
+    private val scopeProvider: ViewModelScopeProvider
+    ) : ViewModel(), ViewModelScopeProvider by scopeProvider {
 
     val channel = Channel<RecipeDetailModel> {  }
 

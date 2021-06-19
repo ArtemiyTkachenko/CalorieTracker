@@ -1,14 +1,11 @@
 package com.artkachenko.calendar.calendar
 
-import android.graphics.Color
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.IngredientTitles
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_api.utils.debugLog
-import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.utils.ColorTemplate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.*
@@ -20,8 +17,9 @@ import javax.inject.Inject
 @InternalCoroutinesApi
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
-    private val dishesRepository: DishesRepository
-) : ViewModel() {
+    private val dishesRepository: DishesRepository,
+    private val scopeProvider: ViewModelScopeProvider
+) : ViewModel(), ViewModelScopeProvider by scopeProvider {
 
     val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
@@ -31,7 +29,7 @@ class CalendarViewModel @Inject constructor(
     private val _state = MutableSharedFlow<State>()
 
     fun changeDate(date: LocalDate) {
-        viewModelScope.launch {
+        scope.launch {
             selectedDate.emit(date)
             val start = date.atStartOfDay()
             val end = date.atStartOfDay().plusDays(1)
@@ -44,7 +42,7 @@ class CalendarViewModel @Inject constructor(
         start: LocalDateTime = LocalDate.now().atStartOfDay(),
         end: LocalDateTime = LocalDate.now().atStartOfDay().plusDays(1)
     ) {
-        viewModelScope.launch {
+        scope.launch {
             dishesRepository.getDishesByDate(start, end).collect { list ->
                 debugLog("dish list size is ${list.size} ")
                 _state.emit(State.Dishes(list))

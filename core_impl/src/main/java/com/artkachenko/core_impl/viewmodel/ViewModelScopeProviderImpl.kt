@@ -1,23 +1,19 @@
-import androidx.lifecycle.ViewModel
-import com.artkachenko.core_api.base.BaseViewModel
+package com.artkachenko.core_impl.viewmodel
+
+import com.artkachenko.core_api.base.ViewModelScopeProvider
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class BaseViewModelImpl: ViewModel(), BaseViewModel {
+class ViewModelScopeProviderImpl: ViewModelScopeProvider {
 
     override val parentJob = Job()
 
     override val coroutineContext: CoroutineContext
-        get() = parentJob + Dispatchers.IO
+        get() = parentJob + Dispatchers.Main.immediate
 
     override val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
 
     override val scope = CoroutineScope(SupervisorJob() + coroutineContext + exceptionHandler)
-
-    override fun onCleared() {
-        parentJob.cancel()
-        super.onCleared()
-    }
 }

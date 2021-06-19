@@ -3,7 +3,7 @@ package com.artkachenko.core_api.base
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-interface BaseViewModel {
+interface ViewModelScopeProvider {
     val parentJob: Job
 
     val coroutineContext: CoroutineContext
