@@ -1,8 +1,12 @@
 package com.artkachenko.ui_utils.views
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
+import com.artkachenko.ui_utils.R
+import com.artkachenko.ui_utils.dpF
 import com.artkachenko.ui_utils.themes.ViewScopeProvider
 import com.artkachenko.ui_utils.themes.ViewScopeProviderImpl
 import com.artkachenko.ui_utils.themes.ThemeManager
@@ -19,6 +23,12 @@ class ThemeAwareBottomNavigationView @JvmOverloads constructor(
     ViewScopeProvider by ViewScopeProviderImpl() {
 
     private var firstDraw = true
+
+    private val paint = Paint().apply {
+        color = ContextCompat.getColor(context, R.color.text_secondary)
+        strokeWidth = dpF(1F)
+        alpha = 70
+    }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -37,5 +47,11 @@ class ThemeAwareBottomNavigationView @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         parentJob.cancel()
         super.onDetachedFromWindow()
+    }
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+
+        canvas.drawLine(0F, dpF(1F) , width.toFloat(), dpF(1F), paint)
     }
 }

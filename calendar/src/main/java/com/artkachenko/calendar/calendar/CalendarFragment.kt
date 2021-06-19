@@ -4,16 +4,21 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.calendar.R
+import com.artkachenko.ui_utils.R as UIR
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.utils.PrefManager
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.ImageUtils
+import com.artkachenko.ui_utils.decorations.MarginItemDecoration
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.artkachenko.ui_utils.views.MenuFab
 import com.github.mikephil.charting.utils.Utils
@@ -64,6 +69,9 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         with(binding) {
             info.adapter = adapter
+            val decoration = MarginItemDecoration(requireContext(), marginLeft = 16, marginRight = 16)
+
+            info.addItemDecoration(decoration)
 
             generateFabConfigs().forEach {
                 menuFab.addFab(it)
