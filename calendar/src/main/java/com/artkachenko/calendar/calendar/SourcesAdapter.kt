@@ -52,7 +52,8 @@ class SourcesViewHolder(private val binding: IBarItemBinding) :
                 img?.setBounds(0,0,24,24)
                 img?.setTint(tintColor)
                 text = s
-                this.setCompoundDrawables(img, null, null, null)
+                setCompoundDrawables(img, null, null, null)
+                compoundDrawablePadding = dp(8)
             }
             binding.sourcesBarLegend.addView(legendView)
         }

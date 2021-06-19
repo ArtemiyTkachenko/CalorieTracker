@@ -87,14 +87,13 @@ class SourcesBarChart @JvmOverloads constructor(
 
         val offset = (rect.width() - leftOffset - rightOffSet) / (sources.size - 1)
 
-        val bottom = rect.bottom
+        val bottom = rect.bottom - dp(1)
 
         sources.forEachIndexed { index, d ->
             val initialX = leftOffset + customWidth / 2 + (offset * index)
             val finalX = leftOffset + customWidth / 2 + (offset * index)
-            val initialY = bottom
             val finalY = (bottom - (bottom * d / maxSource)).toFloat()
-            canvas.drawLine(initialX, initialY, finalX, finalY, paintsList[index])
+            canvas.drawLine(initialX, bottom, finalX, finalY, paintsList[index])
         }
 
         val lineLeftOffset = leftOffset - dpF(6F)
