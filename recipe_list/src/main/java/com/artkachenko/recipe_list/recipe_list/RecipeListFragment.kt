@@ -127,7 +127,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             RecipeListViewModel.State.Loading -> {
             }
             is RecipeListViewModel.State.Quick -> fourthAdapter.setInitial(state.data)
-            is RecipeListViewModel.State.Vegetarian -> thirdAdapter.setInitial(state.data)
+            is RecipeListViewModel.State.Vegetarian -> secondAdapter.setInitial(state.data)
             else -> {
             }
         }
