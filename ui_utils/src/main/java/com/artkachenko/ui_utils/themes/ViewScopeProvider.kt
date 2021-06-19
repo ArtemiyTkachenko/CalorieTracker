@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
-interface BaseCoroutineView {
+interface ViewScopeProvider {
 
     val parentJob: Job
 

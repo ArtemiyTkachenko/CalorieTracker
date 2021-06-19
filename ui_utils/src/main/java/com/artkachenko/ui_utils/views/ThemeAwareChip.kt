@@ -3,9 +3,8 @@ package com.artkachenko.ui_utils.views
 import android.content.Context
 import android.util.AttributeSet
 import androidx.core.content.ContextCompat
-import com.artkachenko.ui_utils.R
-import com.artkachenko.ui_utils.themes.BaseCoroutineView
-import com.artkachenko.ui_utils.themes.BaseCoroutineViewImpl
+import com.artkachenko.ui_utils.themes.ViewScopeProvider
+import com.artkachenko.ui_utils.themes.ViewScopeProviderImpl
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.google.android.material.chip.Chip
 import kotlinx.coroutines.flow.collect
@@ -16,7 +15,7 @@ class ThemeAwareChip @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0
 ) : Chip(context, attributeSet, defStyle),
-    BaseCoroutineView by BaseCoroutineViewImpl() {
+    ViewScopeProvider by ViewScopeProviderImpl() {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()

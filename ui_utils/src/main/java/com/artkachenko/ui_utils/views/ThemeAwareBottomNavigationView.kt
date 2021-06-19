@@ -2,11 +2,9 @@ package com.artkachenko.ui_utils.views
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import com.artkachenko.ui_utils.R
-import com.artkachenko.ui_utils.themes.BaseCoroutineView
-import com.artkachenko.ui_utils.themes.BaseCoroutineViewImpl
+import com.artkachenko.ui_utils.themes.ViewScopeProvider
+import com.artkachenko.ui_utils.themes.ViewScopeProviderImpl
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.delay
@@ -18,7 +16,7 @@ class ThemeAwareBottomNavigationView @JvmOverloads constructor(
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0
 ) : BottomNavigationView(context, attributeSet, defStyle),
-    BaseCoroutineView by BaseCoroutineViewImpl() {
+    ViewScopeProvider by ViewScopeProviderImpl() {
 
     private var firstDraw = true
 

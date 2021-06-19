@@ -9,8 +9,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.R
-import com.artkachenko.ui_utils.themes.BaseCoroutineView
-import com.artkachenko.ui_utils.themes.BaseCoroutineViewImpl
+import com.artkachenko.ui_utils.themes.ViewScopeProvider
+import com.artkachenko.ui_utils.themes.ViewScopeProviderImpl
 import com.artkachenko.ui_utils.themes.ThemeManager
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -19,7 +19,7 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
     defStyle: Int = 0
-) : FrameLayout(context, attributeSet, defStyle), BaseCoroutineView by BaseCoroutineViewImpl() {
+) : FrameLayout(context, attributeSet, defStyle), ViewScopeProvider by ViewScopeProviderImpl() {
 
     private var isExpanded = false
 
