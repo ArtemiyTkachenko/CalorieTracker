@@ -21,4 +21,11 @@
         android:layout_height="200dp"
         android:layout_marginTop="16dp" />
 
+    <LinearLayout
+        android:id="@+id/sources_bar_legend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"/>
+
 </com.artkachenko.ui_utils.views.ThemeAwareLinearLayout>
