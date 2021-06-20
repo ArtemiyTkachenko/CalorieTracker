@@ -42,7 +42,7 @@
         android:layout_height="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_circle"
-        android:backgroundTint="@color/fat_pie_chart"
+        android:backgroundTint="@color/green_200"
         app:layout_constraintTop_toTopOf="@id/fat_legend"
         app:layout_constraintBottom_toBottomOf="@id/fat_legend"
         app:layout_constraintEnd_toStartOf="@id/fat_legend" />
@@ -62,7 +62,7 @@
         android:layout_height="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_circle"
-        android:backgroundTint="@color/protein_pie_chart"
+        android:backgroundTint="@color/yellow_200"
         app:layout_constraintTop_toTopOf="@id/protein_legend"
         app:layout_constraintBottom_toBottomOf="@id/protein_legend"
         app:layout_constraintEnd_toStartOf="@id/protein_legend" />
@@ -82,7 +82,7 @@
         android:layout_height="16dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_circle"
-        android:backgroundTint="@color/carbs_pie_chart"
+        android:backgroundTint="@color/red_200"
         app:layout_constraintTop_toTopOf="@id/carbs_legend"
         app:layout_constraintBottom_toBottomOf="@id/carbs_legend"
         app:layout_constraintEnd_toStartOf="@id/carbs_legend" />

@@ -11,98 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.artkachenko.ui_utils.views.ThemeAwareTextView
-            android:id="@+id/calorie_base_title"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@string/calories_goal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.25"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.artkachenko.ui_utils.views.ThemeAwareTextView
-            android:id="@+id/calories_spent_title"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_secondary"
-            android:text="@string/calories_spent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/calorie_base"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.artkachenko.ui_utils.views.ThemeAwareTextView
-            android:id="@+id/calories_left_title"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_secondary"
-            android:text="@string/calories_left"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.75"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.artkachenko.ui_utils.views.ThemeAwareTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_marginStart="16dp"
-            android:text="@string/kcal"
-            android:textColor="@color/text_secondary"
-            app:layout_constraintTop_toTopOf="@id/calorie_base"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calorie_base_title"/>
-
-        <TextView
-            android:id="@+id/calorie_base"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_secondary"
-            app:layout_constraintStart_toStartOf="@id/calorie_base_title"
-            app:layout_constraintEnd_toEndOf="@id/calorie_base_title"
-            app:layout_constraintTop_toBottomOf="@id/calorie_base_title" />
-
-        <TextView
-            android:id="@+id/calories_spent"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_red_dark"
-            app:layout_constraintStart_toStartOf="@id/calories_spent_title"
-            app:layout_constraintEnd_toEndOf="@id/calories_spent_title"
-            app:layout_constraintTop_toBottomOf="@id/calorie_base_title" />
-
-        <TextView
-            android:id="@+id/calories_left"
-            style="@style/TextAppearance.AppCompat.Bold_20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_green_dark"
-            app:layout_constraintStart_toStartOf="@id/calories_left_title"
-            app:layout_constraintEnd_toEndOf="@id/calories_left_title"
-            app:layout_constraintTop_toBottomOf="@id/calorie_base_title" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="?attr/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/calorie_base"/>
-
         <com.artkachenko.ui_utils.views.ThemeAwareRecyclerView
             android:id="@+id/info"
             android:layout_width="0dp"
@@ -113,7 +21,7 @@
             app:layout_constraintBottom_toTopOf="@id/calendar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/divider" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.kizitonwose.calendarview.CalendarView
             android:id="@+id/calendar"

@@ -46,6 +46,10 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
     private val viewModel by viewModels<CalendarViewModel>()
 
+    private val progressAdapter by lazy {
+        ProgressChartAdapter()
+    }
+
     private val pieAdapter by lazy {
         PieAdapter()
     }
@@ -55,7 +59,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     }
 
     private val adapter by lazy {
-        ConcatAdapter(pieAdapter, sourcesAdapter)
+        ConcatAdapter(progressAdapter, pieAdapter, sourcesAdapter)
     }
 
     private lateinit var binding: FragmentCalendarBinding
@@ -138,10 +142,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         when (state) {
             is CalendarViewModel.State.Bar -> sourcesAdapter.setInitial(listOf(state.data))
             is CalendarViewModel.State.Calories -> {
-                val desiredAmount = prefManager.desiredCalories
-                binding.calorieBase.text = desiredAmount.toString()
-                binding.caloriesSpent.text = "${state.data}"
-                binding.caloriesLeft.text = "${desiredAmount - state.data}"
+                progressAdapter.setInitial(listOf(state.data.toLong() to prefManager.desiredCalories.toLong()))
             }
             is CalendarViewModel.State.Dishes -> {
             }

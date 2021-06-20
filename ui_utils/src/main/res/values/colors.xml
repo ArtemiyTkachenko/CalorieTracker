@@ -22,8 +22,4 @@
     <color name="white">#FFFFFFFF</color>
     <color name="text_primary">#ff38454f</color>
     <color name="text_secondary">#ff898989</color>
-
-    <color name="fat_pie_chart">#00D669</color>
-    <color name="protein_pie_chart">#FFD66D</color>
-    <color name="carbs_pie_chart">#FD5598</color>
 </resources>

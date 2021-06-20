@@ -35,15 +35,15 @@ class NutritionPieChart @JvmOverloads constructor(
     var lowRateSpan: Float = 0F
 
     var fatPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.fat_pie_chart)
+        color = ContextCompat.getColor(context, R.color.green_200)
         applyPaintStyle(this)
     }
     var proteinPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.protein_pie_chart)
+        color = ContextCompat.getColor(context, R.color.yellow_200)
         applyPaintStyle(this)
     }
     var carbsPaint = Paint().apply {
-        color = ContextCompat.getColor(context, R.color.carbs_pie_chart)
+        color = ContextCompat.getColor(context, R.color.red_200)
         applyPaintStyle(this)
     }
 
