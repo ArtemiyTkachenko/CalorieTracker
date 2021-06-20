@@ -7,6 +7,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.R
 import com.artkachenko.ui_utils.dp
 import com.artkachenko.ui_utils.dpF
@@ -21,6 +22,9 @@ class SourcesBarChart @JvmOverloads constructor(
     private val rect = RectF()
 
     private val sources = mutableListOf<Double>()
+    private val sourcesIncrement = mutableListOf<Float>()
+    private val sourcesIncrementOriginal = mutableListOf<Float>()
+    private var isProgress = false
 
     private var distance = 26F
 
@@ -89,13 +93,29 @@ class SourcesBarChart @JvmOverloads constructor(
 
         val bottom = rect.bottom - dp(1)
 
-        sources.forEachIndexed { index, d ->
-            val initialX = leftOffset + customWidth / 2 + (offset * index)
-            val finalX = leftOffset + customWidth / 2 + (offset * index)
-            val finalY = (bottom - (bottom * d / maxSource)).toFloat()
-            canvas.drawLine(initialX, bottom, finalX, finalY, paintsList[index])
-        }
+        val maxValue = sources.firstOrNull() ?: 0.0
+        val maxIncrement = sourcesIncrement.firstOrNull() ?: 0F
 
+        isProgress = maxValue >= maxIncrement
+
+        if (isProgress) {
+            sources.forEachIndexed { index, d ->
+                val increment = sourcesIncrement[index]
+                val initialX = leftOffset + customWidth / 2 + (offset * index)
+                val finalX = leftOffset + customWidth / 2 + (offset * index)
+                val finalY = (bottom - (bottom * increment / maxSource)).toFloat()
+                canvas.drawLine(initialX, bottom, finalX, finalY, paintsList[index])
+                sourcesIncrement[index] = increment + sourcesIncrementOriginal[index]
+            }
+            invalidate()
+        } else {
+            sources.forEachIndexed { index, d ->
+                val initialX = leftOffset + customWidth / 2 + (offset * index)
+                val finalX = leftOffset + customWidth / 2 + (offset * index)
+                val finalY = (bottom - (bottom * d / maxSource)).toFloat()
+                canvas.drawLine(initialX, bottom, finalX, finalY, paintsList[index])
+            }
+        }
         val lineLeftOffset = leftOffset - dpF(6F)
 
         canvas.drawLine(lineLeftOffset, 0F, lineLeftOffset, bottom, axisPaint)
@@ -105,9 +125,15 @@ class SourcesBarChart @JvmOverloads constructor(
     fun setData(data: List<Double>?) {
         if (data.isNullOrEmpty()) return
         sources.clear()
+        sourcesIncrement.clear()
         val sortedData = data.sortedDescending()
         maxSource = sortedData.firstOrNull() ?: 0.0
         sources.addAll(sortedData.take(15))
+        sources.forEach {
+            val increment = it.toFloat() / AnimationUtils.chartAnimationSteps
+            sourcesIncrement.add(increment)
+            sourcesIncrementOriginal.add(increment)
+        }
         invalidate()
     }
 }

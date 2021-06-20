@@ -81,17 +81,12 @@ class ProgressChart @JvmOverloads constructor(
         isProgress = fillLength >= progressLength
 
         if (isProgress) {
-            canvas.save()
             canvas.drawArc(rectF, startDrawPosition, progressLength, false, fillColor)
 
             progressLength += progressIncrement
             invalidate()
-            canvas.restore()
         } else {
-            canvas.save()
             canvas.drawArc(rectF, startDrawPosition, fillLength, false, fillColor)
-
-            canvas.restore()
         }
 
         for (i in 1.until(4)) {

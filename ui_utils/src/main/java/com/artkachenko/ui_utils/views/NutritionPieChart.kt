@@ -70,7 +70,6 @@ class NutritionPieChart @JvmOverloads constructor(
         isProgress = fatRateSpan.absoluteValue >= progressLengthFat && proteinRateSpan.absoluteValue >= progressLengthProtein && carbRateSpan.absoluteValue >= progressLengthCarbs
 
         if (isProgress) {
-            canvas.save()
             canvas.drawArc(
                 rect,
                 startPosition, -progressLengthFat, false, fatPaint
@@ -87,9 +86,7 @@ class NutritionPieChart @JvmOverloads constructor(
             progressLengthProtein += proteinIncrement
             progressLengthCarbs += carbsIncrement
             invalidate()
-            canvas.restore()
         } else {
-            canvas.save()
             canvas.drawArc(
                 rect,
                 startPosition, fatRateSpan, false, fatPaint
@@ -102,7 +99,9 @@ class NutritionPieChart @JvmOverloads constructor(
                 rect,
                 lowRatePosition, carbRateSpan, false, carbsPaint
             )
-            canvas.restore()
+            progressLengthCarbs = 0F
+            progressLengthFat = 0F
+            progressLengthProtein = 0F
         }
     }
 
