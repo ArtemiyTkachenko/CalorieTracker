@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
+import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.R
 
 class ProgressChart @JvmOverloads constructor(
@@ -117,7 +118,7 @@ class ProgressChart @JvmOverloads constructor(
         } else {
             this.fillLength = countFloat / totalFloat * 180
         }
-        progressIncrement = fillLength / 180 * 8
+        progressIncrement = fillLength / AnimationUtils.chartAnimationSteps
         invalidate()
     }
 
@@ -126,11 +127,5 @@ class ProgressChart @JvmOverloads constructor(
         this.isAntiAlias = true
         this.strokeCap = Paint.Cap.BUTT
         this.style = Paint.Style.STROKE
-    }
-
-    fun setMockFillColor() {
-        fillColor.color = Color.GRAY
-
-        progressLength = fillLength
     }
 }

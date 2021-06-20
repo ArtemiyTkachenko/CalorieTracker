@@ -108,7 +108,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             currentMonth.plusMonths(3),
             DayOfWeek.MONDAY
         )
-        binding.calendar.scrollToDate(LocalDate.now().minusDays(3))
+        binding.calendar.scrollToDate(viewModel.selectedDate.value.minusDays(3))
     }
 
     override fun onResume() {
@@ -156,6 +156,8 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     private fun clearAdapters() {
         binding.info.isVisible = false
         pieAdapter.clear()
+        progressAdapter.clear()
+        sourcesAdapter.clear()
     }
 
     private fun generateFabConfigs(): List<MenuFab.FabConfig> {

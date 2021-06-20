@@ -39,8 +39,8 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun getDishes(
-        start: LocalDateTime = LocalDate.now().atStartOfDay(),
-        end: LocalDateTime = LocalDate.now().atStartOfDay().plusDays(1)
+        start: LocalDateTime = selectedDate.value.atStartOfDay(),
+        end: LocalDateTime = selectedDate.value.atStartOfDay().plusDays(1)
     ) {
         scope.launch {
             dishesRepository.getDishesByDate(start, end).collect { list ->

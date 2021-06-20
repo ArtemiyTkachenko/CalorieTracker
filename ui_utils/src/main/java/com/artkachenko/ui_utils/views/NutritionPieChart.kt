@@ -7,6 +7,7 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.R
 import com.artkachenko.ui_utils.dpF
 import kotlin.math.absoluteValue
@@ -148,9 +149,11 @@ class NutritionPieChart @JvmOverloads constructor(
         this.neutralRatePosition = neutralRatePosition.toFloat()
         this.lowRatePosition = lowRatePosition.toFloat()
 
-        fatIncrement = (360 / fatRateSpan).absoluteValue * 3
-        proteinIncrement = (360 / proteinRateSpan).absoluteValue * 3
-        carbsIncrement = (360 / carbRateSpan).absoluteValue * 3
+        val steps = AnimationUtils.chartAnimationSteps
+
+        fatIncrement = fatRateSpan.absoluteValue / steps
+        proteinIncrement = proteinRateSpan.absoluteValue / steps
+        carbsIncrement = carbRateSpan.absoluteValue / steps
     }
 
     private fun applyPaintStyle(paint: Paint) {
@@ -159,5 +162,4 @@ class NutritionPieChart @JvmOverloads constructor(
         paint.strokeWidth = dpF(7F)
         paint.isAntiAlias = true
     }
-
 }

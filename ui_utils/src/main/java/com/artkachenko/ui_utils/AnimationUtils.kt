@@ -12,6 +12,8 @@ object AnimationUtils {
 
     const val DEFAULT_ANIMATION_DURATION = 400L
 
+    val chartAnimationSteps = 15
+
     fun expandView(view: View, expand: Boolean) {
         if (!expand) {
             view.animate().translationY(view.height.toFloat())
