@@ -4,17 +4,12 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.calendar.R
-import com.artkachenko.ui_utils.R as UIR
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
-import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.utils.PrefManager
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.ImageUtils
@@ -93,7 +88,13 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         }
 
         val dm = DisplayMetrics()
-        requireContext().display?.getRealMetrics(dm)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val display = activity?.display
+            display?.getRealMetrics(dm)
+        } else {
+            val display = activity?.windowManager?.defaultDisplay
+            display?.getMetrics(dm)
+        }
         binding.calendar.apply {
             val dayWidth = dm.widthPixels / 7
             val dayHeight = (dayWidth * 1.5).toInt()
@@ -114,10 +115,6 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     override fun onResume() {
         (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
         super.onResume()
-    }
-
-    override fun onItemClicked(model: ManualDishDetail, view: View) {
-
     }
 
     override fun changeDate(day: CalendarDay) {
@@ -178,8 +175,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
                 size = point,
                 margins = margins,
                 icon = R.drawable.ic_calories
-            )
-            {},
+            ) {},
             MenuFab.FabConfig(
                 size = point,
                 margins = margins,
