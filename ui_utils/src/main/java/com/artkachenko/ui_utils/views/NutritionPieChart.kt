@@ -2,7 +2,6 @@ package com.artkachenko.ui_utils.views
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
@@ -10,6 +9,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.artkachenko.ui_utils.R
 import com.artkachenko.ui_utils.dpF
+import kotlin.math.absoluteValue
 
 class NutritionPieChart @JvmOverloads constructor(
     context: Context,
@@ -27,12 +27,28 @@ class NutritionPieChart @JvmOverloads constructor(
         dpF(133F)
     )
 
-    var neutralRatePosition = 0F
-    var lowRatePosition = 0F
+    private var animationDuration = 300
 
-    var highRateSpan: Float = 0F
-    var neutralRateSpan: Float = 0F
-    var lowRateSpan: Float = 0F
+    private var neutralRatePosition = 0F
+    private var lowRatePosition = 0F
+
+    private var fatRateSpan: Float = 0F
+    private var proteinRateSpan: Float = 0F
+    private var carbRateSpan: Float = 0F
+
+    private var progressLengthFat = 0F
+
+    private var progressLengthProtein = 0F
+
+    private var progressLengthCarbs = 0F
+
+    private var fatIncrement = 0F
+
+    private var proteinIncrement = 0F
+
+    private var carbsIncrement = 0F
+
+    private var isProgress = false
 
     var fatPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.green_200)
@@ -50,18 +66,43 @@ class NutritionPieChart @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas.drawArc(
-            rect,
-            startPosition, highRateSpan, false, fatPaint
-        )
-        canvas.drawArc(
-            rect,
-            neutralRatePosition, neutralRateSpan, false, proteinPaint
-        )
-        canvas.drawArc(
-            rect,
-            lowRatePosition, lowRateSpan, false, carbsPaint
-        )
+        isProgress = fatRateSpan.absoluteValue >= progressLengthFat && proteinRateSpan.absoluteValue >= progressLengthProtein && carbRateSpan.absoluteValue >= progressLengthCarbs
+
+        if (isProgress) {
+            canvas.save()
+            canvas.drawArc(
+                rect,
+                startPosition, -progressLengthFat, false, fatPaint
+            )
+            canvas.drawArc(
+                rect,
+                neutralRatePosition, -progressLengthProtein, false, proteinPaint
+            )
+            canvas.drawArc(
+                rect,
+                lowRatePosition, -progressLengthCarbs, false, carbsPaint
+            )
+            progressLengthFat += fatIncrement
+            progressLengthProtein += proteinIncrement
+            progressLengthCarbs += carbsIncrement
+            invalidate()
+            canvas.restore()
+        } else {
+            canvas.save()
+            canvas.drawArc(
+                rect,
+                startPosition, fatRateSpan, false, fatPaint
+            )
+            canvas.drawArc(
+                rect,
+                neutralRatePosition, proteinRateSpan, false, proteinPaint
+            )
+            canvas.drawArc(
+                rect,
+                lowRatePosition, carbRateSpan, false, carbsPaint
+            )
+            canvas.restore()
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -93,20 +134,23 @@ class NutritionPieChart @JvmOverloads constructor(
 
 
     fun setChartData(fatRate: Long, proteinRate: Long, carbRate: Long) {
-        val highRateSpan = 360 * -fatRate / 100
-        val neutralRateSpan = 360 * -proteinRate / 100
-        val lowRateSpan = 360 * -carbRate / 100
+        val fatSpan = 360 * -fatRate / 100
+        val proteinSpan = 360 * -proteinRate / 100
+        val carbSpan = 360 * -carbRate / 100
 
-        val neutralRatePosition = 270 + highRateSpan
-        val lowRatePosition = neutralRatePosition + neutralRateSpan
+        val neutralRatePosition = 270 + fatSpan
+        val lowRatePosition = neutralRatePosition + proteinSpan
 
-        this.highRateSpan = highRateSpan.toFloat()
-        this.neutralRateSpan = neutralRateSpan.toFloat()
-        this.lowRateSpan = lowRateSpan.toFloat()
+        this.fatRateSpan = fatSpan.toFloat()
+        this.proteinRateSpan = proteinSpan.toFloat()
+        this.carbRateSpan = carbSpan.toFloat()
 
         this.neutralRatePosition = neutralRatePosition.toFloat()
         this.lowRatePosition = lowRatePosition.toFloat()
 
+        fatIncrement = (360 / fatRateSpan).absoluteValue * 3
+        proteinIncrement = (360 / proteinRateSpan).absoluteValue * 3
+        carbsIncrement = (360 / carbRateSpan).absoluteValue * 3
     }
 
     private fun applyPaintStyle(paint: Paint) {

@@ -7,7 +7,11 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import com.artkachenko.ui_utils.R
 
-class ProgressChart @JvmOverloads constructor(context: Context, attributeSet: AttributeSet ?= null, defStyle: Int = 0) :
+class ProgressChart @JvmOverloads constructor(
+    context: Context,
+    attributeSet: AttributeSet? = null,
+    defStyle: Int = 0
+) :
     AppCompatImageView(context, attributeSet, defStyle) {
 
     private var density = context.resources.displayMetrics.density
@@ -24,29 +28,30 @@ class ProgressChart @JvmOverloads constructor(context: Context, attributeSet: At
 
     private var fillLength = 0F
     private var progressLength = 0F
+    private var progressIncrement = 0F
 
     private var isProgress = false
 
     private var textSizeF = 12F * density
 
     private var fillColor = Paint().apply {
-        this.color = ContextCompat.getColor(context, R.color.green_200)
+        this.color = ContextCompat.getColor(context, R.color.red_200)
         setArcPaintParams()
-        alpha = 255
     }
     private var backGroundColor = Paint().apply {
-        this.color = ContextCompat.getColor(context, R.color.text_secondary)
+        this.color = ContextCompat.getColor(context, R.color.green_200)
         setArcPaintParams()
     }
 
     private var backGroundColorEmpty = Paint().apply {
-        this.color = ContextCompat.getColor(context, R.color.text_secondary)
+        this.color = ContextCompat.getColor(context, R.color.green_200)
         setArcPaintParams()
     }
 
     private var dividerColor = Paint().apply {
         this.color = Color.BLACK
         setArcPaintParams()
+        alpha = 70
     }
 
     private var numberTextPaint = Paint().apply {
@@ -78,7 +83,7 @@ class ProgressChart @JvmOverloads constructor(context: Context, attributeSet: At
             canvas.save()
             canvas.drawArc(rectF, startDrawPosition, progressLength, false, fillColor)
 
-            progressLength += 2F
+            progressLength += progressIncrement
             invalidate()
             canvas.restore()
         } else {
@@ -92,7 +97,13 @@ class ProgressChart @JvmOverloads constructor(context: Context, attributeSet: At
             if (startDrawPosition + (44.8F * i) < fillLength) {
                 canvas.drawArc(rectF, startDrawPosition + (44.8F * i), 0.4F, false, dividerColor)
             } else {
-                canvas.drawArc(rectF, startDrawPosition + (44.8F * i), 0.4F, false, backGroundColorEmpty)
+                canvas.drawArc(
+                    rectF,
+                    startDrawPosition + (44.8F * i),
+                    0.4F,
+                    false,
+                    backGroundColorEmpty
+                )
             }
         }
     }
@@ -106,6 +117,7 @@ class ProgressChart @JvmOverloads constructor(context: Context, attributeSet: At
         } else {
             this.fillLength = countFloat / totalFloat * 180
         }
+        progressIncrement = fillLength / 180 * 8
         invalidate()
     }
 
@@ -114,7 +126,6 @@ class ProgressChart @JvmOverloads constructor(context: Context, attributeSet: At
         this.isAntiAlias = true
         this.strokeCap = Paint.Cap.BUTT
         this.style = Paint.Style.STROKE
-        this.alpha = 70
     }
 
     fun setMockFillColor() {
