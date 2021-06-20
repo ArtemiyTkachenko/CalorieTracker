@@ -3,9 +3,10 @@ plugins {
     id 'kotlin'
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+jar {
+    manifest {
+        attributes("Lint-Registry-v2": "com.artkachenko.lint_checks.LintRegistry")
+    }
 }
 
 dependencies {
@@ -15,6 +16,9 @@ dependencies {
     compileOnly "com.android.tools.lint:lint-api:$lintVersion"
     compileOnly "com.android.tools.lint:lint-checks:$lintVersion"
     testImplementation "com.android.tools.lint:lint-tests:$lintVersion"
+}
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }

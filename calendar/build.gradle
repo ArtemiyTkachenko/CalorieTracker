@@ -42,7 +42,7 @@ android {
 
     lintOptions {
         ignoreTestSources true
-        abortOnError true
+        abortOnError false
         xmlReport false
         textReport false
         htmlReport true
