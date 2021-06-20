@@ -55,7 +55,6 @@ dependencies {
     implementation coil
     implementation hilt.values()
     implementation calendarView
-    implementation charts
 
     kapt hiltKapt.values()
 

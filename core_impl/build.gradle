@@ -58,7 +58,6 @@ dependencies {
     implementation hilt.values()
     implementation room.values()
     implementation calendarView
-    implementation charts
 
     kapt hiltKapt.values()
     kapt roomKapt.values()

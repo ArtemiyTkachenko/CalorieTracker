@@ -4,14 +4,10 @@ import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ConcatAdapter
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.calendar.R
-import com.artkachenko.ui_utils.R as UIR
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.ManualDishDetail
@@ -21,7 +17,6 @@ import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.decorations.MarginItemDecoration
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.artkachenko.ui_utils.views.MenuFab
-import com.github.mikephil.charting.utils.Utils
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.utils.Size
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,8 +64,6 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         binding = FragmentCalendarBinding.bind(view)
 
-        Utils.init(requireContext())
-
         with(binding) {
             info.adapter = adapter
             val decoration = MarginItemDecoration(requireContext(), marginLeft = 16, marginRight = 16)
@@ -85,9 +78,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         viewModel.getDishes()
 
         scope.launch {
-            debugLog("CalendarFragment, scope launched")
             viewModel.state.collect {
-                debugLog("CalendarFragment, state is $it")
                 processState(it)
             }
         }
@@ -128,7 +119,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         val selectedDate = viewModel.selectedDate.value
 
         if (selectedDate != date) {
-            selectedDate?.let { binding.calendar.notifyDateChanged(it) }
+            selectedDate.let { binding.calendar.notifyDateChanged(it) }
             viewModel.changeDate(date)
             binding.calendar.notifyDateChanged(date)
         }

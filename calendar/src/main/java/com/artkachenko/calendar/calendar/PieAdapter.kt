@@ -7,8 +7,6 @@ import com.artkachenko.calendar.databinding.IPieChartBinding
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.ui_utils.inflater
-import com.artkachenko.ui_utils.themes.ThemeManager
-import com.github.mikephil.charting.utils.ColorTemplate
 
 class PieAdapter() : BaseAdapter<Triple<Long,Long,Long>>() {
     override fun onCreateViewHolder(

@@ -2,10 +2,8 @@ ext {
     kotlin_version = "1.4.30"
     coroutines_version = "1.4.2"
     nav_version = "2.4.0-alpha03"
-    retrofit_version = '2.9.0'
     lifecycle_version = '2.2.0'
     retrofit2_version = '2.9.0'
-    loggingInterceptor_version = '4.9.0'
     recyclerView_version = '1.2.0-rc01'
     constraintlayout_version = '2.0.4'
     material_version = '1.3.0'
@@ -100,9 +98,6 @@ ext {
 
     //CalendarView
     calendarView = 'com.github.kizitonwose:CalendarView:0.4.4'
-
-    //Charts
-    charts = 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     //MockK
     mockK = "io.mockk:mockk:$mockk_version"
