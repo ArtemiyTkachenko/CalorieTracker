@@ -3,7 +3,8 @@
 ### Stack:
 * Coroutines
 * Hilt
-* Jetpack
+* Jetpack (ViewModel, Room, Lifecycle)
 * Ktor
 * Coil
-* Serialization
+* Kotlin Serialization
+* MockK
