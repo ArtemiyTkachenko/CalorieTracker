@@ -4,7 +4,10 @@
     <string name="cancel">Cancel</string>
     <string name="choose_serving_amount">Choose amount of servings</string>
     <string name="current_serving_amount">Servings: %1$s</string>
-    <string name="current_calories_are">Calories: %1$s</string>
+    <string name="current_calories_are">Calories per serving: %1$s</string>
+    <string name="cooking_time">%1$s or less</string>
+    <string name="score">Score: %1$s/100</string>
+    <string name="health_score">Healthy: %1$s/100</string>
     <string name="nutrition_added">Nutrition added to your calendar</string>
     <string name="dark_theme_toggle">Dark theme</string>
     <string name="desired_calories_title">Desired calories</string>

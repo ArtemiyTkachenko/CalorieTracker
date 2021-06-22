@@ -101,8 +101,12 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
     override fun onItemClicked(model: RecipeEntity, view: View) {
         val bundle = Bundle().apply {
             putLong("id", model.id)
+            putString("transitionName", view.transitionName)
         }
-        findNavController().navigate(R.id.recipe_to_detail, bundle)
+
+        val extras = FragmentNavigatorExtras(view to view.transitionName)
+
+        findNavController().navigate(R.id.recipe_to_detail, bundle, null, extras)
     }
 
     override fun navigateToSearch(filters: FilterWrapper?) {

@@ -16,7 +16,11 @@ data class RecipeEntity(
     @SerialName("readyInMinutes")
     val readyInMinutes: Int? = null,
     @SerialName("totalStars")
-    val image: String? = null
+    val image: String? = null,
+    @SerialName("spoonacularScore")
+    val spoonacularScore: Double? = null,
+    @SerialName("healthScore")
+    val healthScore: Double? = null
 ): Parcelable, HasId
 
 @Serializable

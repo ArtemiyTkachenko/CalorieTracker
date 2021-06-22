@@ -33,6 +33,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     private val filterAdapter = FilterAdapter(this)
 
+    private var firstLaunch = true
+
     private val argPresets by lazy {
         arguments?.getParcelable<FilterWrapper>("presets")
     }
@@ -77,8 +79,12 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     override fun onItemClicked(model: RecipeEntity, view: View) {
         val bundle = Bundle().apply {
             putLong("id", model.id)
+            putString("transitionName", view.transitionName)
         }
-        findNavController().navigate(R.id.search_to_detail, bundle)
+
+        val extras = FragmentNavigatorExtras(view to "recipeImage")
+
+        findNavController().navigate(R.id.search_to_detail, bundle, null, extras)
     }
 
     override fun filterChecked(filter: Map.Entry<String, String>, isChecked: Boolean) {
@@ -97,7 +103,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun launchScope() {
-        scope.launch {
+        lifecycleScope.launchWhenCreated {
             viewModel.state.collect {
                 debugLog("searchFragment state is $it")
                 processState(it)
@@ -107,14 +113,18 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     private fun processState(state: RecipeSearchViewModel.State) {
         when (state) {
-            RecipeSearchViewModel.State.Initial -> { }
-            RecipeSearchViewModel.State.Loading -> binding.progress.isVisible = true
+            RecipeSearchViewModel.State.Initial -> {
+            }
+            RecipeSearchViewModel.State.Loading -> {
+            }
             RecipeSearchViewModel.State.LoadingFinished -> binding.progress.isVisible = false
             is RecipeSearchViewModel.State.Success -> {
                 searchAdapter.setData(state.data) {
+                    binding.progress.isVisible = false
                     debugLog("adapter count is ${searchAdapter.itemCount}")
                 }
             }
+            RecipeSearchViewModel.State.FirstLoad -> binding.progress.isVisible = true
         }
     }
 
@@ -128,7 +138,10 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 queryChangeJob?.cancel()
                 queryChangeJob = lifecycleScope.launch {
                     delay(1000L)
-                    newText?.let { setInitial(it) }
+                    if (!newText.isNullOrEmpty()) {
+                        debugLog("onQueryTextChange called")
+                        setInitial(newText)
+                    }
                 }
 
                 return false
@@ -142,8 +155,11 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     private fun processArgs() {
         argPresets?.let {
-            populateChips(it)
-            viewModel.loadRecipes("", it)
+            if (firstLaunch) {
+                firstLaunch = false
+                populateChips(it)
+                viewModel.loadRecipes("", it)
+            }
         } ?: binding.root.postDelayed(
             {
 //                binding.search.requestFocus()
@@ -171,13 +187,15 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 }
             }
             apply.setSingleClickListener {
+                debugLog("updateFilter called from click")
                 updateFilter()
             }
         }
     }
 
     private fun updateFilter() {
-        with (binding) {
+        debugLog("updateFilter called")
+        with(binding) {
             filterChips.removeAllViews()
             populateChips(viewModel.filtersWrapper)
             val behavior = BottomSheetBehavior.from(standardBottomSheet)
@@ -188,6 +206,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun setInitial(query: String = binding.search.query.toString()) {
+        debugLog("setInitial called")
+
         searchAdapter.setInitial(emptyList()) {
             debugLog("adapter count is ${searchAdapter.itemCount}")
         }
@@ -195,6 +215,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun populateChips(filterWrapper: FilterWrapper?) {
+        debugLog("populateChips called")
         val filterChips = binding.filterChips
         filterWrapper?.filters?.forEach { filter ->
             filter.value.forEach { filterValue ->

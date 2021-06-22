@@ -16,6 +16,7 @@ import com.artkachenko.core_api.network.models.IngredientTitles
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_detail.databinding.FragmentRecipeDetailBinding
+import com.artkachenko.ui_utils.DetailTransition
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.loadImage
 import com.google.android.material.chip.Chip
@@ -33,6 +34,10 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
         arguments?.getLong("id", 0)
     }
 
+    private val argTransitionName by lazy {
+        arguments?.getString("transitionName")
+    }
+
     private val ingredientsAdapter by lazy {
         IngredientsAdapter()
     }
@@ -41,6 +46,16 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentRecipeDetailBinding.bind(view)
+
+        binding.image.transitionName = argTransitionName
+
+        postponeEnterTransition()
+
+        sharedElementEnterTransition = DetailTransition()
+
+        sharedElementReturnTransition = DetailTransition()
+
+        startPostponedEnterTransition()
 
         with (binding) {
             backArrow.setOnClickListener {

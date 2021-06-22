@@ -32,8 +32,7 @@ class RecipeDetailViewModel @Inject constructor(
     }
 
     fun saveRecipe(model: RecipeDetailModel, servingSize: Int) {
-        val servings = model.servings ?: 0
-        val increment = servingSize.toDouble()/servings.toDouble()
+        val increment = servingSize.toDouble()
         val adjustedIngredients = model.extendedIngredients?.map {
             it.copy(amount = it.amount?.times(increment))
         }

@@ -23,11 +23,6 @@ class RecipeApiImpl @Inject constructor(private val client: HttpClient) : Recipe
             }
 
         }.results
-//        return emptyList()
-//        val results = Json {
-//            ignoreUnknownKeys = true
-//        }.decodeFromString<RecipeResultsWrapper>(Json.serializersModule.serializer(), mockResults)
-//        return results.results
     }
 
     override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {

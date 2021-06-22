@@ -30,7 +30,7 @@ fun View.dpF(value: Float): Float {
     return this.context.dpF(value)
 }
 
-fun RecyclerView.onLoadMore(threshold: Int = 5, loadMore: () -> Unit) {
+fun RecyclerView.onLoadMore(threshold: Int = 3, loadMore: () -> Unit) {
     val layoutManager = this.layoutManager as LinearLayoutManager
     addOnScrollListener(object : RecyclerView.OnScrollListener() {
         override fun onScrolled(

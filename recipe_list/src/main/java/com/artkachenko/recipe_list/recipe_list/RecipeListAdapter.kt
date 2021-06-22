@@ -11,6 +11,7 @@ import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.inflater
 import com.artkachenko.ui_utils.loadImage
 import com.artkachenko.ui_utils.setSingleClickListener
+import java.util.*
 
 class RecipesAdapter(private val actions: RecipeListActions) : BaseAdapter<RecipeEntity>(actions) {
 
@@ -27,6 +28,7 @@ class RecipeListViewHolder(private val binding: IRecipeListBinding, private val 
             recipeImage.loadImage(url)
             recipeTitle.text = model.title
             clickContainer.setSingleClickListener {
+                recipeImage.transitionName = UUID.randomUUID().toString()
                 actions.onItemClicked(model, recipeImage)
             }
         }

@@ -7,6 +7,7 @@ import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,17 +40,20 @@ class RecipeSearchViewModel @Inject constructor(
         if (isLoading) return
 
         scope.launch {
-            if (offset == 0) _state.emit(State.Loading)
+            if (offset == 0) _state.emit(State.FirstLoad)
             isLoading = true
             val recipes = recipeRepository.getRecipeList(
                 offset,
                 "query" to listOf(query),
                 "offset" to listOf(offset.toString()),
+                "addRecipeInformation" to listOf("true"),
                 *wrapper?.filters?.toList()?.toTypedArray() ?: arrayOf()
             )
             _state.tryEmit(State.Success(recipes))
             offset += 10
             isLoading = false
+            delay(100)
+            _state.tryEmit(State.Initial)
         }
     }
 
@@ -64,6 +68,7 @@ class RecipeSearchViewModel @Inject constructor(
 
     sealed class State() {
         object Initial : State()
+        object FirstLoad : State()
         object Loading : State()
         class Success(val data: List<RecipeEntity>) : State()
         object LoadingFinished : State()
