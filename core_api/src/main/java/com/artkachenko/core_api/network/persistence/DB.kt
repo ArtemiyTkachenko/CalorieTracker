@@ -14,7 +14,7 @@ import java.time.ZoneOffset
 
 @Database(
     entities = [RecipeDetailModel::class, Ingredient::class, ManualDishDetail::class, Exercise::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DB.TypeConverters::class)
@@ -52,6 +52,14 @@ abstract class DB : RoomDatabase() {
         @TypeConverter
         fun stringToNutrition(nutritionString: String): Nutrition? {
             return Json {  }.decodeFromString(Json.serializersModule.serializer(), nutritionString)
+        }
+
+        @TypeConverter
+        fun convertedAmountToString(convertedAmount: ConvertedAmount) = Json {  }.encodeToString(Json.serializersModule.serializer(), convertedAmount)
+
+        @TypeConverter
+        fun stringToConvertedAmount(convertedAmountString: String): ConvertedAmount? {
+            return Json {  }.decodeFromString(Json.serializersModule.serializer(), convertedAmountString)
         }
 
         @TypeConverter

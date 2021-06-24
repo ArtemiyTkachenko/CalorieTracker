@@ -57,8 +57,9 @@ data class Ingredient(
     val unitShort: String? = null,
     val unitLong: String? = null,
     val originalString: String? = null,
-    val nutrition: Nutrition? = null
-) : Parcelable, HasId
+    val nutrition: Nutrition? = null,
+    val convertedAmount: ConvertedAmount ?= null
+    ) : Parcelable, HasId
 
 @Serializable
 @Parcelize

@@ -126,9 +126,8 @@ class SourcesBarChart @JvmOverloads constructor(
         if (data.isNullOrEmpty()) return
         sources.clear()
         sourcesIncrement.clear()
-        val sortedData = data.sortedDescending()
-        maxSource = sortedData.firstOrNull() ?: 0.0
-        sources.addAll(sortedData.take(15))
+        maxSource = data.firstOrNull() ?: 0.0
+        sources.addAll(data)
         sources.forEach {
             val increment = it.toFloat() / AnimationUtils.chartAnimationSteps
             sourcesIncrement.add(increment)

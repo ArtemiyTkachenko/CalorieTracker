@@ -1,6 +1,9 @@
 package com.artkachenko.calendar.calendar
 
 import android.content.Context
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -29,15 +32,16 @@ class SourcesViewHolder(private val binding: IBarItemBinding) :
     BaseViewHolder<Map<String, Double>>(binding.root) {
     override fun bind(model: Map<String, Double>) {
         with(binding) {
+            val sortedData = model.toList().sortedByDescending { it.second }.take(15)
             sourcesBarLegend.removeAllViews()
-            val values = model.values.toList()
-            val keys = model.keys.toList()
+            val values = sortedData.map { it.second }
+
             sourcesBarChart.setData(values)
-            populateLegend(keys, root.context)
+            populateLegend(sortedData, root.context)
         }
     }
 
-    private fun populateLegend(keys: List<String>, context: Context) {
+    private fun populateLegend(keys: List<Pair<String, Double>>, context: Context) {
         keys.forEachIndexed { index, s ->
             val legendView = ThemeAwareTextView(context).apply {
                 val params = LinearLayout.LayoutParams(
@@ -51,7 +55,11 @@ class SourcesViewHolder(private val binding: IBarItemBinding) :
                 val tintColor = ContextCompat.getColor(context, Themes.chartColors[index])
                 img?.setBounds(0,0,24,24)
                 img?.setTint(tintColor)
-                text = s
+                val span = SpannableString("${s.first} ${s.second.toInt()} gr")
+                val start = span.indexOfFirst { it.isDigit() }
+                val end = span.length
+                span.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, com.artkachenko.ui_utils.R.color.text_secondary)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                text = span
                 setCompoundDrawables(img, null, null, null)
                 compoundDrawablePadding = dp(8)
             }

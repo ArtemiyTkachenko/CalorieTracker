@@ -1,6 +1,7 @@
 package com.artkachenko.core_impl.repositories
 
 import com.artkachenko.core_api.network.api.RecipeApi
+import com.artkachenko.core_api.network.models.ConvertedAmount
 import com.artkachenko.core_api.network.models.Ingredient
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
@@ -30,6 +31,12 @@ class RecipeRepositoryImpl @Inject constructor(
     override suspend fun parseIngredients(ingredients: List<String>): List<Ingredient> {
         return withContext(dispatcher) {
             recipeApi.parseIngredients(ingredients)
+        }
+    }
+
+    override suspend fun convertIngredients(vararg filters: Pair<String, List<String>>): ConvertedAmount {
+        return withContext(dispatcher) {
+            recipeApi.convertIngredients(*filters)
         }
     }
 }

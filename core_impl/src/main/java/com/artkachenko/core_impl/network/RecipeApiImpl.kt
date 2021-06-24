@@ -2,10 +2,7 @@ package com.artkachenko.core_impl.network
 
 import android.util.Log
 import com.artkachenko.core_api.network.api.RecipeApi
-import com.artkachenko.core_api.network.models.Ingredient
-import com.artkachenko.core_api.network.models.RecipeDetailModel
-import com.artkachenko.core_api.network.models.RecipeEntity
-import com.artkachenko.core_api.network.models.RecipeResultsWrapper
+import com.artkachenko.core_api.network.models.*
 import io.ktor.client.*
 import io.ktor.client.request.*
 import io.ktor.http.*
@@ -21,19 +18,25 @@ class RecipeApiImpl @Inject constructor(private val client: HttpClient) : Recipe
             parametersOf(pairs = filters).forEach { s, list ->
                 this.url.parameters.appendAll(s, list)
             }
-
         }.results
     }
 
     override suspend fun getRecipeDetail(id: Long): RecipeDetailModel {
-        return client.get<RecipeDetailModel>(NetworkEndpoints.getRecipeDetailEndPoint(id)) {
+        return client.get(NetworkEndpoints.getRecipeDetailEndPoint(id)) {
             parameter("includeNutrition", true)
         }
-//        return Json {ignoreUnknownKeys = true}.decodeFromString(Json.serializersModule.serializer(), mockDetail)
     }
 
     override suspend fun parseIngredients(ingredients: List<String>): List<Ingredient> {
         return emptyList()
+    }
+
+    override suspend fun convertIngredients(vararg filters: Pair<String, List<String>>): ConvertedAmount {
+        return client.get(NetworkEndpoints.ConvertIngredients) {
+            parametersOf(pairs = filters).forEach { s, list ->
+                this.url.parameters.appendAll(s, list)
+            }
+        }
     }
 }
 

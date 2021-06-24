@@ -49,7 +49,7 @@ class CalendarViewModel @Inject constructor(
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
                 val carbItems = mutableListOf<Double>()
-                val sources = mutableMapOf<String, Double>()
+                val ingredientsAmount = mutableMapOf<String, Double>()
                 var calories = 0
                 var totalWeight = 0.0
 
@@ -57,11 +57,17 @@ class CalendarViewModel @Inject constructor(
                     dishDetail.extendedIngredients?.forEach { ingredient ->
                         totalWeight += ingredient.amount ?: 0.0
 
-                        val formattedTitle = ingredient.aisle?.replace("Frozen;", "") ?: ""
+                        val title = ingredient.name ?: ""
 
-                        val previousValue = sources[formattedTitle] ?: 0.0
+                        val previousValue = ingredientsAmount[title] ?: 0.0
 
-                        sources[formattedTitle] = previousValue.plus(ingredient.amount ?: 0.0)
+                        val converted = ingredient.convertedAmount
+
+                        debugLog("CONVERSION, converted amount is ${converted?.answer}")
+
+                        ingredientsAmount[title] = previousValue.plus(ingredient.convertedAmount?.targetAmount ?: 0.0)
+
+                        debugLog("CONVERSION, amount after addition is ${ingredientsAmount[title]} and key is $title")
                     }
 
                     val breakdown = dishDetail.nutrition?.caloricBreakdown
@@ -76,7 +82,7 @@ class CalendarViewModel @Inject constructor(
                 val proteinAverage = proteinItems.average()
                 val carbAverage = carbItems.average()
 
-                emitBarDataSet(sources)
+                emitBarDataSet(ingredientsAmount)
 
                 emitPieDataSet(fatAverage, proteinAverage, carbAverage)
 
