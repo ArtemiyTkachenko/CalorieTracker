@@ -154,6 +154,12 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <style name="TextAppearance.AppCompat.Bold_18">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
     <style name="TextAppearance.AppCompat.Bold_16.Primary">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>

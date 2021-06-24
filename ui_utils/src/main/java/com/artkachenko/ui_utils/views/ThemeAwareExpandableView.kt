@@ -42,7 +42,7 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
         val density = context.resources.displayMetrics.density
 
         val title = ThemeAwareTextView(context).apply {
-            setTextAppearance(context, R.style.TextAppearance_AppCompat_Bold_20)
+            setTextAppearance(context, R.style.TextAppearance_AppCompat_Bold_18)
             text = title
         }
 

@@ -70,7 +70,7 @@
                 android:id="@+id/servings"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Bold_20"
+                style="@style/TextAppearance.AppCompat.Bold_18"
                 android:layout_marginTop="8dp"
                 android:text="@string/current_serving_amount"
                 app:layout_constraintEnd_toEndOf="@id/title"
@@ -81,7 +81,7 @@
                 android:id="@+id/calories"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                style="@style/TextAppearance.AppCompat.Bold_20"
+                style="@style/TextAppearance.AppCompat.Bold_18"
                 android:layout_marginTop="8dp"
                 android:text="@string/current_calories_are"
                 app:layout_constraintEnd_toEndOf="@id/title"
@@ -100,10 +100,11 @@
 
                 <com.artkachenko.ui_utils.views.ThemeAwareTextView
                     android:id="@+id/summary"
-                    style="@style/TextAppearance.AppCompat.Medium_20"
+                    style="@style/TextAppearance.AppCompat.Regular_16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
+                    android:lineSpacingMultiplier="1.2"
                     android:visibility="gone" />
             </com.artkachenko.ui_utils.views.ThemeAwareExpandableView>
 
@@ -112,16 +113,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
                 app:layout_constraintEnd_toEndOf="@id/title"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/summary_container"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:title="@string/ingredients">
 
                 <com.artkachenko.ui_utils.views.ThemeAwareRecyclerView
                     android:id="@+id/ingredients"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="32dp"
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:listitem="@layout/i_ingredient"
