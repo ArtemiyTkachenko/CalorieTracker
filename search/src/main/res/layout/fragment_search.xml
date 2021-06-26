@@ -75,6 +75,7 @@
             android:id="@+id/filter_scroll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_view_container">
@@ -111,8 +112,9 @@
         android:background="@drawable/card_like_view_background"
         android:elevation="8dp"
         android:orientation="vertical"
+        android:paddingBottom="36dp"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="36dp"
+        app:behavior_peekHeight="0dp"
         app:layout_behavior="com.artkachenko.ui_utils.views.AutoCloseBottomSheetBehavior">
 
         <ImageView
@@ -135,7 +137,6 @@
             android:background="?attr/selectableItemBackground"
             android:text="@string/apply"
             android:textColor="?attr/colorSecondary"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/handle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/handle" />
@@ -150,7 +151,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/apply">
+            app:layout_constraintTop_toBottomOf="@id/handle">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/filters"

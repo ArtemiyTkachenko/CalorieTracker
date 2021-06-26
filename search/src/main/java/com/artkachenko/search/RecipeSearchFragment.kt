@@ -68,12 +68,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
         processArgs()
 
-        setBottomSheetBehaviour()
-    }
-
-    override fun onResume() {
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(false)
-        super.onResume()
+        setBottomSheet()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
@@ -168,26 +163,9 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
         )
     }
 
-    private fun setBottomSheetBehaviour() {
+    private fun setBottomSheet() {
         with(binding) {
-            val behavior = BottomSheetBehavior.from(standardBottomSheet)
-            standardBottomSheet.setOnClickListener {
-                behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                    override fun onStateChanged(bottomSheet: View, newState: Int) {
-                        apply.isVisible = newState == BottomSheetBehavior.STATE_EXPANDED
-                    }
-
-                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-                }
-                )
-                if (behavior.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    behavior.state = BottomSheetBehavior.STATE_COLLAPSED
-                } else {
-                    behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                }
-            }
             apply.setSingleClickListener {
-                debugLog("updateFilter called from click")
                 updateFilter()
             }
         }

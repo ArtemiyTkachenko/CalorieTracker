@@ -26,6 +26,8 @@
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/text_secondary"
         android:layout_gravity="end|center_vertical" />
 
 </com.artkachenko.ui_utils.views.ThemeAwareCardView>

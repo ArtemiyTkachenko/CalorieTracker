@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginBottom="8dp"
+    android:paddingBottom="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,19 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Medium_20"
-        android:textColor="@android:color/white"
         android:layout_marginStart="8dp"
         tools:text="Some Filter"/>
-
-<!--    <androidx.constraintlayout.helper.widget.Flow-->
-<!--        android:id="@+id/filters"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:flow_horizontalGap="8dp"-->
-<!--        app:flow_verticalGap="8dp"-->
-<!--        app:flow_verticalStyle="packed"-->
-<!--        android:paddingBottom="16dp"-->
-<!--        app:flow_wrapMode="chain"/>-->
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/filters"

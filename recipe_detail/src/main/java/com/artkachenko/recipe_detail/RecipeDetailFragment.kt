@@ -80,11 +80,6 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
 
     }
 
-    override fun onResume() {
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(false)
-        super.onResume()
-    }
-
     private fun setupDetails(
         model: RecipeDetailModel
     ) {

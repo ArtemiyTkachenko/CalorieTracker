@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.core_api.network.models.Ingredient
+import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_detail.databinding.IIngredientBinding
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.loadImage
@@ -24,6 +25,7 @@ class IngredientViewHolder(private val binding: IIngredientBinding) : BaseViewHo
     @SuppressLint("SetTextI18n")
     override fun bind(model: Ingredient) {
         with(binding) {
+            debugLog("")
             val url = ImageUtils.buildIngredientsImageUrl(model.image)
             image.loadImage(url)
             name.text = model.originalString

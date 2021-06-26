@@ -36,35 +36,35 @@ class RecipeDetailViewModel @Inject constructor(
     fun saveRecipe(model: RecipeDetailModel, servingSize: Int) {
 
         scope.launch(Dispatchers.IO) {
-            val increment = servingSize.toDouble()
+            val ingredientIncrement = servingSize.toDouble()/(model.servings ?: 1)
+            val nutritionIncrement = servingSize.toDouble()
+
+            debugLog("CONVERSION, ingredientIncrement is $ingredientIncrement and nutritionIncrement is $nutritionIncrement")
             val adjustedIngredients = model.extendedIngredients?.map {
                 val converted = repository.convertIngredients(
                     "ingredientName" to listOf(it.name ?: ""),
-                    "sourceAmount" to listOf((it.amount?.times(increment)).toString() ?: ""),
+                    "sourceAmount" to listOf((it.amount?.times(ingredientIncrement)).toString() ?: ""),
                     "sourceUnit" to listOf(it.unit ?: ""),
                     "targetUnit" to listOf("grams"),
                 )
-                debugLog("converted amount is $converted")
+                debugLog("CONVERSION, converted amount is ${converted.targetAmount} ${converted.targetUnit}, original amount is ${it.amount} ${it.unit} of ${it.name} ")
                 it.copy(convertedAmount = converted)
             }
             val nutrition = model.nutrition
             val adjustedNutrition = nutrition?.copy(
                 nutrients = nutrition.nutrients?.map { nutritionItem ->
                     nutritionItem.copy(
-                        amount = nutritionItem.amount?.times(increment),
-                        percentOfDailyNeeds = nutritionItem.percentOfDailyNeeds?.times(increment)
+                        amount = nutritionItem.amount?.times(nutritionIncrement),
+                        percentOfDailyNeeds = nutritionItem.percentOfDailyNeeds?.times(nutritionIncrement)
                     )
                 },
                 properties = nutrition.properties?.map { propertiesItem ->
-                    propertiesItem.copy(amount = propertiesItem.amount?.times(increment))
+                    propertiesItem.copy(amount = propertiesItem.amount?.times(nutritionIncrement))
                 },
                 weightPerServing = nutrition.weightPerServing?.copy(
-                    amount = nutrition.weightPerServing?.amount?.times(increment) ?: 0.0
+                    amount = nutrition.weightPerServing?.amount?.times(nutritionIncrement) ?: 0.0
                 )
             )
-
-            debugLog("nutrition is $adjustedNutrition")
-            debugLog("ingredients are $adjustedIngredients")
 
             val manualDish = ManualDishDetail(
                 extendedIngredients = adjustedIngredients,
