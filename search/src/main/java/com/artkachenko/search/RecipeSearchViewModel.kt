@@ -37,7 +37,7 @@ class RecipeSearchViewModel @Inject constructor(
 
     fun getInitial(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         offset = 0
-        
+
         loadRecipes(query, wrapper)
     }
 
@@ -71,6 +71,10 @@ class RecipeSearchViewModel @Inject constructor(
         if (filterValue.isChecked && !keyList.contains(filterValue)) keyList.add(filterValue) else keyList.remove(filterValue)
         filters?.put(filterKey, keyList)
         debugLog("filters are $filters")
+    }
+
+    fun setFilter(wrapper: FilterWrapper?) {
+        this.filtersWrapper = wrapper
     }
 
     private fun checkIfEmptySearch(query: String, wrapper: FilterWrapper?): Boolean {

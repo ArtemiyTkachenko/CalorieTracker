@@ -4,7 +4,12 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class FilterWrapper(val filters: MutableMap<String, MutableList<FilterItemWrapper>>): Parcelable
+class FilterWrapper(val filters: MutableMap<String, MutableList<FilterItemWrapper>>): Parcelable {
+
+    fun extractFirstKey(): String {
+        return filters.keys.first()
+    }
+}
 
 @Parcelize
 class FilterItemWrapper(val value: String, var isChecked: Boolean = false) : Parcelable {
@@ -14,7 +19,7 @@ class FilterItemWrapper(val value: String, var isChecked: Boolean = false) : Par
 
         other as FilterItemWrapper
 
-        if (value != other.value) return false
+        if (!value.equals(other.value, true)) return false
 
         return true
     }

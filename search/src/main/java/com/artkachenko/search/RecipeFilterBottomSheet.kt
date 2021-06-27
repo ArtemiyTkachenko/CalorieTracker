@@ -39,6 +39,7 @@ class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions
 
         binding?.apply {
             filters.adapter = filterAdapter
+            filterAdapter.setFilters(argPresets)
             apply.setOnClickListener {
                 dismiss()
             }

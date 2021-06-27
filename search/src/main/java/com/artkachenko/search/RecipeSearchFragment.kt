@@ -56,7 +56,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
         AnimationUtils.animateAlpha(binding.arrowBack, shouldShow = true, delay = 300)
 
-        viewModel
+        argPresets?.let { viewModel.setFilter(it) }
 
         setAdapters()
 
