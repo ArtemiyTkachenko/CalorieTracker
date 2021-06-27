@@ -4,13 +4,13 @@ import android.view.ViewGroup
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.core_api.network.models.FilterWrapper
-import com.artkachenko.core_api.network.models.MapPair
+import com.artkachenko.core_api.network.models.FilterPair
 import com.artkachenko.core_impl.network.Filters
 import com.artkachenko.search.databinding.IFilterGroupBinding
 import com.artkachenko.ui_utils.buildChip
 import com.artkachenko.ui_utils.inflater
 
-class FilterAdapter(private val actions: RecipeSearchActions) : BaseAdapter<FilterWrapper>() {
+class FilterAdapter(private val actions: RecipeFilterActions) : BaseAdapter<FilterWrapper>() {
 
     init {
         setInitial(
@@ -33,7 +33,7 @@ class FilterAdapter(private val actions: RecipeSearchActions) : BaseAdapter<Filt
 
 class FilterViewHolder(
     private val binding: IFilterGroupBinding,
-    private val actions: RecipeSearchActions
+    private val actions: RecipeFilterActions
 ) : BaseViewHolder<FilterWrapper>(binding.root) {
 
     override fun bind(model: FilterWrapper) {
@@ -45,7 +45,7 @@ class FilterViewHolder(
                         itemView.context,
                         filters,
                         canClose = false,
-                        filterValue = MapPair(filter.key to filterValue),
+                        filterValue = FilterPair(filter.key to filterValue),
                         checkCallback = { entry, isChecked ->
                             entry?.let {
                                 actions.filterChecked(

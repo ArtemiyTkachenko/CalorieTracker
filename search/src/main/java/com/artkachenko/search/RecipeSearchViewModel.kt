@@ -1,9 +1,9 @@
 package com.artkachenko.search
 
-import com.artkachenko.core_impl.viewmodel.ViewModelScopeProviderImpl
 import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.FilterWrapper
+import com.artkachenko.core_api.network.models.FilterPair
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class RecipeSearchViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val scopeProvider: ViewModelScopeProvider
-    ) :
+) :
     ViewModel(), ViewModelScopeProvider by scopeProvider {
 
     private var offset = 0
@@ -30,6 +30,9 @@ class RecipeSearchViewModel @Inject constructor(
 
     var filtersWrapper: FilterWrapper? = null
     private set
+
+    private var tempFiltersWrapper: FilterWrapper? = null
+
 
     fun getInitial(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         offset = 0
@@ -64,6 +67,15 @@ class RecipeSearchViewModel @Inject constructor(
         val keyList = filters?.get(filter.key) ?: mutableListOf()
         if (isChecked) keyList.add(filter.value) else keyList.remove(filter.value)
         filters?.put(filterKey, keyList)
+    }
+
+    private fun setFilter() {
+
+        tempFiltersWrapper = null
+    }
+
+    private fun resetFilters() {
+
     }
 
     sealed class State() {

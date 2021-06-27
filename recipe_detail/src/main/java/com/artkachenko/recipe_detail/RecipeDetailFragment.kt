@@ -16,9 +16,7 @@ import com.artkachenko.core_api.network.models.IngredientTitles
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_detail.databinding.FragmentRecipeDetailBinding
-import com.artkachenko.ui_utils.DetailTransition
-import com.artkachenko.ui_utils.ImageUtils
-import com.artkachenko.ui_utils.loadImage
+import com.artkachenko.ui_utils.*
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -31,11 +29,11 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
     private lateinit var binding: FragmentRecipeDetailBinding
 
     private val argId by lazy {
-        arguments?.getLong("id", 0)
+        arguments?.getLong(ID, 0)
     }
 
     private val argTransitionName by lazy {
-        arguments?.getString("transitionName")
+        arguments?.getString(TRANSITION_NAME)
     }
 
     private val ingredientsAdapter by lazy {

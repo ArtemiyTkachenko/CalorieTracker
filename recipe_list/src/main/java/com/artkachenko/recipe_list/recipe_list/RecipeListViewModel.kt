@@ -1,6 +1,5 @@
 package com.artkachenko.recipe_list.recipe_list
 
-import com.artkachenko.core_impl.viewmodel.ViewModelScopeProviderImpl
 import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.RecipeEntity
@@ -16,7 +15,7 @@ import javax.inject.Inject
 class RecipeListViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
     private val scopeProvider: ViewModelScopeProvider
-    ) : ViewModel(),
+) : ViewModel(),
     ViewModelScopeProvider by scopeProvider {
 
     private val _recipes = MutableStateFlow<State>(State.Initial)
@@ -42,10 +41,10 @@ class RecipeListViewModel @Inject constructor(
     }
 
     sealed class State() {
-        object Initial: State()
-        object Loading: State()
-        object FirstItemEmitted: State()
-        object LoadingFinished: State()
+        object Initial : State()
+        object Loading : State()
+        object FirstItemEmitted : State()
+        object LoadingFinished : State()
         class Italian(val data: List<RecipeEntity>) : State()
         class Vegetarian(val data: List<RecipeEntity>) : State()
         class Indian(val data: List<RecipeEntity>) : State()

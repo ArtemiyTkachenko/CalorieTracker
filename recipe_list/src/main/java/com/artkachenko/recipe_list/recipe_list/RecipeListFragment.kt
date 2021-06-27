@@ -14,8 +14,7 @@ import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.core_impl.network.Filters
 import com.artkachenko.recipe_list.R
 import com.artkachenko.recipe_list.databinding.FragmentRecipeListBinding
-import com.artkachenko.ui_utils.ImageUtils
-import com.artkachenko.ui_utils.setSingleClickListener
+import com.artkachenko.ui_utils.*
 import com.artkachenko.ui_utils.themes.ThemeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -93,15 +92,10 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
 //        viewModel.getRecipeList()
     }
 
-    override fun onResume() {
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
-        super.onResume()
-    }
-
     override fun onItemClicked(model: RecipeEntity, view: View) {
         val bundle = Bundle().apply {
-            putLong("id", model.id)
-            putString("transitionName", view.transitionName)
+            putLong(ID, model.id)
+            putString(TRANSITION_NAME, view.transitionName)
         }
 
         val extras = FragmentNavigatorExtras(view to view.transitionName)
@@ -111,7 +105,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
 
     override fun navigateToSearch(filters: FilterWrapper?) {
         val bundle = Bundle().apply {
-            putParcelable("presets", filters)
+            putParcelable(PRESETS, filters)
         }
         val extras = FragmentNavigatorExtras(binding.searchViewContainer to "searchViewContainer")
 
