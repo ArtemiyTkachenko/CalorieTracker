@@ -27,13 +27,13 @@ class RecipeListViewModel @Inject constructor(
 
     fun getRecipeList() {
         scope.launch {
-            val italianRecipes = recipeRepository.getRecipeList(0, *Filters.italianPreset.toList().toTypedArray(), Filters.fiveItemPreset)
+            val italianRecipes = recipeRepository.getRecipeList(0, *Filters.italianPreset.map { it.key to it.value.map { it.value } }.toTypedArray(), Filters.fiveItemPreset)
             _recipes.emit(State.Italian(italianRecipes))
-            val vegetarianRecipes = recipeRepository.getRecipeList(0, *Filters.vegetarianPreset.toList().toTypedArray(), Filters.fiveItemPreset)
+            val vegetarianRecipes = recipeRepository.getRecipeList(0, *Filters.vegetarianPreset.map { it.key to it.value.map { it.value } }.toTypedArray(), Filters.fiveItemPreset)
             _recipes.emit(State.Vegetarian(vegetarianRecipes))
-            val indianRecipes = recipeRepository.getRecipeList(0, *Filters.indianPreset.toList().toTypedArray(), Filters.fiveItemPreset)
+            val indianRecipes = recipeRepository.getRecipeList(0, *Filters.indianPreset.map { it.key to it.value.map { it.value } }.toTypedArray(), Filters.fiveItemPreset)
             _recipes.emit(State.Indian(indianRecipes))
-            val quickRecipes = recipeRepository.getRecipeList(0, *Filters.quickPreset.toList().toTypedArray(), Filters.fiveItemPreset)
+            val quickRecipes = recipeRepository.getRecipeList(0, *Filters.quickPreset.map { it.key to it.value.map { it.value } }.toTypedArray(), Filters.fiveItemPreset)
             _recipes.emit(State.Quick(quickRecipes))
             delay(100)
             _recipes.emit(State.LoadingFinished)

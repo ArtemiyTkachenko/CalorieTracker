@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.ui_utils.views.ThemeAwareChip
 import com.google.android.material.chip.Chip
 
@@ -65,14 +66,14 @@ fun buildChip(
     context: Context,
     viewGroup: ViewGroup,
     id: Int ?= null,
-    filterValue: Map.Entry<String, String>? = null,
+    filterValue: Map.Entry<String, FilterItemWrapper>? = null,
     canClose: Boolean = true,
     isChecked: Boolean = false,
-    checkCallback: ((Map.Entry<String, String>?, Boolean) -> Unit) ?= null
+    checkCallback: ((Map.Entry<String, FilterItemWrapper>?, Boolean) -> Unit) ?= null
 ): ThemeAwareChip {
     return ThemeAwareChip(context).apply {
         id?.let { this.id = it }
-        text = filterValue?.value
+        text = filterValue?.value?.value
 
         if (canClose) {
             isCloseIconVisible = true
@@ -80,7 +81,9 @@ fun buildChip(
             setCloseIconResource(R.drawable.ic_baseline_close_24)
             setOnCloseIconClickListener {
                 viewGroup.removeView(it)
-                filterValue?.let { value -> checkCallback?.invoke(value, false) }
+                filterValue?.let { value ->
+                    value.value.isChecked = false
+                    checkCallback?.invoke(value, false) }
             }
         }
 
@@ -89,11 +92,10 @@ fun buildChip(
 
         this.isChecked = isChecked
 
-//        chipBackgroundColor = ContextCompat.getColorStateList(context, R.color.background_color_checked_state_list)
-//        setTextColor(ContextCompat.getColorStateList(context, R.color.text_color_chip_state_list))
-
         setOnCheckedChangeListener { buttonView, isChecked ->
-            filterValue?.let { value -> checkCallback?.invoke(value, isChecked) }
+            filterValue?.let { value ->
+                value.value.isChecked = !value.value.isChecked
+                checkCallback?.invoke(value, isChecked) }
         }
         viewGroup.addView(this)
     }

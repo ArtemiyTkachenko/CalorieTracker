@@ -25,10 +25,9 @@ class ShowMoreViewHolder(private val binding: IShowMoreBinding): RecyclerView.Vi
 
     fun bind(actions: RecipeListActions, filters: FilterWrapper) {
         binding.root.setSingleClickListener {
-            val checkedFilters = filters.filters.forEach {
-                val values = it.value
-                values.forEachIndexed { index, pair ->
-
+            filters.filters.forEach {
+                it.value.forEach {
+                    it.isChecked = true
                 }
             }
             actions.navigateToSearch(filters)

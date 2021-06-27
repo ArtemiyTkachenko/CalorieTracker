@@ -1,70 +1,72 @@
 package com.artkachenko.core_impl.network
 
+import com.artkachenko.core_api.network.models.FilterItemWrapper
+
 object Filters {
 
-    val vegetarianPreset = mutableMapOf("diet" to mutableListOf("vegetarian"))
-    val italianPreset = mutableMapOf("cuisine" to mutableListOf("italian"))
-    val indianPreset = mutableMapOf("cuisine" to mutableListOf("indian"))
-    val quickPreset = mutableMapOf("maxReadyTime" to mutableListOf("20"))
+    val vegetarianPreset = mutableMapOf("diet" to mutableListOf(FilterItemWrapper("vegetarian")))
+    val italianPreset = mutableMapOf("cuisine" to mutableListOf(FilterItemWrapper("italian")))
+    val indianPreset = mutableMapOf("cuisine" to mutableListOf(FilterItemWrapper("indian")))
+    val quickPreset = mutableMapOf("maxReadyTime" to mutableListOf(FilterItemWrapper("20")))
     val cuisineFilters = mutableMapOf(
         "cuisine" to mutableListOf(
-            "African",
-            "American",
-            "British",
-            "Cajun",
-            "Caribbean",
-            "Chinese",
-            "Eastern European",
-            "European",
-            "French",
-            "German",
-            "Greek",
-            "Indian",
-            "Irish",
-            "Italian",
-            "Japanese",
-            "Jewish",
-            "Korean",
-            "Latin American",
-            "Mediterranean",
-            "Mexican",
-            "Middle Eastern",
-            "Nordic",
-            "Southern",
-            "Spanish",
-            "Thai",
-            "Vietnamese"
+            FilterItemWrapper("African"),
+            FilterItemWrapper("American"),
+            FilterItemWrapper("British"),
+            FilterItemWrapper("Cajun"),
+            FilterItemWrapper("Caribbean"),
+            FilterItemWrapper("Chinese"),
+            FilterItemWrapper("Eastern European"),
+            FilterItemWrapper("European"),
+            FilterItemWrapper("French"),
+            FilterItemWrapper("German"),
+            FilterItemWrapper("Greek"),
+            FilterItemWrapper("Indian"),
+            FilterItemWrapper("Irish"),
+            FilterItemWrapper("Italian"),
+            FilterItemWrapper("Japanese"),
+            FilterItemWrapper("Jewish"),
+            FilterItemWrapper("Korean"),
+            FilterItemWrapper("Latin American"),
+            FilterItemWrapper("Mediterranean"),
+            FilterItemWrapper("Mexican"),
+            FilterItemWrapper("Middle Eastern"),
+            FilterItemWrapper("Nordic"),
+            FilterItemWrapper("Southern"),
+            FilterItemWrapper("Spanish"),
+            FilterItemWrapper("Thai"),
+            FilterItemWrapper("Vietnamese")
         )
     )
 
     val dietFilters = mutableMapOf(
         "diet" to mutableListOf(
-            "gluten free",
-            "ketogenic",
-            "vegetarian",
-            "lacto-vegetarian",
-            "ovo-vegetarian",
-            "vegan",
-            "pescetarian",
-            "paleo",
-            "primal"
+            FilterItemWrapper("gluten free"),
+            FilterItemWrapper("ketogenic"),
+            FilterItemWrapper("vegetarian"),
+            FilterItemWrapper("lacto-vegetarian"),
+            FilterItemWrapper("ovo-vegetarian"),
+            FilterItemWrapper("vegan"),
+            FilterItemWrapper("pescetarian"),
+            FilterItemWrapper("paleo"),
+            FilterItemWrapper("primal")
         )
     )
 
     val intolerancesFilters = mutableMapOf(
         "intolerances" to mutableListOf(
-            "dairy",
-            "egg",
-            "gluten",
-            "grain",
-            "peanut",
-            "seafood",
-            "sesame",
-            "shellfish",
-            "soy",
-            "sulfite",
-            "tree nut",
-            "wheat"
+            FilterItemWrapper("dairy"),
+            FilterItemWrapper("egg"),
+            FilterItemWrapper("gluten"),
+            FilterItemWrapper("grain"),
+            FilterItemWrapper("peanut"),
+            FilterItemWrapper("seafood"),
+            FilterItemWrapper("sesame"),
+            FilterItemWrapper("shellfish"),
+            FilterItemWrapper("soy"),
+            FilterItemWrapper("sulfite"),
+            FilterItemWrapper("tree nut"),
+            FilterItemWrapper("wheat")
         )
     )
 

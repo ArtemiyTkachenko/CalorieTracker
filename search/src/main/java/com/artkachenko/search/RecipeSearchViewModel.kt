@@ -2,10 +2,11 @@ package com.artkachenko.search
 
 import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.ViewModelScopeProvider
+import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.core_api.network.models.FilterWrapper
-import com.artkachenko.core_api.network.models.FilterPair
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
+import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -36,11 +37,12 @@ class RecipeSearchViewModel @Inject constructor(
 
     fun getInitial(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         offset = 0
+        
         loadRecipes(query, wrapper)
     }
 
     fun loadRecipes(query: String, wrapper: FilterWrapper? = filtersWrapper) {
-        if (isLoading) return
+        if (isLoading || checkIfEmptySearch(query, wrapper)) return
 
         scope.launch {
             if (offset == 0) _state.emit(State.FirstLoad)
@@ -50,7 +52,7 @@ class RecipeSearchViewModel @Inject constructor(
                 "query" to listOf(query),
                 "offset" to listOf(offset.toString()),
                 "addRecipeInformation" to listOf("true"),
-                *wrapper?.filters?.toList()?.toTypedArray() ?: arrayOf()
+                *wrapper?.filters?.map { it.key to it.value.map { it.value } }?.toTypedArray() ?: arrayOf()
             )
             _state.tryEmit(State.Success(recipes))
             offset += 10
@@ -60,13 +62,26 @@ class RecipeSearchViewModel @Inject constructor(
         }
     }
 
-    fun processFilter(filter: Map.Entry<String, String>, isChecked: Boolean) {
+    fun processFilter(filter: Map.Entry<String, FilterItemWrapper>) {
         if (filtersWrapper == null) filtersWrapper = FilterWrapper(mutableMapOf())
         val filters = filtersWrapper?.filters
         val filterKey = filter.key
+        val filterValue = filter.value
         val keyList = filters?.get(filter.key) ?: mutableListOf()
-        if (isChecked) keyList.add(filter.value) else keyList.remove(filter.value)
+        if (filterValue.isChecked && !keyList.contains(filterValue)) keyList.add(filterValue) else keyList.remove(filterValue)
         filters?.put(filterKey, keyList)
+        debugLog("filters are $filters")
+    }
+
+    private fun checkIfEmptySearch(query: String, wrapper: FilterWrapper?): Boolean {
+        var filterIsEmpty = true
+        wrapper?.filters?.values?.forEach {
+            if (!it.isNullOrEmpty()) {
+                filterIsEmpty = false
+                return@forEach
+            }
+        }
+        return query.isEmpty() && filterIsEmpty
     }
 
     private fun setFilter() {
@@ -75,7 +90,7 @@ class RecipeSearchViewModel @Inject constructor(
     }
 
     private fun resetFilters() {
-
+        filtersWrapper?.filters?.clear()
     }
 
     sealed class State() {

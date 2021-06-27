@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.artkachenko.core_api.base.BaseFragment
+import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.FilterPair
 import com.artkachenko.core_api.network.models.RecipeEntity
@@ -182,8 +183,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                     filterChips,
                     isChecked = true,
                     filterValue = FilterPair(filter.key to filterValue),
-                    checkCallback = { entry: Map.Entry<String, String>?, isChecked: Boolean ->
-                        if (!isChecked) entry?.let { viewModel.processFilter(it, isChecked) }
+                    checkCallback = { entry: Map.Entry<String, FilterItemWrapper>?, isChecked: Boolean ->
+                        if (!isChecked) entry?.let { viewModel.processFilter(it) }
                         updateFilter()
                     }
                 )
