@@ -1,24 +1,17 @@
 package com.artkachenko.calendar.calendar
 
-import android.content.Context
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
-import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.calendar.databinding.ISearchRecipeBinding
 import com.artkachenko.calendar.databinding.IUsedReceiptsHeaderBinding
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.core_api.network.models.RecipeEntity
-import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.*
 import java.util.*
 
 class UsedRecipesAdapter(private val actions: CalendarActions) :
-   RecyclerView.Adapter<UsedRecipeHeaderViewHolder>() {
+    RecyclerView.Adapter<UsedRecipeHeaderViewHolder>() {
 
     private val data = mutableListOf<RecipeEntity>()
 
@@ -37,10 +30,8 @@ class UsedRecipesAdapter(private val actions: CalendarActions) :
     override fun getItemCount() = if (data.isNullOrEmpty()) 0 else 1
 
     fun setData(recipeList: List<RecipeEntity>) {
-        debugLog("USEDRECIPE, model beforeClear is $recipeList")
         data.clear()
         data.addAll(recipeList)
-        debugLog("USEDRECIPE, model afterClear is $recipeList")
         notifyItemInserted(0)
     }
 
@@ -55,8 +46,7 @@ class UsedRecipeHeaderViewHolder(
     private val actions: CalendarActions
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(model: List<RecipeEntity>) {
-        with (binding) {
-            debugLog("USEDRECIPE, model is $model")
+        with(binding) {
             val recipesAdapter = UsedRecipesItemAdapter(actions)
             usedRecipes.adapter = recipesAdapter
             recipesAdapter.setInitial(model)
@@ -88,7 +78,8 @@ class RecipeListViewHolder(
             recipeImage.loadCircleImage(url)
             recipeTitle.text = model.title
 
-            recipeHealthScore.text = buildSpan(model.healthScore?.toInt(), context, R.string.health_score)
+            recipeHealthScore.text =
+                buildSpan(model.healthScore?.toInt(), context, R.string.health_score)
 
             recipeScore.text = buildSpan(model.spoonacularScore?.toInt(), context, R.string.score)
 

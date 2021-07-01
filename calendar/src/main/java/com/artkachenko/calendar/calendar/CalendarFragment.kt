@@ -6,6 +6,7 @@ import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -14,7 +15,6 @@ import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.PrefManager
-import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.ID
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.TRANSITION_NAME
@@ -24,15 +24,18 @@ import com.artkachenko.ui_utils.views.MenuFab
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.utils.Size
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @InternalCoroutinesApi
 @AndroidEntryPoint
 class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActions {
@@ -85,8 +88,8 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         viewModel.getDishes()
 
-        scope.launch {
-            viewModel.state.collect {
+        lifecycleScope.launchWhenResumed {
+            viewModel.state.collectLatest {
                 processState(it)
             }
         }
@@ -145,7 +148,6 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     }
 
     private fun processState(state: CalendarViewModel.State) {
-        debugLog("USEDRECIPE, model at processState is ${state.javaClass.simpleName}")
         when (state) {
             is CalendarViewModel.State.Bar -> sourcesAdapter.setInitial(listOf(state.data))
             is CalendarViewModel.State.Calories -> {
@@ -158,10 +160,10 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             CalendarViewModel.State.Clear -> clearAdapters()
             CalendarViewModel.State.Visible -> binding.info.isVisible = true
             is CalendarViewModel.State.Recipes -> {
-                debugLog("USEDRECIPE, model at RecipesState is ${state.data}")
                 recipesUsedAdapter.setData(state.data)
             }
             CalendarViewModel.State.Initial -> { }
+            CalendarViewModel.State.FinishedLoading -> {}
         }
     }
 

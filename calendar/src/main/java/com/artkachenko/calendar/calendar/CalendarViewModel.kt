@@ -7,7 +7,6 @@ import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_api.network.repositories.RecipeRepository
-import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -29,17 +28,17 @@ class CalendarViewModel @Inject constructor(
 
     val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
-    val state: SharedFlow<State>
+    val state: StateFlow<State>
         get() = _state
 
-    private val _state = MutableSharedFlow<State>()
+    private val _state = MutableStateFlow<State>(State.Initial)
 
     fun changeDate(date: LocalDate) {
         scope.launch {
             selectedDate.emit(date)
             val start = date.atStartOfDay()
             val end = date.atStartOfDay().plusDays(1)
-            _state.emit(State.Clear)
+            _state.value = State.Clear
             getDishes(start, end)
         }
     }
@@ -48,12 +47,11 @@ class CalendarViewModel @Inject constructor(
         start: LocalDateTime = selectedDate.value.atStartOfDay(),
         end: LocalDateTime = selectedDate.value.atStartOfDay().plusDays(1)
     ) {
-        debugLog("USEDRECIPE, model at getDishes")
+        if (_state.value == State.FinishedLoading) return
 
         scope.launch {
             dishesRepository.getDishesByDate(start, end).collect { list ->
-                debugLog("USEDRECIPE, dish list size is ${list.size} ")
-                _state.emit(State.Dishes(list))
+                _state.value = State.Dishes(list)
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
                 val carbItems = mutableListOf<Double>()
@@ -73,11 +71,7 @@ class CalendarViewModel @Inject constructor(
 
                         val converted = ingredient.convertedAmount
 
-                        debugLog("CONVERSION, converted amount is ${converted?.answer}")
-
                         ingredientsAmount[title] = previousValue.plus(ingredient.convertedAmount?.targetAmount ?: 0.0)
-
-                        debugLog("CONVERSION, amount after addition is ${ingredientsAmount[title]} and key is $title")
                     }
 
                     val breakdown = dishDetail.nutrition?.caloricBreakdown
@@ -96,23 +90,23 @@ class CalendarViewModel @Inject constructor(
 
                 emitPieDataSet(fatAverage, proteinAverage, carbAverage)
 
-                _state.emit(State.Calories(calories))
+                _state.value = State.Calories(calories)
 
                 if (!recipeIdsList.isNullOrEmpty()) {
                     val entities = recipeRepository.getRecipesById(recipeIdsList)
-                    _state.emit(State.Recipes(entities))
+                    _state.value = State.Recipes(entities)
                 }
 
                 delay(100)
-                _state.emit(State.Initial)
+                _state.value = State.FinishedLoading
             }
         }
     }
 
     private suspend fun emitBarDataSet(sources: MutableMap<String, Double>) {
         if (!sources.isNullOrEmpty()) {
-            _state.emit(State.Bar(sources))
-            _state.emit(State.Visible)
+            _state.value = State.Bar(sources)
+            _state.value = State.Visible
         }
     }
 
@@ -122,13 +116,14 @@ class CalendarViewModel @Inject constructor(
         carbAverage: Double
     ) {
         if (!fatAverage.isNaN() || !proteinAverage.isNaN() || !carbAverage.isNaN()) {
-            _state.emit(State.Pie(Triple(fatAverage.toLong(), proteinAverage.toLong(), carbAverage.toLong())))
-            _state.emit(State.Visible)
+            _state.value = State.Pie(Triple(fatAverage.toLong(), proteinAverage.toLong(), carbAverage.toLong()))
+            _state.value = State.Visible
         }
     }
 
     sealed class State() {
         object Initial : State()
+        object FinishedLoading: State()
         data class Pie(val data: Triple<Long, Long, Long>) : State()
         data class Bar(val data: Map<String, Double>) : State()
         data class Calories(val data: Int) : State()
