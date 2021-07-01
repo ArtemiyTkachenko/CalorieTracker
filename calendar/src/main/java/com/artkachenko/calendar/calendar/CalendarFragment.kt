@@ -6,14 +6,18 @@ import android.util.DisplayMetrics
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import com.artkachenko.calendar.R
 import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
-import com.artkachenko.core_api.network.models.ManualDishDetail
+import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.PrefManager
 import com.artkachenko.core_api.utils.debugLog
+import com.artkachenko.ui_utils.ID
 import com.artkachenko.ui_utils.ImageUtils
+import com.artkachenko.ui_utils.TRANSITION_NAME
 import com.artkachenko.ui_utils.decorations.MarginItemDecoration
 import com.artkachenko.ui_utils.themes.ThemeManager
 import com.artkachenko.ui_utils.views.MenuFab
@@ -53,8 +57,12 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         SourcesAdapter()
     }
 
+    private val recipesUsedAdapter by lazy {
+        UsedRecipesAdapter(this)
+    }
+
     private val adapter by lazy {
-        ConcatAdapter(progressAdapter, pieAdapter, sourcesAdapter)
+        ConcatAdapter(progressAdapter, pieAdapter, sourcesAdapter, recipesUsedAdapter)
     }
 
     private lateinit var binding: FragmentCalendarBinding
@@ -107,8 +115,15 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         super.onResume()
     }
 
-    override fun onItemClicked(model: ManualDishDetail, view: View) {
+    override fun onItemClicked(model: RecipeEntity, view: View) {
+        val bundle = Bundle().apply {
+            putLong(ID, model.id)
+            putString(TRANSITION_NAME, view.transitionName)
+        }
 
+        val extras = FragmentNavigatorExtras(view to "recipeImage")
+
+        findNavController().navigate(R.id.calendar_to_detail, bundle, null, extras)
     }
 
     override fun changeDate(day: CalendarDay) {
@@ -130,6 +145,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     }
 
     private fun processState(state: CalendarViewModel.State) {
+        debugLog("USEDRECIPE, model at processState is ${state.javaClass.simpleName}")
         when (state) {
             is CalendarViewModel.State.Bar -> sourcesAdapter.setInitial(listOf(state.data))
             is CalendarViewModel.State.Calories -> {
@@ -141,6 +157,11 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
             CalendarViewModel.State.Clear -> clearAdapters()
             CalendarViewModel.State.Visible -> binding.info.isVisible = true
+            is CalendarViewModel.State.Recipes -> {
+                debugLog("USEDRECIPE, model at RecipesState is ${state.data}")
+                recipesUsedAdapter.setData(state.data)
+            }
+            CalendarViewModel.State.Initial -> { }
         }
     }
 
@@ -149,6 +170,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         pieAdapter.clear()
         progressAdapter.clear()
         sourcesAdapter.clear()
+        recipesUsedAdapter.clear()
     }
 
     private fun generateFabConfigs(): List<MenuFab.FabConfig> {

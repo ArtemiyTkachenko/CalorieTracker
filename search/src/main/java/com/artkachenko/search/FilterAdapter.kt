@@ -24,9 +24,9 @@ class FilterAdapter(private val actions: RecipeFilterActions) : BaseAdapter<Filt
 
     fun setFilters(argPresets: FilterWrapper?) {
 
-        val cuisineFilters = FilterWrapper(Filters.cuisineFilters.toMutableMap())
-        val dietFilters = FilterWrapper(Filters.dietFilters.toMutableMap())
-        val intolerancesFilters = FilterWrapper(Filters.intolerancesFilters.toMutableMap())
+        val cuisineFilters = FilterWrapper(HashMap(Filters.cuisineFilters))
+        val dietFilters = FilterWrapper(HashMap(Filters.dietFilters))
+        val intolerancesFilters = FilterWrapper(HashMap(Filters.intolerancesFilters))
 
         argPresets?.filters?.forEach {
             val key = it.key
@@ -62,7 +62,6 @@ class FilterAdapter(private val actions: RecipeFilterActions) : BaseAdapter<Filt
         presetValue.forEach { presetFilter ->
             originalFilters?.forEach { originalFilter ->
                 val sameKey = presetFilter == originalFilter
-                debugLog("BOTTOMSHEET, presetFilter is ${presetFilter.value}, originalFilter is ${originalFilter.value} comparison is $sameKey")
                 if (sameKey) {
                     originalFilter.isChecked = presetFilter.isChecked
                 }

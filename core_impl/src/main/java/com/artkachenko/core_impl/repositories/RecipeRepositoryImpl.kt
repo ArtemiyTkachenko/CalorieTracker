@@ -39,4 +39,10 @@ class RecipeRepositoryImpl @Inject constructor(
             recipeApi.convertIngredients(*filters)
         }
     }
+
+    override suspend fun getRecipesById(ids: List<Long>): List<RecipeEntity> {
+        return withContext(dispatcher) {
+            recipeApi.getRecipesById(ids)
+        }
+    }
 }

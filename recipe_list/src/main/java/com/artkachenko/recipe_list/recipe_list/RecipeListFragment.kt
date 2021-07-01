@@ -62,19 +62,19 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
             val actions = this@RecipeListFragment
             indian.adapter = ConcatAdapter(
                 firstAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(Filters.indianPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.indianPreset.toMutableMap()))
             )
             vegetarian.adapter = ConcatAdapter(
                 secondAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(Filters.vegetarianPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.vegetarianPreset.toMutableMap()))
             )
             italian.adapter = ConcatAdapter(
                 thirdAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(Filters.italianPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.italianPreset.toMutableMap()))
             )
             quick.adapter = ConcatAdapter(
                 fourthAdapter,
-                ShowMoreAdapter(actions, FilterWrapper(Filters.quickPreset))
+                ShowMoreAdapter(actions, FilterWrapper(Filters.quickPreset.toMutableMap()))
             )
         }
 

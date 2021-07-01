@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.artkachenko.ui_utils.views.ClippedConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    android:orientation="vertical">
+
+    <com.artkachenko.ui_utils.views.CircleImageView
+        android:id="@+id/recipe_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_margin="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_my_recipes_placeholder_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/recipe_title"
+        style="@style/TextAppearance.AppCompat.Bold_16"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="marquee"
+        android:gravity="start"
+        android:maxLines="2"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/recipe_image"
+        app:layout_constraintTop_toBottomOf="@+id/click_container"
+        tools:text="Some text" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/recipe_score"
+        style="@style/TextAppearance.AppCompat.Medium_14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_health_score"
+        app:layout_constraintEnd_toEndOf="@id/recipe_title"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/recipe_title"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_title"
+        tools:text="Some text" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/recipe_health_score"
+        style="@style/TextAppearance.AppCompat.Medium_14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        app:layout_constraintBottom_toTopOf="@+id/recipe_cooking_time"
+        app:layout_constraintEnd_toEndOf="@id/recipe_title"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/recipe_title"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_score"
+        tools:text="Some text" />
+
+    <com.artkachenko.ui_utils.views.ThemeAwareTextView
+        android:id="@+id/recipe_cooking_time"
+        style="@style/TextAppearance.AppCompat.Medium_14"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="start"
+        app:layout_constraintBottom_toTopOf="@+id/click_container"
+        app:layout_constraintEnd_toEndOf="@id/recipe_title"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/recipe_title"
+        app:layout_constraintTop_toBottomOf="@+id/recipe_health_score"
+        tools:text="Some text" />
+
+    <View
+        android:id="@+id/click_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</com.artkachenko.ui_utils.views.ClippedConstraintLayout>

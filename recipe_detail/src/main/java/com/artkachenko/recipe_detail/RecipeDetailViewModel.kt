@@ -67,6 +67,7 @@ class RecipeDetailViewModel @Inject constructor(
             )
 
             val manualDish = ManualDishDetail(
+                recipeId = model.id,
                 extendedIngredients = adjustedIngredients,
                 nutrition = adjustedNutrition,
                 date = LocalDateTime.now()

@@ -6,6 +6,8 @@ object NetworkEndpoints {
 
     const val RecipeSearch = "$baseUrl/recipes/complexSearch"
 
+    const val RecipeSearchById = "$baseUrl/recipes/informationBulk"
+
     const val ConvertIngredients = "$baseUrl/recipes/convert"
 
     fun getRecipeDetailEndPoint(id: Long): String {

@@ -14,4 +14,6 @@ interface RecipeRepository {
     suspend fun parseIngredients(ingredients: List<String>): List<Ingredient>
 
     suspend fun convertIngredients(vararg filters: Pair<String, List<String>>) : ConvertedAmount
+
+    suspend fun getRecipesById(ids: List<Long>) : List<RecipeEntity>
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.core_api.network.models.FilterWrapper
+import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentFilterBottomSheetBinding
 import com.artkachenko.ui_utils.PRESETS
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -37,6 +38,8 @@ class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        debugLog("BOTTOMSHEET, onViewCreated Called")
+
         binding?.apply {
             filters.adapter = filterAdapter
             filterAdapter.setFilters(argPresets)
@@ -50,8 +53,19 @@ class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions
         viewModel.processFilter(filter)
     }
 
+    override fun onPause() {
+        debugLog("BOTTOMSHEET, onPause Called")
+        super.onPause()
+    }
+
+    override fun onResume() {
+        debugLog("BOTTOMSHEET, onResume Called")
+        super.onResume()
+    }
+
     override fun onDestroy() {
         binding = null
+        debugLog("BOTTOMSHEET, onDestroy Called")
         super.onDestroy()
     }
 

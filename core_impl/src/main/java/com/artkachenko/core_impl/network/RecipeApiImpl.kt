@@ -13,7 +13,10 @@ import javax.inject.Singleton
 @Singleton
 class RecipeApiImpl @Inject constructor(private val client: HttpClient) : RecipeApi {
 
-    override suspend fun getRecipeList(offset: Int, vararg filters: Pair<String, List<String>>): List<RecipeEntity> {
+    override suspend fun getRecipeList(
+        offset: Int,
+        vararg filters: Pair<String, List<String>>
+    ): List<RecipeEntity> {
         return client.get<RecipeResultsWrapper>(NetworkEndpoints.RecipeSearch) {
             parametersOf(pairs = filters).forEach { s, list ->
                 this.url.parameters.appendAll(s, list)
@@ -36,6 +39,12 @@ class RecipeApiImpl @Inject constructor(private val client: HttpClient) : Recipe
             parametersOf(pairs = filters).forEach { s, list ->
                 this.url.parameters.appendAll(s, list)
             }
+        }
+    }
+
+    override suspend fun getRecipesById(ids: List<Long>): List<RecipeEntity> {
+        return client.get(NetworkEndpoints.RecipeSearchById) {
+            parameter("ids", ids.joinToString(separator = ",") { it.toString() })
         }
     }
 }

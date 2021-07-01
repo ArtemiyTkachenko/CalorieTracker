@@ -99,9 +99,9 @@ class NutritionPieChart @JvmOverloads constructor(
                 rect,
                 lowRatePosition, carbRateSpan, false, carbsPaint
             )
-            progressLengthCarbs = 0F
-            progressLengthFat = 0F
-            progressLengthProtein = 0F
+//            progressLengthCarbs = 0F
+//            progressLengthFat = 0F
+//            progressLengthProtein = 0F
         }
     }
 

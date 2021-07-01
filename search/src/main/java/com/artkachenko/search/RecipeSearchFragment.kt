@@ -186,7 +186,11 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                     checkCallback = { entry: Map.Entry<String, FilterItemWrapper>?, isChecked: Boolean ->
                         if (!isChecked) entry?.let { viewModel.processFilter(it) }
                         updateFilter()
-                    }
+                    },
+                    closeCallback = { entry: Map.Entry<String, FilterItemWrapper>?, isChecked: Boolean ->
+                        if (!isChecked) entry?.let { viewModel.processFilter(it) }
+                        updateFilter()
+                    },
                 )
             }
         }

@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class FilterWrapper(val filters: MutableMap<String, MutableList<FilterItemWrapper>>): Parcelable {
+data class FilterWrapper(val filters: MutableMap<String, MutableList<FilterItemWrapper>>): Parcelable {
 
     fun extractFirstKey(): String {
         return filters.keys.first()

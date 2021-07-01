@@ -99,7 +99,7 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
 
             val calorieAmount = model.nutrition?.nutrients?.firstOrNull { it.title == IngredientTitles.CALORIES.title }?.amount?.toInt()?.toString()
 
-            calories.text = String.format(getString(R.string.current_calories_are), calorieAmount)
+            calories.text = String.format(getString(R.string.current_calories_amount), calorieAmount)
 
             servings.text = String.format(getString(R.string.current_serving_amount), model.servings.toString())
 

@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter
 data class ManualDishDetail(
     @PrimaryKey(autoGenerate = true)
     override var id: Long = 0,
+    val recipeId: Long = 0,
     val nutrition: Nutrition? = null,
     val extendedIngredients: List<Ingredient>? = null,
     val date: LocalDateTime? = null

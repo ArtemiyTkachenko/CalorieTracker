@@ -3,7 +3,6 @@ package com.artkachenko.core_impl.network
 import com.artkachenko.core_api.network.models.FilterItemWrapper
 
 object Filters {
-
     val vegetarianPreset = mutableMapOf("diet" to mutableListOf(FilterItemWrapper("vegetarian")))
     val italianPreset = mutableMapOf("cuisine" to mutableListOf(FilterItemWrapper("italian")))
     val indianPreset = mutableMapOf("cuisine" to mutableListOf(FilterItemWrapper("indian")))

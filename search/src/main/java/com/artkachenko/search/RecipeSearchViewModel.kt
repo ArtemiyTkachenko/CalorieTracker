@@ -74,7 +74,7 @@ class RecipeSearchViewModel @Inject constructor(
     }
 
     fun setFilter(wrapper: FilterWrapper?) {
-        this.filtersWrapper = wrapper
+        this.filtersWrapper = wrapper?.copy()
     }
 
     private fun checkIfEmptySearch(query: String, wrapper: FilterWrapper?): Boolean {

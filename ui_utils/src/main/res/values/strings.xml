@@ -3,8 +3,10 @@
     <string name="apply">Apply</string>
     <string name="cancel">Cancel</string>
     <string name="choose_serving_amount">Choose amount of servings</string>
+    <string name="current_serving_empty">Servings: -</string>
     <string name="current_serving_amount">Servings: %1$s</string>
-    <string name="current_calories_are">Calories per serving: %1$s</string>
+    <string name="current_calories_empty">Calories per serving: -</string>
+    <string name="current_calories_amount">Calories per serving: %1$s</string>
     <string name="cooking_time">%1$s MINS or less</string>
     <string name="score">Score: %1$s/100</string>
     <string name="health_score">Healthy: %1$s/100</string>
@@ -16,6 +18,7 @@
     <string name="calories_left">Left</string>
     <string name="kcal">Kcal</string>
     <string name="macronutrients">Macronutrients</string>
+    <string name="used_recipes">Recipes of the day</string>
     <string name="sources_of_food">Ingredient amounts</string>
     <string name="fat_percentage">Fat</string>
     <string name="protein_percentage">Protein</string>

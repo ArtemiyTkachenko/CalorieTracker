@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Bold_18"
                 android:layout_marginTop="8dp"
-                android:text="@string/current_serving_amount"
+                android:text="@string/current_serving_empty"
                 app:layout_constraintEnd_toEndOf="@id/title"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/diets_horizontal_view"/>
@@ -84,7 +84,7 @@
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.AppCompat.Bold_18"
                 android:layout_marginTop="8dp"
-                android:text="@string/current_calories_are"
+                android:text="@string/current_calories_empty"
                 app:layout_constraintEnd_toEndOf="@id/title"
                 app:layout_constraintStart_toStartOf="@id/title"
                 app:layout_constraintTop_toBottomOf="@id/servings"/>

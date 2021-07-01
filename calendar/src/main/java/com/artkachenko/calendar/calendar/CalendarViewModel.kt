@@ -4,19 +4,25 @@ import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.IngredientTitles
 import com.artkachenko.core_api.network.models.ManualDishDetail
+import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.DishesRepository
+import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 @InternalCoroutinesApi
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
+    private val recipeRepository: RecipeRepository,
     private val dishesRepository: DishesRepository,
     private val scopeProvider: ViewModelScopeProvider
 ) : ViewModel(), ViewModelScopeProvider by scopeProvider {
@@ -42,9 +48,11 @@ class CalendarViewModel @Inject constructor(
         start: LocalDateTime = selectedDate.value.atStartOfDay(),
         end: LocalDateTime = selectedDate.value.atStartOfDay().plusDays(1)
     ) {
+        debugLog("USEDRECIPE, model at getDishes")
+
         scope.launch {
             dishesRepository.getDishesByDate(start, end).collect { list ->
-                debugLog("dish list size is ${list.size} ")
+                debugLog("USEDRECIPE, dish list size is ${list.size} ")
                 _state.emit(State.Dishes(list))
                 val fatItems = mutableListOf<Double>()
                 val proteinItems = mutableListOf<Double>()
@@ -52,8 +60,10 @@ class CalendarViewModel @Inject constructor(
                 val ingredientsAmount = mutableMapOf<String, Double>()
                 var calories = 0
                 var totalWeight = 0.0
+                val recipeIdsList = mutableListOf<Long>()
 
                 list.forEach { dishDetail ->
+                    recipeIdsList.add(dishDetail.recipeId)
                     dishDetail.extendedIngredients?.forEach { ingredient ->
                         totalWeight += ingredient.amount ?: 0.0
 
@@ -87,6 +97,14 @@ class CalendarViewModel @Inject constructor(
                 emitPieDataSet(fatAverage, proteinAverage, carbAverage)
 
                 _state.emit(State.Calories(calories))
+
+                if (!recipeIdsList.isNullOrEmpty()) {
+                    val entities = recipeRepository.getRecipesById(recipeIdsList)
+                    _state.emit(State.Recipes(entities))
+                }
+
+                delay(100)
+                _state.emit(State.Initial)
             }
         }
     }
@@ -110,10 +128,12 @@ class CalendarViewModel @Inject constructor(
     }
 
     sealed class State() {
+        object Initial : State()
         data class Pie(val data: Triple<Long, Long, Long>) : State()
         data class Bar(val data: Map<String, Double>) : State()
         data class Calories(val data: Int) : State()
         data class Dishes(val data: List<ManualDishDetail>?) : State()
+        data class Recipes(val data: List<RecipeEntity>) : State()
         object Visible : State()
         object Clear : State()
     }

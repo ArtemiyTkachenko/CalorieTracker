@@ -28,4 +28,10 @@
         app:enterAnim="@anim/enter_slide_left"
         app:popEnterAnim="@anim/pop_exit_slide_right"/>
 
+    <action
+        android:id="@+id/calendar_to_detail"
+        app:destination="@id/recipe_detail_nav_graph"
+        app:enterAnim="@anim/enter_slide_left"
+        app:popEnterAnim="@anim/pop_exit_slide_right"/>
+
 </navigation>
