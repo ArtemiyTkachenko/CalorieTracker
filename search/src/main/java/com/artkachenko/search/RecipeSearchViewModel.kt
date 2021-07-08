@@ -88,10 +88,16 @@ class RecipeSearchViewModel @Inject constructor(
         _state.value = State.FiltersSet
     }
 
+    fun clear() {
+        offset = 0
+        isLoading = false
+        _state.value = State.Initial
+        filtersWrapper = null
+    }
+
     sealed class State() {
         object Initial : State()
         object FirstLoad : State()
-        object Loading : State()
         class Success(val data: List<RecipeEntity>) : State()
         object LoadingFinished : State()
         object FiltersSet : State()

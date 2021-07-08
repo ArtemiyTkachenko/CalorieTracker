@@ -91,11 +91,38 @@
         </HorizontalScrollView>
 
 
+        <com.artkachenko.ui_utils.views.ThemeAwareLinearLayout
+            android:id="@+id/placeholder_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.artkachenko.ui_utils.views.ThemeAwareImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_baseline_search_24"/>
+
+            <com.artkachenko.ui_utils.views.ThemeAwareTextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/search_placeholder"
+                style="@style/TextAppearance.AppCompat.Bold_18"
+                android:gravity="center"
+                />
+
+        </com.artkachenko.ui_utils.views.ThemeAwareLinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/results"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

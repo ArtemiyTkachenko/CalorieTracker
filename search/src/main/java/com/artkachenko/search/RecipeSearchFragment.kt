@@ -81,7 +81,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     override fun onDestroy() {
-        viewModelStore.clear()
+        viewModel.clear()
         super.onDestroy()
     }
 
@@ -108,13 +108,17 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
         when (state) {
             RecipeSearchViewModel.State.Initial -> {
             }
-            RecipeSearchViewModel.State.Loading -> {
+            RecipeSearchViewModel.State.LoadingFinished -> {
+                binding.progress.isVisible = false
+                binding.results.isVisible = true
             }
-            RecipeSearchViewModel.State.LoadingFinished -> binding.progress.isVisible = false
             is RecipeSearchViewModel.State.Success -> {
                 searchAdapter.setData(state.data)
             }
-            RecipeSearchViewModel.State.FirstLoad -> binding.progress.isVisible = true
+            RecipeSearchViewModel.State.FirstLoad -> {
+                binding.progress.isVisible = true
+                binding.placeholderContainer.isVisible = false
+            }
             RecipeSearchViewModel.State.FiltersSet -> {
                 populateChips(viewModel.filtersWrapper)
                 setInitial()
@@ -163,7 +167,6 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun updateFilter() {
-        debugLog("updateFilter called")
         with(binding) {
             filterChips.removeAllViews()
             populateChips(viewModel.filtersWrapper)
@@ -179,10 +182,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun populateChips(filterWrapper: FilterWrapper?) {
-        debugLog("populateChips called")
         val filterChips = binding.filterChips
         val filters = filterWrapper?.filters
-        if (filters.isNullOrEmpty())
         filters?.forEach { filter ->
             filter.value.forEach { filterValue ->
                 buildChip(

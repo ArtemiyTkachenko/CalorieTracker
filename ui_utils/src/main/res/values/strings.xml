@@ -26,4 +26,5 @@
     <string name="fat_percentage">Fat</string>
     <string name="protein_percentage">Protein</string>
     <string name="carb_percentage">Carbohydrates</string>
+    <string name="search_placeholder">Type in a query or set filter\nto display results!</string>
 </resources>
