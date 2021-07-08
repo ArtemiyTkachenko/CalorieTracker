@@ -5,21 +5,22 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.FilterItemWrapper
-import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.FilterPair
+import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentSearchBinding
 import com.artkachenko.ui_utils.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import viewBinding
 
 @AndroidEntryPoint

@@ -80,7 +80,7 @@ class MenuFab @JvmOverloads constructor(
 
         fab.visibility = config.visibility
 
-        val params = fab.layoutParams as FrameLayout.LayoutParams
+        val params = fab.layoutParams as LayoutParams
         params.height = dp(config.size.y)
         params.width = dp(config.size.x)
         params.gravity = Gravity.END or Gravity.BOTTOM
@@ -88,7 +88,7 @@ class MenuFab @JvmOverloads constructor(
         params.updateMargins(margin, margin, margin, margin)
         fab.layoutParams = params
         fab.setImageDrawable(config.icon?.let { ContextCompat.getDrawable(context, it) })
-        config.background?.let { fab.background = context.resources.getDrawable(it, null) }
+        config.background?.let { fab.background = ContextCompat.getDrawable(context, it)}
         fab.scaleType = ImageView.ScaleType.CENTER
         config.backgroundTint?.let { fab.backgroundTintList = ColorStateList.valueOf(it) }
         fab.setOnClickListener {

@@ -9,7 +9,7 @@ import org.w3c.dom.Attr
 
 class HardcodedColorDetector : ResourceXmlDetector() {
 
-    override fun getApplicableAttributes(): Collection<String>? {
+    override fun getApplicableAttributes(): Collection<String> {
         return listOf(
             SdkConstants.ATTR_COLOR,
             SdkConstants.ATTR_TEXT_COLOR,

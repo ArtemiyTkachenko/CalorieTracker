@@ -19,6 +19,7 @@
             android:src="@drawable/ic_baseline_arrow_back_24"
             android:visibility="invisible"
             android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/image_back_description"
             app:layout_constraintBottom_toBottomOf="@id/search_view_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/search_view_container"
@@ -47,7 +48,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_baseline_search_24" />
+                android:src="@drawable/ic_baseline_search_24"
+                android:contentDescription="@string/image_recipe_search_description"/>
 
             <com.artkachenko.ui_utils.views.ThemeAwareSearchView
                 android:id="@+id/search"

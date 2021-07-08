@@ -5,9 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.text.method.LinkMovementMethod
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +14,10 @@ import com.artkachenko.core_api.network.models.IngredientTitles
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.recipe_detail.databinding.FragmentRecipeDetailBinding
-import com.artkachenko.ui_utils.*
+import com.artkachenko.ui_utils.DetailTransition
+import com.artkachenko.ui_utils.ID
+import com.artkachenko.ui_utils.TRANSITION_NAME
+import com.artkachenko.ui_utils.loadImage
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -123,7 +124,7 @@ class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
                 AlertDialog.Builder(context)
                     .setTitle(getString(R.string.choose_serving_amount))
                     .setSingleChoiceItems(choiceItems.toTypedArray(), 1) { dialog, int ->
-                        val chosenSize = choiceItems.get(int).toInt()
+                        val chosenSize = choiceItems[int].toInt()
                         viewModel.saveRecipe(model, chosenSize)
                         Toast.makeText(requireContext(), R.string.nutrition_added, Toast.LENGTH_SHORT).show()
                         dialog.dismiss()

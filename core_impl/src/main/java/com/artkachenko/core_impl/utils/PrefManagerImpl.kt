@@ -2,7 +2,6 @@ package com.artkachenko.core_impl.utils
 
 import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import com.artkachenko.core_api.utils.PrefManager
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +20,7 @@ class PrefManagerImpl @Inject constructor(application: Application) : PrefManage
 
     override var desiredCalories by IntPreference(desiredCaloriesAmount, 2000)
 
-    class BooleanPreference(val name: String, val default: Boolean = false) {
+    class BooleanPreference(val name: String, private val default: Boolean = false) {
 
         operator fun getValue(thisRef: PrefManagerImpl, property: KProperty<*>): Boolean =
             thisRef.prefs.getBoolean(name, default)
@@ -30,7 +29,7 @@ class PrefManagerImpl @Inject constructor(application: Application) : PrefManage
             thisRef.prefs.edit().putBoolean(name, value).apply()
     }
 
-    class StringPreference(val name: String, val default: String ?= null) {
+    class StringPreference(val name: String, private val default: String ?= null) {
 
         operator fun getValue(thisRef: PrefManagerImpl, property: KProperty<*>): String? =
             thisRef.prefs.getString(name, default)
@@ -39,7 +38,7 @@ class PrefManagerImpl @Inject constructor(application: Application) : PrefManage
             thisRef.prefs.edit().putString(name, value).apply()
     }
 
-    class IntPreference(val name: String, val default: Int = 0) {
+    class IntPreference(val name: String, private val default: Int = 0) {
 
         operator fun getValue(thisRef: PrefManagerImpl, property: KProperty<*>): Int =
             thisRef.prefs.getInt(name, default)
@@ -48,7 +47,7 @@ class PrefManagerImpl @Inject constructor(application: Application) : PrefManage
             thisRef.prefs.edit().putInt(name, value).apply()
     }
 
-    class LongPreference(val name: String, val default: Long = 0L) {
+    class LongPreference(val name: String, private val default: Long = 0L) {
 
         operator fun getValue(thisRef: PrefManagerImpl, property: KProperty<*>): Long =
             thisRef.prefs.getLong(name, default)

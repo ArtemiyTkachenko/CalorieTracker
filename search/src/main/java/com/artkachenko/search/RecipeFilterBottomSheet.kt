@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.core_api.network.models.FilterWrapper
-import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.search.databinding.FragmentFilterBottomSheetBinding
 import com.artkachenko.ui_utils.PRESETS
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -32,7 +30,7 @@ class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFilterBottomSheetBinding.inflate(inflater, container, false)
         return binding.root
     }

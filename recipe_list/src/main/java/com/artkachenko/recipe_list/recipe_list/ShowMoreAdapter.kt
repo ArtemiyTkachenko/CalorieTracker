@@ -1,6 +1,5 @@
 package com.artkachenko.recipe_list.recipe_list
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.core_api.network.models.FilterWrapper
@@ -26,7 +25,7 @@ class ShowMoreViewHolder(private val binding: IShowMoreBinding): RecyclerView.Vi
     fun bind(actions: RecipeListActions, filters: FilterWrapper) {
         binding.root.setSingleClickListener {
             val checkedFilters = filters.copy()
-            checkedFilters.filters.forEach {
+            checkedFilters.filters.forEach { it ->
                 it.value.forEach {
                     it.isChecked = true
                 }

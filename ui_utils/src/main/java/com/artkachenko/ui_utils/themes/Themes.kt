@@ -11,7 +11,7 @@ object Themes {
     val textColorLight = R.color.black
     val textColorSecondary = R.color.text_secondary
 
-    val chartColors = mutableListOf<Int>(
+    val chartColors = mutableListOf(
         R.color.red_700,
         R.color.green_700,
         R.color.yellow_700,

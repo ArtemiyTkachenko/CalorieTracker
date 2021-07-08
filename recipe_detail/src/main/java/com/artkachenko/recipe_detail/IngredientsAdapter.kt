@@ -1,7 +1,6 @@
 package com.artkachenko.recipe_detail
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.artkachenko.core_api.base.BaseAdapter
@@ -12,7 +11,7 @@ import com.artkachenko.recipe_detail.databinding.IIngredientBinding
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.loadImage
 
-class IngredientsAdapter() : BaseAdapter<Ingredient>() {
+class IngredientsAdapter : BaseAdapter<Ingredient>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Ingredient> {
         val binding = IIngredientBinding.inflate(LayoutInflater.from(parent.context), parent, false)

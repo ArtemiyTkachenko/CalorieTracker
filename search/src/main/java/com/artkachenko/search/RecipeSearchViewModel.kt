@@ -8,7 +8,6 @@ import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,7 +48,7 @@ class RecipeSearchViewModel @Inject constructor(
                 "query" to listOf(query),
                 "offset" to listOf(offset.toString()),
                 "addRecipeInformation" to listOf("true"),
-                *wrapper?.filters?.map { it.key to it.value.map { it.value } }?.toTypedArray() ?: arrayOf()
+                *wrapper?.filters?.map { it -> it.key to it.value.map { it.value } }?.toTypedArray() ?: arrayOf()
             )
             _state.value = State.Success(recipes)
             offset += 10
@@ -95,7 +94,7 @@ class RecipeSearchViewModel @Inject constructor(
         filtersWrapper = null
     }
 
-    sealed class State() {
+    sealed class State {
         object Initial : State()
         object FirstLoad : State()
         class Success(val data: List<RecipeEntity>) : State()

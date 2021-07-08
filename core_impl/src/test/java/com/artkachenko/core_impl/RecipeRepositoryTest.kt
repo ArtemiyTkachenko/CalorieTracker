@@ -7,28 +7,18 @@ import com.artkachenko.core_api.network.api.RecipeApi
 import com.artkachenko.core_api.network.models.Ingredient
 import com.artkachenko.core_api.network.models.RecipeDetailModel
 import com.artkachenko.core_api.network.models.RecipeEntity
-import com.artkachenko.core_api.network.persistence.DishesDao
-import com.artkachenko.core_api.network.repositories.RecipeRepository
-import com.artkachenko.core_impl.repositories.DishesRepositoryImpl
 import com.artkachenko.core_impl.repositories.RecipeRepositoryImpl
 import io.mockk.MockKAnnotations
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import io.mockk.coEvery
-import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.serializer
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
 class RecipeRepositoryTest {
@@ -38,7 +28,7 @@ class RecipeRepositoryTest {
 
     private val dispatcher = TestCoroutineDispatcher()
 
-    lateinit var recipeRepository: RecipeRepositoryImpl
+    private lateinit var recipeRepository: RecipeRepositoryImpl
 
     private val details = Json {
         ignoreUnknownKeys = true

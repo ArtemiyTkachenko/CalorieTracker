@@ -33,11 +33,11 @@ class RecipeListFragmentTest : TestCase() {
     @MockK(relaxed = true)
     lateinit var navController: NavController
 
-    val mockViewModel = mockkClass(RecipeListViewModel::class, relaxed = true)
+    private val mockViewModel = mockkClass(RecipeListViewModel::class, relaxed = true)
 
-    val mockMutableReponse = MutableStateFlow<List<RecipeEntity>>(mutableListOf())
+    private val mockMutableReponse = MutableStateFlow<List<RecipeEntity>>(mutableListOf())
 
-    val mockResponse: StateFlow<List<RecipeEntity>>
+    private val mockResponse: StateFlow<List<RecipeEntity>>
         get() = mockMutableReponse
 
     @Before
@@ -54,7 +54,7 @@ class RecipeListFragmentTest : TestCase() {
     @JvmField
     val viewModel: RecipeListViewModel = mockViewModel
 
-    private val list = listOf<RecipeEntity>(
+    private val list = listOf(
         RecipeEntity(id = 637876, title = "Chicken 65", image = "Chicken-65-(-Chicken-Marinaded-In-Traditional-Indian-Spices-and-Deep-Fried)-637876.jpg"),
         RecipeEntity(id = 629963, title = "chilli chicken", image = "chilli-chicken-629963.jpg"),
         RecipeEntity(id = 632810, title = "Asian Chicken", image = "Asian-Chicken-632810.jpg"),
@@ -67,7 +67,7 @@ class RecipeListFragmentTest : TestCase() {
         RecipeEntity(id = 638125, title = "Chicken In A Pot", image = "Chicken-In-A-Pot-638125.jpg")
     )
 
-    fun launchFragment(callback: (Fragment) -> Unit) {
+    private fun launchFragment(callback: (Fragment) -> Unit) {
         launchFragmentInHiltContainer<RecipeListFragment>(
             Bundle(),
             themeResId = com.artkachenko.ui_utils.R.style.Theme_CalorieTracker

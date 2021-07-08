@@ -1,26 +1,16 @@
 package com.artkachenko.activity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.LayoutInflaterCompat
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.artkachenko.ui_utils.AnimationUtils
 import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.themes.ThemeAwareInflater
-import com.artkachenko.ui_utils.themes.ThemeManager
-import com.google.android.material.navigation.NavigationView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ImageUtils.CanHideBottomNavView {

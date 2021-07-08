@@ -1,17 +1,12 @@
 package com.artkachenko.ui_utils
 
 import android.graphics.Color
-import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
-import androidx.appcompat.widget.SearchView
 import coil.load
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
-import coil.transform.Transformation
-import coil.transition.CrossfadeTransition
-import coil.transition.Transition
 
 object ImageUtils {
 

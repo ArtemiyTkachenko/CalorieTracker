@@ -8,7 +8,7 @@ import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.ui_utils.inflater
 
-class PieAdapter() : BaseAdapter<Triple<Long,Long,Long>>() {
+class PieAdapter : BaseAdapter<Triple<Long,Long,Long>>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int

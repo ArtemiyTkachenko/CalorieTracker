@@ -33,7 +33,7 @@ class ThemeManager @Inject constructor(private val prefManager: PrefManager) {
         theme = getChosenTheme()
     }
 
-    fun getChosenTheme(): Theme {
+    private fun getChosenTheme(): Theme {
         return if (prefManager.isDarkTheme) Theme.DARK else Theme.LIGHT
     }
 

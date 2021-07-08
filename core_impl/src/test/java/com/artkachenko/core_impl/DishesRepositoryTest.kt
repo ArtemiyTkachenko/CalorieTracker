@@ -3,15 +3,17 @@
 package com.artkachenko.core_impl
 
 import androidx.annotation.CallSuper
-import com.artkachenko.core_api.network.models.*
+import com.artkachenko.core_api.network.models.Ingredient
+import com.artkachenko.core_api.network.models.RecipeDetailModel
+import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.persistence.DishesDao
-import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_impl.repositories.DishesRepositoryImpl
-import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.confirmVerified
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -22,9 +24,6 @@ import org.junit.Before
 import org.junit.Test
 import java.time.LocalDateTime
 import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
 
 @ExperimentalCoroutinesApi
 class DishesRepositoryTest {
@@ -34,7 +33,7 @@ class DishesRepositoryTest {
 
     private val dispatcher = TestCoroutineDispatcher()
 
-    lateinit var dishesRepositoryImpl: DishesRepositoryImpl
+    private lateinit var dishesRepositoryImpl: DishesRepositoryImpl
 
     private val details = Json {
         ignoreUnknownKeys = true

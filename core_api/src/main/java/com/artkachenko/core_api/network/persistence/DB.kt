@@ -69,7 +69,7 @@ abstract class DB : RoomDatabase() {
 
         @TypeConverter
         fun longToDate(millis: Long) : LocalDateTime {
-            return  LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault());
+            return  LocalDateTime.ofInstant(Instant.ofEpochMilli(millis), ZoneId.systemDefault())
         }
     }
 }

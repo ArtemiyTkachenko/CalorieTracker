@@ -31,6 +31,7 @@
             android:layout_height="120dp"
             android:background="@drawable/bg_circle"
             android:src="@drawable/ic_baseline_person_24"
+            android:contentDescription="@string/image_recipe_avatar_description"
             app:layout_constraintBottom_toBottomOf="@id/guideline_30"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

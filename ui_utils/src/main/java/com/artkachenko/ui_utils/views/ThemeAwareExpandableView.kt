@@ -30,12 +30,12 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
     private var imageSrc = R.drawable.ic_arrow_down
 
     init {
-        val array = context.obtainStyledAttributes(attributeSet, R.styleable.ExpandableView)
+        val array = context.obtainStyledAttributes(attributeSet, R.styleable.ThemeAwareExpandableView)
 
         kotlin.runCatching {
-            title = array.getString(R.styleable.ExpandableView_title) ?: ""
-            imageSrc = array.getInt(R.styleable.ExpandableView_image, R.drawable.ic_arrow_down)
-            isExpanded = array.getBoolean(R.styleable.ExpandableView_expanded, false)
+            title = array.getString(R.styleable.ThemeAwareExpandableView_title) ?: ""
+            imageSrc = array.getInt(R.styleable.ThemeAwareExpandableView_image, R.drawable.ic_arrow_down)
+            isExpanded = array.getBoolean(R.styleable.ThemeAwareExpandableView_expanded, false)
         }
 
         array.recycle()
@@ -49,7 +49,7 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
 
         imageView = ThemeAwareImageView(context).apply {
             val layoutParams =
-                FrameLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+                LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
             layoutParams.height = (density * imageSize).toInt()
             layoutParams.width = (density * imageSize).toInt()
             layoutParams.gravity = Gravity.END

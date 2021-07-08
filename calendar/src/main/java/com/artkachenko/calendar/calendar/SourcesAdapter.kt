@@ -12,7 +12,6 @@ import com.artkachenko.calendar.R
 import com.artkachenko.calendar.databinding.IBarItemBinding
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
-import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.dp
 import com.artkachenko.ui_utils.inflater
 import com.artkachenko.ui_utils.themes.Themes

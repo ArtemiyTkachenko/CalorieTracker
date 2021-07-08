@@ -27,4 +27,19 @@
     <string name="protein_percentage">Protein</string>
     <string name="carb_percentage">Carbohydrates</string>
     <string name="search_placeholder">Type in a query or set filter\nto display results!</string>
+    <string name="italian">Italian</string>
+    <string name="indian">Indian</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="quick_meals">Quick meals</string>
+    <string name="search_hint">Type in recipe name</string>
+
+    <string name="image_handle_description">Pull to open</string>
+    <string name="image_back_description">Back</string>
+    <string name="image_recipe_photo_description">Recipe photo</string>
+    <string name="image_recipe_add_description">Recipe photo</string>
+    <string name="image_recipe_search_description">Search</string>
+    <string name="image_recipe_filter_description">Filters</string>
+    <string name="image_recipe_avatar_description">Avatar</string>
+    <string name="image_recipe_more_description">Show more</string>
+
 </resources>

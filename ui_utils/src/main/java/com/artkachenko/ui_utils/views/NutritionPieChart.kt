@@ -19,7 +19,7 @@ class NutritionPieChart @JvmOverloads constructor(
 ) :
     View(context, attributeSet, defStyle) {
 
-    var startPosition = 270F
+    private var startPosition = 270F
 
     var rect = RectF(
         dpF(5F),
@@ -55,11 +55,11 @@ class NutritionPieChart @JvmOverloads constructor(
         color = ContextCompat.getColor(context, R.color.green_200)
         applyPaintStyle(this)
     }
-    var proteinPaint = Paint().apply {
+    private var proteinPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.yellow_200)
         applyPaintStyle(this)
     }
-    var carbsPaint = Paint().apply {
+    private var carbsPaint = Paint().apply {
         color = ContextCompat.getColor(context, R.color.red_200)
         applyPaintStyle(this)
     }

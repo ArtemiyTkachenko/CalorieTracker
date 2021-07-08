@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
-import com.artkachenko.core_api.R
 import com.artkachenko.core_api.utils.debugLog
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext

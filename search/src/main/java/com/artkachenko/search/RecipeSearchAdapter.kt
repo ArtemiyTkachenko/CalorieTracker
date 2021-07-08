@@ -1,12 +1,6 @@
 package com.artkachenko.search
 
-import android.content.Context
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
 import android.view.ViewGroup
-import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.core_api.network.models.RecipeEntity

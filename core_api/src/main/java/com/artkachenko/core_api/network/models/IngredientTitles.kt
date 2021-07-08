@@ -31,6 +31,6 @@ enum class IngredientTitles(val title: String) {
     POTASSIUM("Potassium");
 
     companion object {
-        fun mapFromString(value: String?) = IngredientTitles.values().firstOrNull { it.title.equals(value, true) }
+        fun mapFromString(value: String?) = values().firstOrNull { it.title.equals(value, true) }
     }
 }

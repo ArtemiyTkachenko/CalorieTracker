@@ -7,12 +7,12 @@ import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_api.network.repositories.RecipeRepository
-import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -125,7 +125,7 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    sealed class State() {
+    sealed class State {
         object Initial : State()
         object FinishedLoading: State()
         data class Pie(val data: Triple<Long, Long, Long>) : State()

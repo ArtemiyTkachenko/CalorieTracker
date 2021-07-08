@@ -1,6 +1,5 @@
 package com.artkachenko.recipe_detail
 
-import com.artkachenko.core_impl.viewmodel.ViewModelScopeProviderImpl
 import androidx.lifecycle.ViewModel
 import com.artkachenko.core_api.base.ViewModelScopeProvider
 import com.artkachenko.core_api.network.models.ManualDishDetail
@@ -12,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -39,15 +37,13 @@ class RecipeDetailViewModel @Inject constructor(
             val ingredientIncrement = servingSize.toDouble()/(model.servings ?: 1)
             val nutritionIncrement = servingSize.toDouble()
 
-            debugLog("CONVERSION, ingredientIncrement is $ingredientIncrement and nutritionIncrement is $nutritionIncrement")
             val adjustedIngredients = model.extendedIngredients?.map {
                 val converted = repository.convertIngredients(
                     "ingredientName" to listOf(it.name ?: ""),
-                    "sourceAmount" to listOf((it.amount?.times(ingredientIncrement)).toString() ?: ""),
+                    "sourceAmount" to listOf((it.amount?.times(ingredientIncrement)).toString()),
                     "sourceUnit" to listOf(it.unit ?: ""),
                     "targetUnit" to listOf("grams"),
                 )
-                debugLog("CONVERSION, converted amount is ${converted.targetAmount} ${converted.targetUnit}, original amount is ${it.amount} ${it.unit} of ${it.name} ")
                 it.copy(convertedAmount = converted)
             }
             val nutrition = model.nutrition

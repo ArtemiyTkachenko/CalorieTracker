@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ExpandableView">
+    <declare-styleable name="ThemeAwareExpandableView">
         <attr name="title" format="string"/>
         <attr name="expanded" format="boolean"/>
         <attr name="image" format="reference|integer" />

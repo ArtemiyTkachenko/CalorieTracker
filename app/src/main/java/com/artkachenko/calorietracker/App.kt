@@ -3,7 +3,6 @@ package com.artkachenko.calorietracker
 import android.os.StrictMode
 import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
-import com.artkachenko.ui_utils.themes.ThemeManager
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

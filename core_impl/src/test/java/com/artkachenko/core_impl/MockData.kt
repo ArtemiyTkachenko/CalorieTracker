@@ -4,7 +4,7 @@ import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.Nutrition
 import java.time.LocalDateTime
 
-val mockResults = """ [
+const val mockResults = """ [
         {
             "id": 637876,
             "title": "Chicken 65",
@@ -98,7 +98,7 @@ val mockResults = """ [
         }
     ]"""
 
-val mockDetail = """{
+const val mockDetail = """{
     "vegetarian": false,
     "vegan": false,
     "glutenFree": false,
@@ -490,7 +490,7 @@ val mockDetail = """{
     "spoonacularSourceUrl": "https://spoonacular.com/pasta-with-garlic-scallions-cauliflower-breadcrumbs-716429"
 }"""
 
-val mockIngredients = """[
+const val mockIngredients = """[
         {
             "id": 1001,
             "aisle": "Milk, Eggs, Other Dairy",

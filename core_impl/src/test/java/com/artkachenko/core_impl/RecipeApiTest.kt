@@ -12,7 +12,6 @@ import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
-import io.ktor.client.request.*
 import io.ktor.http.*
 import io.mockk.MockKAnnotations
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +28,7 @@ class RecipeApiTest {
 
     val dispatcher = TestCoroutineDispatcher()
 
-    lateinit var recipeApi: RecipeApiImpl
+    private lateinit var recipeApi: RecipeApiImpl
 
     private val list = Json {
         ignoreUnknownKeys = true
@@ -40,7 +39,7 @@ class RecipeApiTest {
 
     private val wrapper = RecipeResultsWrapper(list)
 
-    val httpClient: HttpClient = HttpClient(MockEngine) {
+    private val httpClient: HttpClient = HttpClient(MockEngine) {
         install(JsonFeature) {
             val json = kotlinx.serialization.json.Json {
                 ignoreUnknownKeys = true

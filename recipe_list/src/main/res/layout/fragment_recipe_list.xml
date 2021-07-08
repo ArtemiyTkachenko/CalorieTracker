@@ -33,7 +33,8 @@
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:src="@drawable/ic_baseline_search_24"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/image_recipe_search_description"/>
 
             <com.artkachenko.ui_utils.views.ThemeAwareSearchView
                 android:id="@+id/search"
@@ -55,6 +56,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:scaleType="center"
+                android:contentDescription="@string/image_recipe_filter_description"
                 app:srcCompat="@drawable/filter" />
 
         </com.artkachenko.ui_utils.views.ClippedLinearLayout>
@@ -66,7 +68,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Italian" />
+            android:text="@string/italian" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/italian"
@@ -82,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Vegetarian" />
+            android:text="@string/vegetarian" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/vegetarian"
@@ -98,7 +100,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Indian" />
+            android:text="@string/indian" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/indian"
@@ -114,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
-            android:text="Quick recipes" />
+            android:text="@string/quick_meals" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/quick"

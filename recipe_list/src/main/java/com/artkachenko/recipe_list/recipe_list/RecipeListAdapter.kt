@@ -1,7 +1,5 @@
 package com.artkachenko.recipe_list.recipe_list
 
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.artkachenko.core_api.base.BaseAdapter
 import com.artkachenko.core_api.base.BaseViewHolder

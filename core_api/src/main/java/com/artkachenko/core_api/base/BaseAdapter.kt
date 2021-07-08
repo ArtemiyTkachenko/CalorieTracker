@@ -2,11 +2,10 @@ package com.artkachenko.core_api.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.artkachenko.core_api.utils.debugLog
 
 abstract class BaseAdapter <T> (private val actions: ViewHolderActions<T> ?= null) : RecyclerView.Adapter<BaseViewHolder<T>>() {
 
-    protected val items = mutableListOf<T>()
+    private val items = mutableListOf<T>()
 
     override fun onBindViewHolder(holder: BaseViewHolder<T>, position: Int) {
         holder.bind(model = items[position])

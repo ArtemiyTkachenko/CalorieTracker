@@ -22,7 +22,7 @@ class DayViewContainer(
     private val themeManager: ThemeManager
 ) : ViewContainer(view) {
 
-    val bind = IDayContainerBinding.bind(view)
+    private val bind = IDayContainerBinding.bind(view)
     private lateinit var day: CalendarDay
 
     init {

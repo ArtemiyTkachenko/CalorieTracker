@@ -6,11 +6,11 @@ import com.artkachenko.core_api.base.BaseViewHolder
 import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.FilterPair
-import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.core_impl.network.Filters
 import com.artkachenko.search.databinding.IFilterGroupBinding
 import com.artkachenko.ui_utils.buildChip
 import com.artkachenko.ui_utils.inflater
+import java.util.*
 
 class FilterAdapter(private val actions: RecipeFilterActions) : BaseAdapter<FilterWrapper>() {
 
@@ -29,8 +29,7 @@ class FilterAdapter(private val actions: RecipeFilterActions) : BaseAdapter<Filt
         val intolerancesFilters = FilterWrapper(Filters.intolerancesFilters)
 
         argPresets?.filters?.forEach {
-            val key = it.key
-            when (key) {
+            when (val key = it.key) {
                 cuisineFilters.extractFirstKey() -> updateFilter(
                     cuisineFilters.filters[key],
                     it.value
@@ -78,7 +77,7 @@ class FilterViewHolder(
     override fun bind(model: FilterWrapper) {
         with(binding) {
             model.filters.forEach { filter ->
-                filterTitle.text = filter.key.capitalize()
+                filterTitle.text = filter.key.capitalize(Locale.getDefault())
                 filter.value.forEach { filterValue ->
                     buildChip(
                         itemView.context,

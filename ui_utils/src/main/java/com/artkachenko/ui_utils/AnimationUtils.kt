@@ -10,9 +10,9 @@ import androidx.transition.TransitionSet
 
 object AnimationUtils {
 
-    const val DEFAULT_ANIMATION_DURATION = 400L
+    private const val DEFAULT_ANIMATION_DURATION = 400L
 
-    val chartAnimationSteps = 15
+    const val chartAnimationSteps = 15
 
     fun expandView(view: View, expand: Boolean) {
         if (!expand) {
@@ -67,7 +67,7 @@ object AnimationUtils {
     }
 
     fun rotateView(view: View, rotation: Float = 180F, clockWise: Boolean = true) {
-        var direction = if (clockWise) 1 else -1
+        val direction = if (clockWise) 1 else -1
         view.animate().rotationBy(rotation * direction)
             .setDuration(DEFAULT_ANIMATION_DURATION)
             .setInterpolator(AccelerateDecelerateInterpolator())
