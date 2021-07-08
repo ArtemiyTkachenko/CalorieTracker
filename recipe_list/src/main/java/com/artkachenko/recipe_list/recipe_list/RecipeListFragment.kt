@@ -90,7 +90,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
         binding.searchViewContainer.setSingleClickListener {
             navigateToSearch(null)
         }
-//        viewModel.getRecipeList()
+        viewModel.getRecipeList()
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
