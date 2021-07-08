@@ -1,6 +1,0 @@
-<resources>
-    <string name="app_name">CalorieTracker</string>
-    <string name="title_home">Search</string>
-    <string name="title_dashboard">Calendar</string>
-    <string name="title_notifications">Profile</string>
-</resources>
