@@ -24,9 +24,9 @@ class FilterAdapter(private val actions: RecipeFilterActions) : BaseAdapter<Filt
 
     fun setFilters(argPresets: FilterWrapper?) {
 
-        val cuisineFilters = FilterWrapper(HashMap(Filters.cuisineFilters))
-        val dietFilters = FilterWrapper(HashMap(Filters.dietFilters))
-        val intolerancesFilters = FilterWrapper(HashMap(Filters.intolerancesFilters))
+        val cuisineFilters = FilterWrapper(Filters.cuisineFilters)
+        val dietFilters = FilterWrapper(Filters.dietFilters)
+        val intolerancesFilters = FilterWrapper(Filters.intolerancesFilters)
 
         argPresets?.filters?.forEach {
             val key = it.key

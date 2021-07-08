@@ -81,8 +81,8 @@ fun buildChip(
     isChecked: Boolean = false,
     checkCallback: ((Map.Entry<String, FilterItemWrapper>?, Boolean) -> Unit) ?= null,
     closeCallback: ((Map.Entry<String, FilterItemWrapper>?, Boolean) -> Unit) ?= null
-): ThemeAwareChip {
-    return ThemeAwareChip(context).apply {
+) {
+    val chip = ThemeAwareChip(context).apply {
         id?.let { this.id = it }
         text = filterValue?.value?.value
 
@@ -108,8 +108,8 @@ fun buildChip(
                 value.value.isChecked = !value.value.isChecked
                 checkCallback?.invoke(value, isChecked) }
         }
-        viewGroup.addView(this)
     }
+    viewGroup.addView(chip)
 }
 
 fun getColorForScore(score: Int?): Int {

@@ -168,7 +168,6 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
 
     private fun updateFilter() {
         with(binding) {
-            filterChips.removeAllViews()
             populateChips(viewModel.filtersWrapper)
             hideKeyboard()
             setInitial()
@@ -184,6 +183,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     private fun populateChips(filterWrapper: FilterWrapper?) {
         val filterChips = binding.filterChips
         val filters = filterWrapper?.filters
+        filterChips.removeAllViews()
         filters?.forEach { filter ->
             filter.value.forEach { filterValue ->
                 buildChip(
