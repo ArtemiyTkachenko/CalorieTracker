@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="CalorieTracker.app" target="11" />
+      <module name="CalorieTracker.calendar" target="11" />
+      <module name="CalorieTracker.core" target="11" />
+      <module name="CalorieTracker.core_api" target="11" />
+      <module name="CalorieTracker.core_impl" target="11" />
+      <module name="CalorieTracker.navigation" target="11" />
+      <module name="CalorieTracker.recipe_detail" target="11" />
+      <module name="CalorieTracker.recipe_list" target="11" />
+      <module name="CalorieTracker.search" target="11" />
+      <module name="CalorieTracker.settings" target="11" />
+      <module name="CalorieTracker.ui_core" target="11" />
+      <module name="CalorieTracker.ui_utils" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
