@@ -21,7 +21,7 @@
     <string name="calories_left">Left</string>
     <string name="kcal">Kcal</string>
     <string name="macronutrients">Macronutrients</string>
-    <string name="used_recipes">Recipes of the day</string>
+    <string name="used_recipes">Recipes for this day</string>
     <string name="sources_of_food">Ingredient amounts</string>
     <string name="fat_percentage">Fat</string>
     <string name="protein_percentage">Protein</string>
