@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.collect
 @AndroidEntryPoint
 class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearchActions {
 
-    private val viewModel by viewModels<RecipeSearchViewModel>()
+    private val viewModel by activityViewModels<RecipeSearchViewModel>()
 
     private lateinit var binding: FragmentSearchBinding
 
@@ -78,6 +79,11 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
         findNavController().navigate(R.id.search_to_detail, bundle, null, extras)
     }
 
+    override fun onDestroy() {
+        viewModelStore.clear()
+        super.onDestroy()
+    }
+
     private fun setAdapters() {
         with(binding) {
             results.adapter = searchAdapter
@@ -111,6 +117,10 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 }
             }
             RecipeSearchViewModel.State.FirstLoad -> binding.progress.isVisible = true
+            RecipeSearchViewModel.State.FiltersSet -> {
+                populateChips(viewModel.filtersWrapper)
+                setInitial()
+            }
         }
     }
 
@@ -125,7 +135,6 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 queryChangeJob = lifecycleScope.launch {
                     delay(1000L)
                     if (!newText.isNullOrEmpty()) {
-                        debugLog("onQueryTextChange called")
                         setInitial(newText)
                     }
                 }
@@ -134,6 +143,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
             }
         })
         binding.filter.setSingleClickListener {
+            hideKeyboard()
             val fragment = RecipeFilterBottomSheet.newInstance(viewModel.filtersWrapper)
             fragment.show(parentFragmentManager, "filter_dialog")
         }
@@ -165,11 +175,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     }
 
     private fun setInitial(query: String = binding.search.query.toString()) {
-        debugLog("setInitial called")
+        searchAdapter.setInitial(emptyList())
 
-        searchAdapter.setInitial(emptyList()) {
-            debugLog("adapter count is ${searchAdapter.itemCount}")
-        }
         viewModel.getInitial(query)
     }
 

@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="ExpandableView">
         <attr name="title" format="string"/>
+        <attr name="expanded" format="boolean"/>
         <attr name="image" format="reference|integer" />
         <attr name="imageSize" format="integer"/>
     </declare-styleable>

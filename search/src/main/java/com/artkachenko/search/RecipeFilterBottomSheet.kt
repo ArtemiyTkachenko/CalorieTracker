@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.core_api.network.models.FilterWrapper
@@ -16,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions  {
 
-    private val viewModel by viewModels<RecipeSearchViewModel>()
+    private val viewModel by activityViewModels<RecipeSearchViewModel>()
 
     private var binding: FragmentFilterBottomSheetBinding? = null
 
@@ -38,12 +39,11 @@ class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        debugLog("BOTTOMSHEET, onViewCreated Called")
-
         binding?.apply {
             filters.adapter = filterAdapter
             filterAdapter.setFilters(argPresets)
             apply.setOnClickListener {
+                viewModel.setFilter()
                 dismiss()
             }
         }
@@ -53,19 +53,8 @@ class RecipeFilterBottomSheet : BottomSheetDialogFragment(), RecipeFilterActions
         viewModel.processFilter(filter)
     }
 
-    override fun onPause() {
-        debugLog("BOTTOMSHEET, onPause Called")
-        super.onPause()
-    }
-
-    override fun onResume() {
-        debugLog("BOTTOMSHEET, onResume Called")
-        super.onResume()
-    }
-
     override fun onDestroy() {
         binding = null
-        debugLog("BOTTOMSHEET, onDestroy Called")
         super.onDestroy()
     }
 

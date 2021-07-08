@@ -35,6 +35,7 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
         kotlin.runCatching {
             title = array.getString(R.styleable.ExpandableView_title) ?: ""
             imageSrc = array.getInt(R.styleable.ExpandableView_image, R.drawable.ic_arrow_down)
+            isExpanded = array.getBoolean(R.styleable.ExpandableView_expanded, false)
         }
 
         array.recycle()
@@ -60,11 +61,15 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
         addView(imageView)
 
         setOnClickListener {
-            val view = children.lastOrNull()
-            view?.let {
-                isExpanded = !isExpanded
-                AnimationUtils.rotateView(imageView, clockWise = isExpanded)
-                AnimationUtils.animateAlpha(view, isExpanded)
+            isExpanded = !isExpanded
+            processExpand()
+        }
+
+        if (isExpanded) {
+            runCatching {
+             postDelayed({
+                 processExpand()
+             }, 300)
             }
         }
     }
@@ -86,5 +91,13 @@ class ThemeAwareExpandableView @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         parentJob.cancel()
         super.onDetachedFromWindow()
+    }
+
+    private fun processExpand() {
+        val view = children.lastOrNull()
+        view?.let {
+            AnimationUtils.rotateView(imageView, clockWise = isExpanded)
+            AnimationUtils.animateAlpha(view, isExpanded)
+        }
     }
 }

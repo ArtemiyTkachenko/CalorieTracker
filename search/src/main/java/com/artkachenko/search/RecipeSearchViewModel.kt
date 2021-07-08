@@ -32,9 +32,6 @@ class RecipeSearchViewModel @Inject constructor(
     var filtersWrapper: FilterWrapper? = null
     private set
 
-    private var tempFiltersWrapper: FilterWrapper? = null
-
-
     fun getInitial(query: String, wrapper: FilterWrapper? = filtersWrapper) {
         offset = 0
 
@@ -45,7 +42,7 @@ class RecipeSearchViewModel @Inject constructor(
         if (isLoading || checkIfEmptySearch(query, wrapper)) return
 
         scope.launch {
-            if (offset == 0) _state.emit(State.FirstLoad)
+            if (offset == 0) _state.value = State.FirstLoad
             isLoading = true
             val recipes = recipeRepository.getRecipeList(
                 offset,
@@ -54,11 +51,10 @@ class RecipeSearchViewModel @Inject constructor(
                 "addRecipeInformation" to listOf("true"),
                 *wrapper?.filters?.map { it.key to it.value.map { it.value } }?.toTypedArray() ?: arrayOf()
             )
-            _state.tryEmit(State.Success(recipes))
+            _state.value = State.Success(recipes)
             offset += 10
             isLoading = false
-            delay(100)
-            _state.tryEmit(State.Initial)
+            _state.value = State.Initial
         }
     }
 
@@ -88,13 +84,8 @@ class RecipeSearchViewModel @Inject constructor(
         return query.isEmpty() && filterIsEmpty
     }
 
-    private fun setFilter() {
-
-        tempFiltersWrapper = null
-    }
-
-    private fun resetFilters() {
-        filtersWrapper?.filters?.clear()
+    fun setFilter() {
+        _state.value = State.FiltersSet
     }
 
     sealed class State() {
@@ -103,5 +94,6 @@ class RecipeSearchViewModel @Inject constructor(
         object Loading : State()
         class Success(val data: List<RecipeEntity>) : State()
         object LoadingFinished : State()
+        object FiltersSet : State()
     }
 }
