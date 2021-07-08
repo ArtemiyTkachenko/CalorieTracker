@@ -22,4 +22,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="text_primary">#ff38454f</color>
     <color name="text_secondary">#ff898989</color>
+    <color name="ic_launcher_background">#172753</color>
 </resources>
