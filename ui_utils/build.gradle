@@ -49,6 +49,10 @@ android {
             variant.ignore = true
         }
     }
+
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 apply from: "$project.rootDir/scripts/deps_versions.gradle"

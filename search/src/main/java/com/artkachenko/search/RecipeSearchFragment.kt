@@ -20,13 +20,14 @@ import com.artkachenko.ui_utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
+import viewBinding
 
 @AndroidEntryPoint
 class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearchActions {
 
     private val viewModel by activityViewModels<RecipeSearchViewModel>()
 
-    private lateinit var binding: FragmentSearchBinding
+    private var binding by viewBinding<FragmentSearchBinding>()
 
     private var queryChangeJob: Job? = null
 
@@ -111,10 +112,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
             }
             RecipeSearchViewModel.State.LoadingFinished -> binding.progress.isVisible = false
             is RecipeSearchViewModel.State.Success -> {
-                searchAdapter.setData(state.data) {
-                    binding.progress.isVisible = false
-                    debugLog("adapter count is ${searchAdapter.itemCount}")
-                }
+                searchAdapter.setData(state.data)
             }
             RecipeSearchViewModel.State.FirstLoad -> binding.progress.isVisible = true
             RecipeSearchViewModel.State.FiltersSet -> {
@@ -183,7 +181,9 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     private fun populateChips(filterWrapper: FilterWrapper?) {
         debugLog("populateChips called")
         val filterChips = binding.filterChips
-        filterWrapper?.filters?.forEach { filter ->
+        val filters = filterWrapper?.filters
+        if (filters.isNullOrEmpty())
+        filters?.forEach { filter ->
             filter.value.forEach { filterValue ->
                 buildChip(
                     requireContext(),

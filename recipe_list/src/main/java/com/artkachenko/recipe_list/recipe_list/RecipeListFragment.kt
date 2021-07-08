@@ -19,6 +19,7 @@ import com.artkachenko.ui_utils.themes.ThemeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import viewBinding
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,7 +30,7 @@ class RecipeListFragment : BaseFragment(R.layout.fragment_recipe_list), RecipeLi
 
     private val viewModel by viewModels<RecipeListViewModel>()
 
-    private lateinit var binding: FragmentRecipeListBinding
+    private var binding by viewBinding<FragmentRecipeListBinding>()
 
     private val firstAdapter = RecipesAdapter(this).apply {
         setData(generatePlaceholderList())

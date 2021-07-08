@@ -20,13 +20,14 @@ import com.artkachenko.ui_utils.*
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import viewBinding
 
 @AndroidEntryPoint
 class RecipeDetailFragment : BaseFragment(R.layout.fragment_recipe_detail) {
 
     private val viewModel by viewModels<RecipeDetailViewModel>()
 
-    private lateinit var binding: FragmentRecipeDetailBinding
+    private var binding by viewBinding<FragmentRecipeDetailBinding>()
 
     private val argId by lazy {
         arguments?.getLong(ID, 0)

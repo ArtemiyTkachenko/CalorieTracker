@@ -54,7 +54,7 @@ class RecipeSearchViewModel @Inject constructor(
             _state.value = State.Success(recipes)
             offset += 10
             isLoading = false
-            _state.value = State.Initial
+            _state.value = State.LoadingFinished
         }
     }
 

@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import viewBinding
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -47,6 +48,8 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     lateinit var prefManager: PrefManager
 
     private val viewModel by viewModels<CalendarViewModel>()
+
+    private var binding by viewBinding<FragmentCalendarBinding>()
 
     private val progressAdapter by lazy {
         ProgressChartAdapter()
@@ -67,8 +70,6 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     private val adapter by lazy {
         ConcatAdapter(progressAdapter, pieAdapter, sourcesAdapter, recipesUsedAdapter)
     }
-
-    private lateinit var binding: FragmentCalendarBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

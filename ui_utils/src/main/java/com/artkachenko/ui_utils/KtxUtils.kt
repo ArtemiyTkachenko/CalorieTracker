@@ -9,11 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.artkachenko.core_api.network.models.FilterItemWrapper
 import com.artkachenko.ui_utils.views.ThemeAwareChip
 import com.google.android.material.chip.Chip
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 fun Context.dp(value: Float): Int {
     return (this.resources.displayMetrics.density * value).toInt()
@@ -119,7 +125,6 @@ fun getColorForScore(score: Int?): Int {
         else -> R.color.red_200
     }
 }
-
 
 fun buildSpan(score: Int?, context: Context, @StringRes stringRes: Int): SpannableString {
     val scoreString = String.format(context.getString(stringRes), score.toString())

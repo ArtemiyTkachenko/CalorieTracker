@@ -17,6 +17,7 @@ import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.themes.Theme
 import com.artkachenko.ui_utils.themes.ThemeManager
 import dagger.hilt.android.AndroidEntryPoint
+import viewBinding
 import javax.inject.Inject
 import kotlin.math.hypot
 
@@ -30,7 +31,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @Inject
     lateinit var themeManager: ThemeManager
 
-    private lateinit var binding: FragmentSettingsBinding
+    private var binding by viewBinding<FragmentSettingsBinding>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
