@@ -1,6 +1,5 @@
 package com.artkachenko.calendar.calendar
 
-import android.graphics.Point
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
@@ -15,21 +14,18 @@ import com.artkachenko.calendar.databinding.FragmentCalendarBinding
 import com.artkachenko.core_api.base.BaseFragment
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.PrefManager
+import com.artkachenko.core_api.utils.debugLog
 import com.artkachenko.ui_utils.ID
-import com.artkachenko.ui_utils.ImageUtils
 import com.artkachenko.ui_utils.TRANSITION_NAME
 import com.artkachenko.ui_utils.decorations.MarginItemDecoration
 import com.artkachenko.ui_utils.themes.ThemeManager
-import com.artkachenko.ui_utils.views.MenuFab
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.utils.Size
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import viewBinding
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -76,15 +72,13 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         binding = FragmentCalendarBinding.bind(view)
 
+        debugLog("ON_VIEW_CREATED")
+
         with(binding) {
             info.adapter = adapter
             val decoration = MarginItemDecoration(requireContext(), marginLeft = 16, marginRight = 16)
 
             info.addItemDecoration(decoration)
-
-            generateFabConfigs().forEach {
-                menuFab.addFab(it)
-            }
         }
 
         viewModel.getDishes()
@@ -117,12 +111,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             currentMonth.plusMonths(3),
             DayOfWeek.MONDAY
         )
-        binding.calendar.scrollToDate(viewModel.selectedDate.value.minusDays(3))
-    }
-
-    override fun onResume() {
-        (activity as ImageUtils.CanHideBottomNavView).showNavigationBar(true)
-        super.onResume()
+        binding.calendar.scrollToDate(viewModel.selectableDate.value.minusDays(3))
     }
 
     override fun onItemClicked(model: RecipeEntity, view: View) {
@@ -141,7 +130,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
 
         binding.calendar.smoothScrollToDate(day.date.minusDays(3))
 
-        val selectedDate = viewModel.selectedDate.value
+        val selectedDate = viewModel.selectableDate.value
 
         if (selectedDate != date) {
             selectedDate.let { binding.calendar.notifyDateChanged(it) }
@@ -151,7 +140,12 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
     }
 
     override fun getDate(): Flow<LocalDate> {
-        return viewModel.selectedDate
+        return viewModel.selectableDate
+    }
+
+    override fun onDestroy() {
+        viewModelStore.clear()
+        super.onDestroy()
     }
 
     private fun processState(state: CalendarViewModel.State) {
@@ -160,17 +154,12 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
             is CalendarViewModel.State.Calories -> {
                 progressAdapter.setInitial(listOf(state.data.toLong() to prefManager.desiredCalories.toLong()))
             }
-            is CalendarViewModel.State.Dishes -> {
-            }
+            is CalendarViewModel.State.Dishes -> { }
             is CalendarViewModel.State.Pie -> pieAdapter.setInitial(listOf(state.data))
-
             CalendarViewModel.State.Clear -> clearAdapters()
             CalendarViewModel.State.Visible -> binding.info.isVisible = true
-            is CalendarViewModel.State.Recipes -> {
-                recipesUsedAdapter.setData(state.data)
-            }
+            is CalendarViewModel.State.Recipes -> recipesUsedAdapter.setData(state.data)
             CalendarViewModel.State.Initial -> { }
-            CalendarViewModel.State.FinishedLoading -> {}
         }
     }
 
@@ -180,35 +169,5 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         progressAdapter.clear()
         sourcesAdapter.clear()
         recipesUsedAdapter.clear()
-    }
-
-    private fun generateFabConfigs(): List<MenuFab.FabConfig> {
-        val point = Point(56, 56)
-        val margins = 16F
-        return listOf(
-            MenuFab.FabConfig(
-                size = point,
-                margins = margins,
-                icon = R.drawable.ic_food
-            ) {
-//                val directions = InfoFragmentDirections.infoScreenToAdd(
-//                    viewModel.selectedDate.value ?: LocalDate.now()
-//                )
-//                navigateWithClean(directions)
-            },
-            MenuFab.FabConfig(
-                size = point,
-                margins = margins,
-                icon = R.drawable.ic_calories
-            ) {},
-            MenuFab.FabConfig(
-                size = point,
-                margins = margins,
-                icon = R.drawable.ic_exercise
-            ) {
-//                val directions = InfoFragmentDirections.infoScreenToExercise()
-//                navigate(directions)
-            }
-        )
     }
 }

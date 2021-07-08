@@ -7,10 +7,11 @@ import com.artkachenko.core_api.network.models.ManualDishDetail
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_api.network.repositories.RecipeRepository
+import com.artkachenko.core_api.utils.debugLog
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -26,7 +27,10 @@ class CalendarViewModel @Inject constructor(
     private val scopeProvider: ViewModelScopeProvider
 ) : ViewModel(), ViewModelScopeProvider by scopeProvider {
 
-    val selectedDate = MutableStateFlow<LocalDate>(LocalDate.now())
+    val selectableDate :StateFlow<LocalDate>
+    get() = _selectableDate
+
+    private val _selectableDate = MutableStateFlow<LocalDate>(LocalDate.now())
 
     val state: StateFlow<State>
         get() = _state
@@ -35,7 +39,7 @@ class CalendarViewModel @Inject constructor(
 
     fun changeDate(date: LocalDate) {
         scope.launch {
-            selectedDate.emit(date)
+            _selectableDate.emit(date)
             val start = date.atStartOfDay()
             val end = date.atStartOfDay().plusDays(1)
             _state.value = State.Clear
@@ -44,9 +48,10 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun getDishes(
-        start: LocalDateTime = selectedDate.value.atStartOfDay(),
-        end: LocalDateTime = selectedDate.value.atStartOfDay().plusDays(1)
+        start: LocalDateTime = _selectableDate.value.atStartOfDay(),
+        end: LocalDateTime = _selectableDate.value.atStartOfDay().plusDays(1)
     ) {
+
         if (_state.value == State.FinishedLoading) return
 
         scope.launch {
@@ -86,9 +91,9 @@ class CalendarViewModel @Inject constructor(
                 val proteinAverage = proteinItems.average()
                 val carbAverage = carbItems.average()
 
-                emitBarDataSet(ingredientsAmount)
+                setBarData(ingredientsAmount)
 
-                emitPieDataSet(fatAverage, proteinAverage, carbAverage)
+                setPieData(fatAverage, proteinAverage, carbAverage)
 
                 _state.value = State.Calories(calories)
 
@@ -97,20 +102,19 @@ class CalendarViewModel @Inject constructor(
                     _state.value = State.Recipes(entities)
                 }
 
-                delay(100)
                 _state.value = State.FinishedLoading
             }
         }
     }
 
-    private suspend fun emitBarDataSet(sources: MutableMap<String, Double>) {
+    private fun setBarData(sources: MutableMap<String, Double>) {
         if (!sources.isNullOrEmpty()) {
             _state.value = State.Bar(sources)
             _state.value = State.Visible
         }
     }
 
-    private suspend fun emitPieDataSet(
+    private fun setPieData(
         fatAverage: Double,
         proteinAverage: Double,
         carbAverage: Double
