@@ -95,7 +95,13 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
         }
 
         val dm = DisplayMetrics()
-        requireContext().display?.getRealMetrics(dm)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val display = activity?.display
+            display?.getRealMetrics(dm)
+        } else {
+            val display = activity?.windowManager?.defaultDisplay
+            display?.getMetrics(dm)
+        }
         binding.calendar.apply {
             val dayWidth = dm.widthPixels / 7
             val dayHeight = (dayWidth * 1.5).toInt()
@@ -193,8 +199,7 @@ class CalendarFragment : BaseFragment(R.layout.fragment_calendar), CalendarActio
                 size = point,
                 margins = margins,
                 icon = R.drawable.ic_calories
-            )
-            {},
+            ) {},
             MenuFab.FabConfig(
                 size = point,
                 margins = margins,

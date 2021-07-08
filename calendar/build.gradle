@@ -34,6 +34,16 @@ android {
         viewBinding true
     }
 
+    lintOptions {
+        ignoreTestSources true
+        abortOnError false
+        xmlReport false
+        textReport false
+        htmlReport true
+        checkDependencies true
+        baselineFile file("$rootDir/config/baseline.xml")
+    }
+
 
     flavorDimensions "version"
 
@@ -62,6 +72,7 @@ dependencies {
     implementation project(':navigation')
     implementation project(':core')
     implementation project(':ui_utils')
+    lintChecks project(':lint_checks')
 
     coreLibraryDesugaring desugaring
     implementation androidCore

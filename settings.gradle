@@ -12,3 +12,4 @@ include ':navigation'
 include ':app'
 rootProject.name = "CalorieTracker"
 include ':search'
+include ':lint_checks'
