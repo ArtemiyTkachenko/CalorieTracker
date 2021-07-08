@@ -8,6 +8,7 @@ import com.artkachenko.core_api.network.persistence.IngredientsDao
 import com.artkachenko.core_api.network.repositories.DishesRepository
 import com.artkachenko.core_impl.IoDispatcher
 import com.artkachenko.core_impl.repositories.DishesRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,29 +18,29 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModule {
+abstract class DatabaseModule {
 
-    @Provides
-    @Singleton
-    fun provideAppDatabase(application: Application): DB {
-        return Room
-            .databaseBuilder(application, DB::class.java, "calorie_tracker.db")
-            .fallbackToDestructiveMigration()
-            .build()
-    }
+    @Binds
+    abstract fun bindDishesRepository(dishesRepositoryImpl: DishesRepositoryImpl) : DishesRepository
 
-    @Provides
-    fun provideDishesRepository(dishesDao: DishesDao, @IoDispatcher dispatcher: CoroutineDispatcher) : DishesRepository {
-        return DishesRepositoryImpl(dishesDao, dispatcher)
-    }
+    companion object {
+        @Provides
+        @Singleton
+        fun provideAppDatabase(application: Application): DB {
+            return Room
+                .databaseBuilder(application, DB::class.java, "calorie_tracker.db")
+                .fallbackToDestructiveMigration()
+                .build()
+        }
 
-    @Provides
-    fun provideIngredientsDao(appDatabase: DB) : IngredientsDao {
-        return appDatabase.ingredientsDao()
-    }
+        @Provides
+        fun provideIngredientsDao(appDatabase: DB) : IngredientsDao {
+            return appDatabase.ingredientsDao()
+        }
 
-    @Provides
-    fun provideDishesDao(appDatabase: DB) : DishesDao {
-        return appDatabase.dishesDao()
+        @Provides
+        fun provideDishesDao(appDatabase: DB) : DishesDao {
+            return appDatabase.dishesDao()
+        }
     }
 }

@@ -1,11 +1,17 @@
 package com.artkachenko.core_impl.utils
 
+import android.app.Application
+import android.content.Context
 import android.content.SharedPreferences
 import com.artkachenko.core_api.utils.PrefManager
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.reflect.KProperty
 
+@Singleton
+class PrefManagerImpl @Inject constructor(application: Application) : PrefManager {
 
-class PrefManagerImpl(private val prefs: SharedPreferences) : PrefManager {
+    private val prefs = application.getSharedPreferences("calorieTrackerPrefs", Context.MODE_PRIVATE)
 
     private val isDarkThemeKey = "IS_DARK_THEME"
 

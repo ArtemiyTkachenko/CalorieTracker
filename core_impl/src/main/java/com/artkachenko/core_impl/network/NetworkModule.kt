@@ -1,13 +1,10 @@
 package com.artkachenko.core_impl.network
 
-import android.util.Log
 import com.artkachenko.core_api.network.api.RecipeApi
 import com.artkachenko.core_api.network.repositories.RecipeRepository
 import com.artkachenko.core_api.utils.debugLog
-import com.artkachenko.core_api.utils.debugVerbose
-import com.artkachenko.core_impl.DispatchersModule
-import com.artkachenko.core_impl.IoDispatcher
 import com.artkachenko.core_impl.repositories.RecipeRepositoryImpl
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
@@ -22,66 +19,59 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.features.observer.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.CoroutineDispatcher
-import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object NetworkModule {
+abstract class NetworkModule {
 
-    @Provides
-    @Reusable
-    fun provideHttpClient() : HttpClient {
-        return HttpClient(Android) {
+    @Binds
+    abstract fun bindRecipeRepository(recipeRepositoryImpl: RecipeRepositoryImpl) : RecipeRepository
 
-            val timeOut = 60_000
+    @Binds
+    abstract fun bindRecipeApi(recipeApiImpl: RecipeApiImpl) : RecipeApi
 
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
-                    prettyPrint = true
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                })
+    companion object {
 
-                engine {
-                    acceptContentTypes = listOf(ContentType.Application.FormUrlEncoded)
-                    connectTimeout = timeOut
-                    socketTimeout = timeOut
-                }
-            }
+        @Provides
+        @Reusable
+        fun provideHttpClient() : HttpClient {
+            return HttpClient(Android) {
 
-            install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        debugLog(message, tag = "HTTPClient")
+                val timeOut = 60_000
+
+                install(JsonFeature) {
+                    serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
+                        prettyPrint = true
+                        isLenient = true
+                        ignoreUnknownKeys = true
+                    })
+
+                    engine {
+                        acceptContentTypes = listOf(ContentType.Application.FormUrlEncoded)
+                        connectTimeout = timeOut
+                        socketTimeout = timeOut
                     }
                 }
-                level = LogLevel.NONE
-            }
 
-            install(ResponseObserver) {
-                onResponse { response ->
-                    debugLog("${response.status.value}")
+                install(Logging) {
+                    logger = object : Logger {
+                        override fun log(message: String) {
+                            debugLog(message, tag = "HTTPClient")
+                        }
+                    }
+                    level = LogLevel.NONE
+                }
+
+                install(ResponseObserver) {
+                    onResponse { response ->
+                        debugLog("${response.status.value}")
+                    }
+                }
+
+                install(DefaultRequest) {
+                    parameter("apiKey", "c87a3abc6947480ba37093ddcdc6855d")
                 }
             }
-
-            install(DefaultRequest) {
-                parameter("apiKey", "c87a3abc6947480ba37093ddcdc6855d")
-            }
         }
-    }
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun provideRecipeRepository(recipeApi: RecipeApi, @IoDispatcher dispatcher: CoroutineDispatcher) : RecipeRepository {
-        return RecipeRepositoryImpl(recipeApi, dispatcher)
-    }
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun provideRecipeApi() : RecipeApi {
-        return RecipeApiImpl(provideHttpClient())
     }
 }
