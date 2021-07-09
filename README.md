@@ -4,6 +4,7 @@ CalorieTracker is a demo application, based on modern Android application tech-s
 
 ## Tech stack:
 * Minimum SDK level 21
+* Multimodule + MVVM architecture
 * [Kotlin based](https://kotlinlang.org/), [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous calls.
 * [Hilt](https://dagger.dev/hilt/) for dependency injection
 * Jetpack   
