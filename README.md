@@ -18,5 +18,13 @@ CalorieTracker is a demo application, based on modern Android application tech-s
 * [Kotlin Serialization](https://github.com/Kotlin/kotlinx.serialization) - official library for serialization in Kotlin
 * [MockK](https://mockk.io/) - mocking library for Kotlin
 
+## Samples:
+<p float="left">
+<img src="https://user-images.githubusercontent.com/71257281/125061075-a6f97200-e0b5-11eb-9d09-d5cc9efac538.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/71257281/125062494-1ae84a00-e0b7-11eb-8915-c8ea90e28211.jpg" width="200">
+<img src="https://user-images.githubusercontent.com/71257281/125061108-ae208000-e0b5-11eb-8cd3-6187a8d1d2e5.jpg" width="200">
+ </p>
+
+
 ## API:
 Calorie tracker uses https://spoonacular.com/food-api API for fetching information about recipes and ingredients
