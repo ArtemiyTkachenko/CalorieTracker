@@ -18,6 +18,7 @@ class ClippedConstraintLayout @JvmOverloads constructor(context: Context, attrib
 
     init {
         outlineProvider = ViewOutlineProvider.BACKGROUND
+        clipChildren = true
         clipToOutline = true
     }
 }

@@ -14,6 +14,7 @@ import com.artkachenko.core_api.network.models.FilterPair
 import com.artkachenko.core_api.network.models.FilterWrapper
 import com.artkachenko.core_api.network.models.RecipeEntity
 import com.artkachenko.core_api.utils.debugLog
+import com.artkachenko.core_impl.network.Filters
 import com.artkachenko.search.databinding.FragmentSearchBinding
 import com.artkachenko.ui_utils.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,6 +40,8 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
     private val argPresets by lazy {
         arguments?.getParcelable<FilterWrapper>(PRESETS)
     }
+
+    private var oldText = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,8 +84,14 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
         findNavController().navigate(R.id.search_to_detail, bundle, null, extras)
     }
 
+    override fun onResume() {
+        if (!firstLaunch) populateChips(viewModel.filtersWrapper)
+        super.onResume()
+    }
+
     override fun onDestroy() {
         viewModel.clear()
+        Filters.reset()
         super.onDestroy()
     }
 
@@ -112,6 +121,7 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
             RecipeSearchViewModel.State.LoadingFinished -> {
                 binding.progress.isVisible = false
                 binding.results.isVisible = true
+                binding.placeholderContainer.isVisible = false
             }
             is RecipeSearchViewModel.State.Success -> {
                 searchAdapter.setData(state.data)
@@ -137,7 +147,9 @@ class RecipeSearchFragment : BaseFragment(R.layout.fragment_search), RecipeSearc
                 queryChangeJob?.cancel()
                 queryChangeJob = lifecycleScope.launch {
                     delay(1000L)
-                    if (!newText.isNullOrEmpty()) {
+
+                    if (!newText.isNullOrEmpty() && oldText != newText) {
+                        oldText = newText
                         setInitial(newText)
                     }
                 }
